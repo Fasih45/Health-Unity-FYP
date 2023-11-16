@@ -1,15 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const authenticateToken=require('../middleware/authMiddlewarepatient')
-const {registerUserasPatient, loginUserasPatient, verifyCodeAndLoginasPatient} = require('../controllers/userController');
+const authenticateTokenPatient=require('../middleware/authMiddlewarepatient')
+const authenticateTokenDocter=require('../middleware/authMiddlewareDocter')
+const {registerUserasPatient, loginUserasPatient, verifyCodeAndLoginasPatient, registerUserasDoctor, loginUserasDocter, verifyCodeAndLoginasDocter} = require('../controllers/userController');
 
-router.post('/register', registerUserasPatient);
-router.post('/login', loginUserasPatient);
-
-router.get('/protected', authenticateToken, (req, res) => {
+router.post('/patient/register', registerUserasPatient);
+router.post('/patient/login', loginUserasPatient);
+router.get('/patient/protected', authenticateTokenPatient, (req, res) => {
     res.json({ message: 'Access granted! This route requires a valid token.' });
   });
-  router.post('/verify', verifyCodeAndLoginasPatient)
-    
+router.post('/patient/verify', verifyCodeAndLoginasPatient)
+
+router.post('/docter/register', registerUserasDoctor);
+router.post('/docter/login', loginUserasDocter);
+router.post('/docter/verify', verifyCodeAndLoginasDocter)
+router.get('/docter/protected', authenticateTokenDocter, (req, res) => {
+  res.json({ message: 'Access granted! This route requires a valid token.' });
+});
 
 module.exports = router;

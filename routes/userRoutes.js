@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const authenticateTokenPatient=require('../middleware/authMiddlewarepatient')
 const authenticateTokenDocter=require('../middleware/authMiddlewareDocter')
-const {registerUserasPatient, loginUserasPatient, verifyCodeAndLoginasPatient, registerUserasDoctor, loginUserasDocter, verifyCodeAndLoginasDocter, registerMedicalLab, loginUserasMedicallab, verifyCodeAndLoginasMedicallab} = require('../controllers/userController');
+const {registerUserasPatient, loginUserasPatient, verifyCodeAndLoginasPatient
+  , registerUserasDoctor, loginUserasDocter, verifyCodeAndLoginasDocter, registerMedicalLab
+  , loginUserasMedicallab, verifyCodeAndLoginasMedicallab, registerPharmacy, loginUserasPharmacy
+  , verifyCodeAndLoginasPhamacy} = require('../controllers/userController');
 
 router.post('/patient/register', registerUserasPatient);
 router.post('/patient/login', loginUserasPatient);
@@ -20,4 +23,8 @@ router.get('/docter/protected', authenticateTokenDocter, (req, res) => {
 router.post('/medicallab/register', registerMedicalLab);
 router.post('/medicallab/login', loginUserasMedicallab);
 router.post('/medicallab/verify', verifyCodeAndLoginasMedicallab)
+
+router.post('/pharmacy/register', registerPharmacy);
+router.post('/pharmacy/login', loginUserasPharmacy);
+router.post('/pharmacy/verify', verifyCodeAndLoginasPhamacy)
 module.exports = router;

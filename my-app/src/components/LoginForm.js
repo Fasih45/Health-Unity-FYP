@@ -29,7 +29,8 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const [isSignup,setIsSignup]=useState(false);
   const [selectedDate, handleDateChange] = useState(null);
-  console.log(isSignup)
+  const [error1, setError1] = useState('');
+  // console.log(isSignup)
 
   const [formData, setFormData] = useState({
     fullName:'',
@@ -46,9 +47,12 @@ export default function SignIn() {
     cnic:'',
     email: '',
     username: '',
+    nationality:'',
     password: '',
     confirmPassword:'',
   });
+
+  
 
   const handleNumericInputChange = (e) => {
     let inputValue = e.target.value;
@@ -93,7 +97,6 @@ export default function SignIn() {
     };
 
   const validateField = (fieldName, value) => {
-    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
     switch (fieldName) {
       case 'username':
         setErrors((prevErrors) => ({
@@ -121,17 +124,46 @@ export default function SignIn() {
   };
 
 
+  const validateForm = () => {
+    if (formData.email.trim() === '' ) {
+      setError1('Please enter  email a.');
+      return false;
+    }
+    if (formData.password.trim() === '' || formData.password.length <= '3'  )
+    {
+      setError1('Please Enter Rigth password.');
+      return false;
+    }
+    if (!(formData.username.length >= 4) ||  !(/^[A-Z]/.test(formData.username))  )
+    {
+      setError1('Please Enter Rigth User Name.');
+      return false;
+    }
+    setError1('');
+    return true;
+    
+  };
+
+
+
    
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     const data = new FormData(event.currentTarget);
-    console.log({
-      fullName:data.get('fullName'),
-      username:data.get('username'),
-      cnic:data.get('cnic'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    
+    if (validateForm()){
+      console.log({
+        fullName:data.get('fullName'),
+        username:data.get('username'),
+        cnic:data.get('cnic'),
+        email: data.get('email'),
+        password: data.get('password'),
+      });
+      setError1('')
+
+    }
+    
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -170,10 +202,20 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
              {isSignup ? "Sign up":"Sign in"}
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+
+          <form  onSubmit={handleSubmit}>
+
+            {error1 && (
+            <Typography variant="body2" color="error" align="center">
+              {error1}
+            </Typography>)}
+
            { isSignup &&  <TextField
-                  autoComplete="given-name"
+                  margin="normal"
+                  variant='outlined'
                   name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
                   required
                   fullWidth
                   id="fullName"
@@ -202,7 +244,10 @@ export default function SignIn() {
               fullWidth
               id="nationality"
               label="nationality"
+              type="text"
               name="nationality"
+              value={formData.nationality}
+              onChange={handleInputChange}
               autoFocus
             />}
             {isSignup &&<TextField
@@ -211,8 +256,11 @@ export default function SignIn() {
               required
               fullWidth
               id="cnic"
+              type="number"
               label="CNIC"
               name="cnic"
+              value={formData.cnic}
+              onChange={handleInputChange}
               // value={formData.cnic}
               // onInput={handleNumericInputChange}
               
@@ -230,6 +278,9 @@ export default function SignIn() {
               showMonthDropdown
               scrollableYearDropdown
               yearDropdownItemNumber={100}
+              typr="date"
+              name="date"
+              
               maxDate={new Date()} // Set maxDate to the current date
               
             />
@@ -242,7 +293,10 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
+              type="email"
               label="Email Address"
+              value={formData.email}
+              onChange={handleInputChange}
               name="email"
               autoComplete="email"
               autoFocus
@@ -253,6 +307,8 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
+              value={formData.password}
+              onChange={handleInputChange}
               label="Password"
               type={formData.showPassword ? 'text' : 'password'}
               id="password"
@@ -327,24 +383,27 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
+              
               endIcon={!isSignup? <LockOpenIcon/>:<ExitToAppOutlinedIcon/>}
               sx={{ mt: 3, mb: 2 }}
             >
               {isSignup ? "Sign up":"Sign in"}
             </Button>
-            {!isSignup  &&<Grid container spacing={2}> 
+            {!isSignup  &&
+            <Grid container spacing={2}> 
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
+              <Grid>
               <Button item onClick={()=>setIsSignup(!isSignup)}>
-                <Link href="#" variant="body2">
                   {"Sign Up"}
-                </Link>
               </Button>
+              </Grid>
+             
             </Grid>}
-          </Box>
+          </form>
         </Box>
       </Container>
     </ThemeProvider>

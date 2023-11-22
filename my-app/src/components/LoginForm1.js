@@ -1,45 +1,136 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography } from '@mui/material';
+import { TextField, Button, Typography, Container } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+
+
+const defaultTheme = createTheme();
 
 const LoginForm1 = () => {
-  const [numericValue, setNumericValue] = useState('');
+  const [isSignup,setIsSignup]=useState(false);
+  const [selectedDate, handleDateChange] = useState(null);
+  const [error, setError] = useState('');
+  console.log(isSignup)
 
-  const handleNumericInputChange = (e) => {
-    let inputValue = e.target.value;
-    inputValue = inputValue.replace(/[^\d]/g, '');
-    inputValue = inputValue.slice(0, 13);
-    inputValue = inputValue.replace(/(\d{5})(\d{7})(\d{1})/, '$1-$2-$3'); // Apply the format: 33401-0440920-5
-    setNumericValue(inputValue);
+  const [formData, setFormData] = useState({
+    fullName:'',
+    cnic:'',
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword:'',
+    showPassword: false,
+  });
+
+  const [errors, setErrors] = useState({
+    fullName:'',
+    cnic:'',
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword:'',
+  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const validateForm = () => {
+    if (email.trim() === '' || password.trim() === '' || password.length <= '3') {
+      setError('Please enter both email and password.');
+      return false;
+    }
+    setError('');
+    return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform additional actions on form submission
-    console.log('Submitted value:', numericValue);
+    if (validateForm()) {
+      // Your login logic here
+      console.log('Login successful!');
+    }
   };
 
   return (
+    <ThemeProvider theme={defaultTheme}>
+      
     <Container component="main" maxWidth="xs">
-      <Typography variant="h5">Numeric Input</Typography>
-      <form onSubmit={handleSubmit}>
+    <Box
+        display="flex"
+        flexDirextion={"dolumn"}
+        maxwidth={400}
+        alignItems={"center"}
+        margin="auto"
+        marginTop={5}
+        padding={3}
+        borderRadius={12}
+        boxShadow={'5px 5px 10px'}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            ":hover":{
+                boxShadow:"10px 10px 20px #ccc",
+            }
+          }}
+        >
+
+
+
+        <form onSubmit={handleSubmit}>
+        <Typography variant="h5" align="center">
+          Login
+        </Typography>
+
+        {error && (
+          <Typography variant="body2" color="error" align="center">
+            {error}
+          </Typography>
+        )}
+
         <TextField
+          label="Email"
+          type="email"
           variant="outlined"
           margin="normal"
           fullWidth
-          label="Numeric Input"
-          id="numericInput"
-          value={numericValue}
-          onInput={handleNumericInputChange}
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <Button type="submit" fullWidth variant="contained" color="primary">
-          Submit
+
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Login
         </Button>
-      </form>
-    </Container>
+        </form>
+       </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 
 export default LoginForm1;
-
-
-

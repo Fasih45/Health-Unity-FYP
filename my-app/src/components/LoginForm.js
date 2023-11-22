@@ -19,6 +19,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -27,60 +28,127 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [isSignup,setIsSignup]=useState(false);
+  const [isSignup, setIsSignup] = useState(false);
   const [selectedDate, handleDateChange] = useState(null);
-  const [error1, setError1] = useState('');
-  // console.log(isSignup)
-
+  const [require,setrequire]=useState(1);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName:'',
-    cnic:'',
+    fullName: '',
+    cnic: '',
     email: '',
     username: '',
     password: '',
-    confirmPassword:'',
+    confirmPassword: '',
     showPassword: false,
   });
 
   const [errors, setErrors] = useState({
-    fullName:'',
-    cnic:'',
+    fullName: '',
+    cnic: '',
     email: '',
     username: '',
-    nationality:'',
+    nationality: '',
     password: '',
-    confirmPassword:'',
+    confirmPassword: '',
   });
+  React.useEffect(() => {
+    // This function will be called when the component is unmounted or when isSignup changes
+    return () => {
+      setFormData({
+        fullName: '',
+        cnic: '',
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+      });
 
-  
+      setErrors({
+        fullName: '',
+        cnic: '',
+        email: '',
+        username: '',
+        nationality: '',
+        password: '',
+        confirmPassword: '',
+      });
+      setrequire(1);
+      navigate('/patient/signup');
+    };
+  }, [isSignup, navigate]); 
 
-  const handleNumericInputChange = (e) => {
-    let inputValue = e.target.value;
-    inputValue = inputValue.replace(/[^\d]/g, '');
-    inputValue = inputValue.slice(0, 13);
-    inputValue = inputValue.replace(/(\d{5})(\d{7})(\d{1})/, '$1-$2-$3'); // Apply the format: 33401-0440920-5
-    // setNumericValue(inputValue);
-  };
+  const inputFields = [
+    {
+      label: 'Full Name',
+      name: 'fullName',
+      type: 'text',
+      required: true,
+      autoFocus: true,
+    },
+    {
+      label: 'Username',
+      name: 'username',
+      type: 'text',
+      required: true,
+    },
+    {
+      label: 'Nationality',
+      name: 'nationality',
+      type: 'text',
+      required: true,
+      showOnSignup: true,
+    },
+    {
+      label: 'CNIC',
+      name: 'cnic',
+      type: 'number',
+      required: true,
+      showOnSignup: true,
+    },
+    {
+      label: 'Date of Birth',
+      name: 'dateOfBirth',
+      type: 'date',
+      required: true,
+      showOnSignup: true,
+    },
+    {
+      label: 'Email Address',
+      name: 'email',
+      type: 'email',
+      required: true,
+      showOnSignup: true,
+    },
+    {
+      label: 'Password',
+      name: 'password',
+      type: 'password',
+      required: true,
+      showOnSignup: true,
+    },
+    {
+      label: 'Confirm Password',
+      name: 'confirmPassword',
+      type: 'password',
+      required: true,
+      showOnSignup: true,
+    },
+  ];
 
   const handleInputChange = (e) => {
+    setrequire(0);
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
 
-
     if (name === 'confirmPassword') {
       validateConfirmPassword(value);
-    } else{
-      validateField(name, value);
     }
-  
-
-    // Perform validation on the fly
-    
+    validateField(name, value);
   };
-
 
   const validateConfirmPassword = (confirmPassword) => {
     if (formData.password !== confirmPassword) {
@@ -94,18 +162,18 @@ export default function SignIn() {
         confirmPassword: '',
       }));
     }
-    };
-
+  };
+  
   const validateField = (fieldName, value) => {
     switch (fieldName) {
       case 'username':
         setErrors((prevErrors) => ({
           ...prevErrors,
           username:
-            value.trim() !== ''
-              ? (value.length >= 4 && /^[A-Z]/.test(value)
+            value && value.trim() !== ''
+              ? value.length >= 4 && /^[A-Za-z]/.test(value)
                 ? ''
-                : 'Username should be 4 characters long, starting with a capital letter')
+                : 'Username should be at least 4 characters long and start with an alphabet letter'
               : 'Username cannot be empty',
         }));
         break;
@@ -113,57 +181,86 @@ export default function SignIn() {
         setErrors((prevErrors) => ({
           ...prevErrors,
           password:
-            value.trim() !== '' ? 
-            (/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/.test(value) ? '' : 'Password should contain at least one special character, one numeric digit, and be at least 8 characters long') 
-            : 'Password cannot be empty',
+            value && value.trim() !== ''
+              ? /^(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{4,}$/.test(value)
+                ? ''
+                : 'Password should contain at least one special character, one alphabet letter, and be at least 4 characters long'
+              : 'Password cannot be empty',
+        }));
+        break;
+      case 'email':
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email:
+            value && value.trim() !== ''
+              ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+                ? ''
+                : 'Invalid email format'
+              : 'Email cannot be empty',
+        }));
+        break;
+      case 'fullName':
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          fullName:
+            value && value.trim() !== ''
+              ? /^[A-Za-z ]{4,}$/.test(value)
+                ? ''
+                : 'Full name should be at least 4 characters long and contain only alphabets'
+              : 'Full name cannot be empty',
+        }));
+        break;
+      case 'cnic':
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          cnic:
+            value && value.trim() !== ''
+              ? /^[0-9]{13}$/.test(value)
+                ? ''
+                : 'CNIC should contain exactly 13 digits and only numbers'
+              : 'CNIC cannot be empty',
+        }));
+        break;
+      case 'nationality':
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          nationality:
+            value && value.trim() !== ''
+              ? /^[A-Za-z]{4,}$/.test(value)
+                ? ''
+                : 'Nationality should be at least 4 characters long and contain only alphabets'
+              : 'Nationality cannot be empty',
         }));
         break;
       default:
         break;
     }
   };
+  
+  
 
-
-  const validateForm = () => {
-    if (formData.email.trim() === '' ) {
-      setError1('Please enter  email a.');
-      return false;
-    }
-    if (formData.password.trim() === '' || formData.password.length <= '3'  )
-    {
-      setError1('Please Enter Rigth password.');
-      return false;
-    }
-    if (!(formData.username.length >= 4) ||  !(/^[A-Z]/.test(formData.username))  )
-    {
-      setError1('Please Enter Rigth User Name.');
-      return false;
-    }
-    setError1('');
-    return true;
-    
-  };
-
-
-
-   
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    const data = new FormData(event.currentTarget);
-    
-    if (validateForm()){
-      console.log({
-        fullName:data.get('fullName'),
-        username:data.get('username'),
-        cnic:data.get('cnic'),
-        email: data.get('email'),
-        password: data.get('password'),
-      });
-      setError1('')
 
+    if(isSignup){
+console.log('hh')
+      inputFields.forEach(({ name }) => validateField(name, formData[name]));
+      validateConfirmPassword(formData.confirmPassword);
+  
     }
-    
+    else{
+      validateField('username', formData.username);
+      validateField('password', formData.password);
+      }
+      if (require===1||Object.values(errors).some((error) => !!error)) {
+        console.error('Form has errors. Please correct them.');
+      } else {
+        console.log('Form submitted successfully!');
+    }
+
+
+
+ 
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -205,10 +302,6 @@ export default function SignIn() {
 
           <form  onSubmit={handleSubmit}>
 
-            {error1 && (
-            <Typography variant="body2" color="error" align="center">
-              {error1}
-            </Typography>)}
 
            { isSignup &&  <TextField
                   margin="normal"
@@ -216,17 +309,17 @@ export default function SignIn() {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  required
                   fullWidth
                   id="fullName"
                   label="Full Name"
+                  error={!!errors.fullName}
+                  helperText={errors.fullName}
                   autoFocus
                 />
             }
-            {isSignup &&<TextField
+            {<TextField
               margin="normal"
               variant='outlined'
-              required
               fullWidth
               id="username"
               label="UserName"
@@ -240,7 +333,6 @@ export default function SignIn() {
             {isSignup &&<TextField
               margin="normal"
               variant='outlined'
-              required
               fullWidth
               id="nationality"
               label="nationality"
@@ -248,17 +340,20 @@ export default function SignIn() {
               name="nationality"
               value={formData.nationality}
               onChange={handleInputChange}
+              error={!!errors.nationality}
+              helperText={errors.nationality}
               autoFocus
             />}
             {isSignup &&<TextField
               margin="normal"
               variant='outlined'
-              required
               fullWidth
               id="cnic"
               type="number"
               label="CNIC"
               name="cnic"
+              error={!!errors.cnic}
+              helperText={errors.cnic}
               value={formData.cnic}
               onChange={handleInputChange}
               // value={formData.cnic}
@@ -280,6 +375,7 @@ export default function SignIn() {
               yearDropdownItemNumber={100}
               typr="date"
               name="date"
+              required
               
               maxDate={new Date()} // Set maxDate to the current date
               
@@ -287,10 +383,9 @@ export default function SignIn() {
               
             }
             
-            <TextField
+            {isSignup && <TextField
               margin="normal"
               variant='outlined'
-              required
               fullWidth
               id="email"
               type="email"
@@ -299,35 +394,14 @@ export default function SignIn() {
               onChange={handleInputChange}
               name="email"
               autoComplete="email"
+              error={!!errors.email}
+              helperText={errors.email}
               autoFocus
-            />
-            {!isSignup && 
+            />}
+            
+            {
               <TextField
               margin="normal"
-              required
-              fullWidth
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              label="Password"
-              type={formData.showPassword ? 'text' : 'password'}
-              id="password"
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility} edge="end">
-                      {formData.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            }
-            {isSignup && 
-              <TextField
-              margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"
@@ -352,7 +426,6 @@ export default function SignIn() {
             {isSignup &&
                <TextField
                margin="normal"
-               required
                fullWidth
                name="confirmPassword"
                label="Confirm Password"

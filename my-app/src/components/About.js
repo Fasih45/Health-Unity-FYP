@@ -11,7 +11,7 @@ const About= () => {
           </div>
           <div className="col-lg-6 content order-last order-lg-first">
             <h3>About Us</h3>
-            <p>
+            <p >
             In the era of rapid technological advancement, Health Unity seeks to revolutionize healthcare interactions. By seamlessly integrating blockchain technology, this platform aims to empower patients, enhance medical care, promote transparent collaboration, streamline prescription fulfillment, and ensure data security. It envisions a future where patients have comprehensive access to their medical data, doctors make informed decisions, and collaboration in healthcare thrives. This project is a step towards redefining patient care and data privacy in a connected healthcare ecosystem.
             </p>
             <h4>Objective</h4>

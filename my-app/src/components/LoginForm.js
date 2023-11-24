@@ -23,6 +23,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import patientInput from "../inputFieds/patientInput";
 import docterInput from "../inputFieds/docterInput";
 import labInput from "../inputFieds/medicalLabInput";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login,
+  loginRequest,
+} from "../redux/actions/authActions";
+import { register, registerRequest } from "../redux/actions/registerAction";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -30,10 +36,13 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [isSignup, setIsSignup] = useState(false);
-  const [selectedDate, handleDateChange] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
   const [require, setrequire] = useState(1);
   const { user } = useParams();
   const navigate = useNavigate();
+  const errorLogin = useSelector((state) => state.auth.error);
+  const errorSignup = useSelector((state) => state.regis.error);
+  const dispatch = useDispatch();
   const [inputFields, setInputFields] = useState(patientInput);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -47,6 +56,7 @@ export default function SignIn() {
     confirmPassword: "",
     nationality: "",
     showPassword: false,
+    dateOfBirth: null,
   });
 
   const [errors, setErrors] = useState({
@@ -76,7 +86,9 @@ export default function SignIn() {
         confirmPassword: "",
         nationality: "",
         showPassword: false,
+        dateOfBirth: null,
       });
+      setSelectedDate(null)
 
       setErrors({
         fullName: "",
@@ -109,7 +121,9 @@ export default function SignIn() {
       console.log("user:", user);
       console.log(inputFields);
     }
-  }, [inputFields, user]);
+    dispatch(loginRequest());
+    dispatch(registerRequest());
+  }, [dispatch, inputFields, user]);
 
   const handleInputChange = (e) => {
     setrequire(0);
@@ -123,6 +137,17 @@ export default function SignIn() {
       validateConfirmPassword(value);
     }
     validateField(name, value);
+    dispatch(loginRequest());
+    dispatch(registerRequest());
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    console.log(selectedDate)
+    setFormData({
+      ...formData,
+      dateOfBirth: date,
+    });
   };
 
   const validateConfirmPassword = (confirmPassword) => {
@@ -189,7 +214,7 @@ export default function SignIn() {
         setErrors((prevErrors) => ({
           ...prevErrors,
           cnic:
-            value && value.trim() !== ""
+            value 
               ? /^[0-9]{13}$/.test(value)
                 ? ""
                 : "CNIC should contain exactly 13 digits and only numbers"
@@ -261,9 +286,10 @@ export default function SignIn() {
     event.preventDefault();
 
     if (isSignup) {
-      console.log(inputFields);
+      console.log(formData);
       inputFields.forEach(({ name }) => validateField(name, formData[name]));
       validateConfirmPassword(formData.confirmPassword);
+      
     } else {
       validateField("username", formData.username);
       validateField("password", formData.password);
@@ -272,6 +298,10 @@ export default function SignIn() {
       console.error("Form has errors. Please correct them.");
     } else {
       console.log("Form submitted successfully!");
+      if (!isSignup) dispatch(login(formData, user));
+      else {
+
+        dispatch(register(formData, user));}
     }
   };
 
@@ -283,295 +313,304 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          display="flex"
-          flexDirextion={"dolumn"}
-          maxwidth={400}
-          alignItems={"center"}
-          margin="auto"
-          marginTop={5}
-          padding={3}
-          borderRadius={12}
-          boxShadow={"5px 5px 10px"}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            ":hover": {
-              boxShadow: "10px 10px 20px #ccc",
-            },
-          }}
+    <>
+      {(errorLogin||errorSignup) && (
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {isSignup ? `${user} Sign up` : `${user} Sign in`}
-          </Typography>
+          <strong>{errorLogin}{errorSignup}</strong> You should check in on some of those
+          fields below.
+        </div>
+      )}
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            display="flex"
+            flexDirextion={"dolumn"}
+            maxwidth={400}
+            alignItems={"center"}
+            margin="auto"
+            marginTop={5}
+            padding={3}
+            borderRadius={12}
+            boxShadow={"5px 5px 10px"}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              ":hover": {
+                boxShadow: "10px 10px 20px #ccc",
+              },
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {isSignup ? `${user} Sign up` : `${user} Sign in`}
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              {isSignup && (user === "doctor" || user === "patient") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  fullWidth
+                  id="fullName"
+                  label="Full Name"
+                  error={!!errors.fullName}
+                  helperText={errors.fullName}
+                  autoFocus
+                />
+              )}
+              {
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="username"
+                  label="UserName"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  error={!!errors.username}
+                  helperText={errors.username}
+                  autoFocus
+                />
+              }
+              {isSignup && (user === "doctor" || user === "patient") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="nationality"
+                  label="nationality"
+                  type="text"
+                  name="nationality"
+                  value={formData.nationality}
+                  onChange={handleInputChange}
+                  error={!!errors.nationality}
+                  helperText={errors.nationality}
+                  autoFocus
+                />
+              )}
+              {isSignup && (user === "doctor" || user === "patient") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="cnic"
+                  type="number"
+                  label="CNIC"
+                  name="cnic"
+                  error={!!errors.cnic}
+                  helperText={errors.cnic}
+                  value={formData.cnic}
+                  onChange={handleInputChange}
+                  // value={formData.cnic}
+                  // onInput={handleNumericInputChange}
 
-          <form onSubmit={handleSubmit}>
-            {isSignup && (user === "doctor" || user === "patient") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
+                  autoFocus
+                />
+              )}
+              {isSignup && (user === "doctor" || user === "patient") && (
+                <DatePicker
+                  className="custom-datepicker"
+                  selected={selectedDate}
+                  onChange={(date) => handleDateChange(date)}
+                  isClearable
+                  placeholderText="DD/MM/YYYY"
+                  dateFormat="dd-MM-yyyy" // Set the desired format
+                  showYearDropdown
+                  showMonthDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  type="date"
+                  name="date"
+                  required
+                  maxDate={new Date()}
+                />
+              )}
+              
+              {isSignup && user === "doctor" && (
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  variant="outlined"
+                  name="medicalLicenseNumber"
+                  value={formData.medicalLicenseNumber}
+                  onChange={handleInputChange}
+                  fullWidth
+                  id="medicalLicenseNumber"
+                  label="Medical License Number"
+                  error={!!errors.medicalLicenseNumber}
+                  helperText={errors.medicalLicenseNumber}
+                />
+              )}
+              {isSignup && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="email"
+                  type="email"
+                  label="Email Address"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  name="email"
+                  autoComplete="email"
+                  error={!!errors.email}
+                  helperText={errors.email}
+                  autoFocus
+                />
+              )}
+              {isSignup && (user === "medical_labs" || user === "pharmacy") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="labName"
+                  label="Lab Name"
+                  type="text"
+                  name="labName"
+                  value={formData.labName}
+                  onChange={handleInputChange}
+                  error={!!errors.labName}
+                  helperText={errors.labName}
+                  autoFocus
+                />
+              )}
+              {isSignup && (user === "medical_labs" || user === "pharmacy") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="labLicense"
+                  label="Lab License"
+                  type="text"
+                  name="labLicense"
+                  value={formData.labLicense}
+                  onChange={handleInputChange}
+                  error={!!errors.labLicense}
+                  helperText={errors.labLicense}
+                />
+              )}
+              {isSignup && (user === "medical_labs" || user === "pharmacy") && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="contactNumber"
+                  label="Contact Number"
+                  type="text"
+                  name="contactNumber"
+                  value={formData.contactNumber}
+                  onChange={handleInputChange}
+                  error={!!errors.contactNumber}
+                  helperText={errors.contactNumber}
+                />
+              )}
+              {
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type={formData.showPassword ? "text" : "password"}
+                  id="password"
+                  autoComplete="current-password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleTogglePasswordVisibility}
+                          edge="end"
+                        >
+                          {formData.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              }
+              {isSignup && (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type={formData.showPassword ? "text" : "password"}
+                  id="confirmPassword"
+                  autoComplete="current-password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleTogglePasswordVisibility}
+                          edge="end"
+                        >
+                          {formData.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+              {!isSignup && (
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+              )}
+              <Button
+                type="submit"
                 fullWidth
-                id="fullName"
-                label="Full Name"
-                error={!!errors.fullName}
-                helperText={errors.fullName}
-                autoFocus
-              />
-            )}
-            {
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="username"
-                label="UserName"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                error={!!errors.username}
-                helperText={errors.username}
-                autoFocus
-              />
-            }
-            {isSignup && (user === "doctor" || user === "patient") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="nationality"
-                label="nationality"
-                type="text"
-                name="nationality"
-                value={formData.nationality}
-                onChange={handleInputChange}
-                error={!!errors.nationality}
-                helperText={errors.nationality}
-                autoFocus
-              />
-            )}
-            {isSignup && (user === "doctor" || user === "patient") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="cnic"
-                type="number"
-                label="CNIC"
-                name="cnic"
-                error={!!errors.cnic}
-                helperText={errors.cnic}
-                value={formData.cnic}
-                onChange={handleInputChange}
-                // value={formData.cnic}
-                // onInput={handleNumericInputChange}
-
-                autoFocus
-              />
-            )}
-
-            {isSignup && (user === "doctor" || user === "patient") && (
-              <DatePicker
-                className="custom-datepicker" // Add your own custom styles
-                selected={selectedDate}
-                onChange={(date) => handleDateChange(date)}
-                isClearable
-                placeholderText="DD/MM/YYYY"
-                dateFormat="dd/MM/yyyy"
-                showYearDropdown
-                showMonthDropdown
-                scrollableYearDropdown
-                yearDropdownItemNumber={100}
-                typr="date"
-                name="date"
-                required
-                maxDate={new Date()} // Set maxDate to the current date
-              />
-            )}
-            {isSignup && user === "doctor" && (
-              <TextField
-                autoFocus
-                margin="normal"
-                variant="outlined"
-                name="medicalLicenseNumber"
-                value={formData.medicalLicenseNumber}
-                onChange={handleInputChange}
-                fullWidth
-                id="medicalLicenseNumber"
-                label="Medical License Number"
-                error={!!errors.medicalLicenseNumber}
-                helperText={errors.medicalLicenseNumber}
-              />
-            )}
-            {isSignup && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="email"
-                type="email"
-                label="Email Address"
-                value={formData.email}
-                onChange={handleInputChange}
-                name="email"
-                autoComplete="email"
-                error={!!errors.email}
-                helperText={errors.email}
-                autoFocus
-              />
-            )}
-            {isSignup && (user === "medical_labs" || user === "pharmacy") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="labName"
-                label="Lab Name"
-                type="text"
-                name="labName"
-                value={formData.labName}
-                onChange={handleInputChange}
-                error={!!errors.labName}
-                helperText={errors.labName}
-                autoFocus
-              />
-            )}
-
-            {isSignup && (user === "medical_labs" || user === "pharmacy") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="labLicense"
-                label="Lab License"
-                type="text"
-                name="labLicense"
-                value={formData.labLicense}
-                onChange={handleInputChange}
-                error={!!errors.labLicense}
-                helperText={errors.labLicense}
-              />
-            )}
-            {isSignup && (user === "medical_labs" || user === "pharmacy") && (
-              <TextField
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                id="contactNumber"
-                label="Contact Number"
-                type="text"
-                name="contactNumber"
-                value={formData.contactNumber}
-                onChange={handleInputChange}
-                error={!!errors.contactNumber}
-                helperText={errors.contactNumber}
-              />
-            )}
-
-            {
-              <TextField
-                margin="normal"
-                fullWidth
-                name="password"
-                label="Password"
-                type={formData.showPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                value={formData.password}
-                onChange={handleInputChange}
-                error={!!errors.password}
-                helperText={errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePasswordVisibility}
-                        edge="end"
-                      >
-                        {formData.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            }
-            {isSignup && (
-              <TextField
-                margin="normal"
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type={formData.showPassword ? "text" : "password"}
-                id="confirmPassword"
-                autoComplete="current-password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePasswordVisibility}
-                        edge="end"
-                      >
-                        {formData.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-
-            {!isSignup && (
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              endIcon={!isSignup ? <LockOpenIcon /> : <ExitToAppOutlinedIcon />}
-              sx={{ mt: 3, mb: 2 }}
-            >
-              {isSignup ? "Sign up" : "Sign in"}
-            </Button>
-            {!isSignup && (
-              <Grid container spacing={2}>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                variant="contained"
+                endIcon={
+                  !isSignup ? <LockOpenIcon /> : <ExitToAppOutlinedIcon />
+                }
+                sx={{ mt: 3, mb: 2 }}
+              >
+                {isSignup ? "Sign up" : "Sign in"}
+              </Button>
+              {!isSignup && (
+                <Grid container spacing={2}>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid>
+                    <Button item onClick={() => setIsSignup(!isSignup)}>
+                      {"Sign Up"}
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid>
-                  <Button item onClick={() => setIsSignup(!isSignup)}>
-                    {"Sign Up"}
-                  </Button>
-                </Grid>
-              </Grid>
-            )}
-          </form>
-        </Box>
-      </Container>
-    </ThemeProvider>
+              )}
+            </form>
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }

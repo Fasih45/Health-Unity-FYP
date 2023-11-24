@@ -10,8 +10,7 @@ function App() {
     <>
       <ResponsiveAppBar />
       <Routes>
-        <Route exact path="/patient/signin" element={<LoginForm />} />
-        <Route exact path="/patient/signup" element={<LoginForm />} />
+        <Route exact path="/:user/signin" element={<LoginForm />} />
       </Routes>
     </>
   );

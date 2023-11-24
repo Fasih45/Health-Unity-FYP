@@ -14,15 +14,15 @@ router.get('/patient/protected', authenticateTokenPatient, (req, res) => {
   });
 router.post('/patient/verify', verifyCodeAndLoginasPatient)
 
-router.post('/docter/register', registerUserasDoctor);
-router.post('/docter/login', loginUserasDocter);
-router.post('/docter/verify', verifyCodeAndLoginasDocter)
+router.post('/doctor/register', registerUserasDoctor);
+router.post('/doctor/login', loginUserasDocter);
+router.post('/doctor/verify', verifyCodeAndLoginasDocter)
 router.get('/docter/protected', authenticateTokenDocter, (req, res) => {
   res.json({ message: 'Access granted! This route requires a valid token.' });
 });
-router.post('/medicallab/register', registerMedicalLab);
-router.post('/medicallab/login', loginUserasMedicallab);
-router.post('/medicallab/verify', verifyCodeAndLoginasMedicallab)
+router.post('/medical_labs/register', registerMedicalLab);
+router.post('/medical_labs/login', loginUserasMedicallab);
+router.post('/medical_labs/verify', verifyCodeAndLoginasMedicallab)
 
 router.post('/pharmacy/register', registerPharmacy);
 router.post('/pharmacy/login', loginUserasPharmacy);

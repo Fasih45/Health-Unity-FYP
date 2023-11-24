@@ -53,11 +53,7 @@ const registerUserasPatient = async (req, res) => {
       return res.status(400).json({ error: 'Nationality must be a non-empty string' });
     }
 
-    // Validate dateOfBirth
-    const dateOfBirthRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateOfBirth.match(dateOfBirthRegex)) {
-      return res.status(400).json({ error: 'Invalid date of birth format. Use YYYY-MM-DD' });
-    }
+
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -85,7 +81,7 @@ const loginUserasPatient = async (req, res) => {
       const patient = await Patient.findOne({username})
       // If the user is not found or the password is incorrect
       if (!patient ||!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        return res.status(404).json({ error: 'Invalid email or password' });
       }
   
       // If the user is logging in for the first time (isEmailVerified is false)
@@ -188,11 +184,6 @@ const loginUserasPatient = async (req, res) => {
         return res.status(400).json({ error: 'Nationality must be a non-empty string' });
       }
   
-      // Validate dateOfBirth
-      const dateOfBirthRegex = /^\d{4}-\d{2}-\d{2}$/;
-      if (!dateOfBirth.match(dateOfBirthRegex)) {
-        return res.status(400).json({ error: 'Invalid date of birth format. Use YYYY-MM-DD' });
-      }
   
       // Validate medicalLicenseNumber
       const medicalLicenseNumberRegex = /^(MD\d+|\d+MD)$/;
@@ -486,7 +477,7 @@ const loginUserasPatient = async (req, res) => {
           const medicallab = await Pharmacy.findOne({username})
           // If the user is not found or the password is incorrect
           if (!medicallab || !user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+            return res.status(404).json({ error: 'Invalid email or password' });
           }
       
           // If the user is logging in for the first time (isEmailVerified is false)
@@ -510,7 +501,8 @@ const loginUserasPatient = async (req, res) => {
     
         console.log(token);
       
-          res.status(200).json({ message: 'Login successful. User is verified.',token:token });
+          res.status(200).json({ message: 'Login successful. User is verified.',token:token ,
+          username:user.username});
         } catch (error) {
           console.error('Login error:', error.message);
           res.status(500).json({ error: 'Internal Server Error' });
@@ -540,8 +532,8 @@ const loginUserasPatient = async (req, res) => {
         });
     
         console.log(token);
-      
-          res.status(200).json({ message: 'Login successful. User is verified.',token:token });
+          res.status(200).json({ message: 'Login successful. User is verified.',token:token,
+          username:user.username });
         } catch (error) {
           console.error('Verification error:', error.message);
           res.status(500).json({ error: 'Internal Server Error' });

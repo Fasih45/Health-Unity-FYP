@@ -19,9 +19,11 @@ function App() {
 
   return (
     <>
-      
-
-      <Dashboard/>
+    <CarouselPage/>
+    <About/>
+    <Services/>
+    <Footer/>
+      {/* <Dashboard/> */}
     </>
   );
 }

@@ -5,7 +5,7 @@ const About= () => {
     <section id="about" >
       <div className="container my-5">
         <div className="row gy-4">
-          <div className="col-lg-6 position-relative align-self-start order-lg-last order-first">
+          <div className="container-md col-lg-6 position-relative align-self-start order-lg-last order-first">
             <img src="https://source.unsplash.com/600x750/?hospital,building" className="img-fluid" alt="" />
             <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" className="glightbox play-btn"></a>
           </div>

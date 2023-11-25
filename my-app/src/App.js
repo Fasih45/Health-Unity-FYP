@@ -11,6 +11,7 @@ import Footer from "./components/Footer"
 import AOS from 'aos';
 import 'aos/dist/aos.css'
 import { useEffect } from "react";
+import Dashboard from "./components/Dashboard";
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
 
   return (
     <>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar />
       <CarouselPage/>
       <About/>
       <Services/>
@@ -32,7 +33,9 @@ function App() {
       <Routes>
         <Route exact path="/patient/signin" element={<LoginForm />} />
         <Route exact path="/patient/signup" element={<LoginForm />} />
-      </Routes>
+      </Routes> */}
+
+      <Dashboard/>
     </>
   );
 }

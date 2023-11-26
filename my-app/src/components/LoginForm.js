@@ -19,7 +19,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import patientInput from "../inputFieds/patientInput";
 import docterInput from "../inputFieds/docterInput";
 import labInput from "../inputFieds/medicalLabInput";
@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   login,
   loginRequest,
+  verification,
 } from "../redux/actions/authActions";
 import { register, registerRequest } from "../redux/actions/registerAction";
 
@@ -34,15 +35,17 @@ import { register, registerRequest } from "../redux/actions/registerAction";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignIn(props) {
+  const { verify } = props;
   const [isSignup, setIsSignup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [require, setrequire] = useState(1);
-  const { user } = useParams();
+  const { user, username } = useParams();
   const navigate = useNavigate();
   const errorLogin = useSelector((state) => state.auth.error);
   const errorSignup = useSelector((state) => state.regis.error);
+  const statuscode = useSelector((state) => state.auth.statuscode);
   const dispatch = useDispatch();
+  const location = useLocation();
   const [inputFields, setInputFields] = useState(patientInput);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -57,6 +60,7 @@ export default function SignIn() {
     nationality: "",
     showPassword: false,
     dateOfBirth: null,
+    verificationNumber: "",
   });
 
   const [errors, setErrors] = useState({
@@ -70,6 +74,7 @@ export default function SignIn() {
     password: "",
     confirmPassword: "",
     nationality: "",
+    verificationNumber: "",
   });
   React.useEffect(() => {
     // This function will be called when the component is unmounted or when isSignup changes
@@ -87,8 +92,9 @@ export default function SignIn() {
         nationality: "",
         showPassword: false,
         dateOfBirth: null,
+        verificationNumber: "",
       });
-      setSelectedDate(null)
+      setSelectedDate(null);
 
       setErrors({
         fullName: "",
@@ -101,32 +107,40 @@ export default function SignIn() {
         password: "",
         confirmPassword: "",
         nationality: "",
+        verificationNumber: "",
       });
-      setrequire(1);
     };
-  }, [isSignup, navigate, user]);
+  }, [isSignup, user]);
   React.useEffect(() => {
-    if (user === "patient") {
-      setInputFields(patientInput);
-      console.log("user:", user);
-      console.log(inputFields);
-    }
-    if (user === "doctor") {
-      setInputFields(docterInput);
-      console.log("user:", user);
-      console.log(inputFields);
-    }
-    if (user === "medical_labs" || user === "pharmacy") {
-      setInputFields(labInput);
-      console.log("user:", user);
-      console.log(inputFields);
-    }
-    dispatch(loginRequest());
-    dispatch(registerRequest());
-  }, [dispatch, inputFields, user]);
+    if (user === "patient") setInputFields(patientInput);
+    if (user === "doctor") setInputFields(docterInput);
 
+    if (user === "medical_labs" || user === "pharmacy")
+      setInputFields(labInput);
+
+    dispatch(loginRequest()); ///for reset error if error is not found
+    dispatch(registerRequest()); //for reset error
+  }, [dispatch, inputFields, user]);
+  React.useEffect(() => {
+    if (errorLogin && statuscode === 401)
+      navigate(`/${formData.username}/${user}/signin`);
+  }, [statuscode, errorLogin]);
+
+  React.useEffect(() => {
+    if (location.pathname === `/${user}/signin`) {
+      setIsSignup(false);
+      navigate(`/${user}/signin`);
+      dispatch(loginRequest()); ///for reset error if error is not found
+      dispatch(registerRequest()); //for reset error
+    }
+  }, [user, location.pathname, navigate, dispatch]);
+  React.useEffect(() => {
+    if (statuscode === 200) {
+      navigate(`/welcome/${user}/${username}`);
+      dispatch(loginRequest());
+    }
+  }, [statuscode, navigate, dispatch]);
   const handleInputChange = (e) => {
-    setrequire(0);
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -137,13 +151,13 @@ export default function SignIn() {
       validateConfirmPassword(value);
     }
     validateField(name, value);
-    dispatch(loginRequest());
-    dispatch(registerRequest());
+    dispatch(loginRequest()); ///for reset error
+    dispatch(registerRequest()); ///for reset error
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    console.log(selectedDate)
+    console.log(selectedDate);
     setFormData({
       ...formData,
       dateOfBirth: date,
@@ -213,12 +227,11 @@ export default function SignIn() {
       case "cnic":
         setErrors((prevErrors) => ({
           ...prevErrors,
-          cnic:
-            value 
-              ? /^[0-9]{13}$/.test(value)
-                ? ""
-                : "CNIC should contain exactly 13 digits and only numbers"
-              : "CNIC cannot be empty",
+          cnic: value
+            ? /^[0-9]{13}$/.test(value)
+              ? ""
+              : "CNIC should contain exactly 13 digits and only numbers"
+            : "CNIC cannot be empty",
         }));
         break;
       case "nationality":
@@ -276,6 +289,16 @@ export default function SignIn() {
               : "Contact Number cannot be empty",
         }));
         break;
+      case "verificationNumber":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          verificationNumber: value
+            ? /^[0-9]{6}$/.test(value)
+              ? ""
+              : "Verification number should be exactly 6 digits"
+            : "Verification number cannot be empty",
+        }));
+        break;
 
       default:
         break;
@@ -284,24 +307,38 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(user);
+    console.log(formData);
 
     if (isSignup) {
       console.log(formData);
       inputFields.forEach(({ name }) => validateField(name, formData[name]));
       validateConfirmPassword(formData.confirmPassword);
-      
+    } else if (verify) {
+      validateField("verificationNumber", formData.verificationNumber);
     } else {
       validateField("username", formData.username);
       validateField("password", formData.password);
     }
-    if (require === 1 || Object.values(errors).some((error) => !!error)) {
+    if (Object.values(errors).some((error) => !!error)) {
       console.error("Form has errors. Please correct them.");
     } else {
-      console.log("Form submitted successfully!");
-      if (!isSignup) dispatch(login(formData, user));
-      else {
-
-        dispatch(register(formData, user));}
+      console.log("Form submitted successfully!", verify);
+      if (!isSignup && !verify) {
+        dispatch(login(formData, user));
+      } else if (verify) {
+        dispatch(
+          verification(
+            {
+              username: username,
+              verificationNumber: parseInt(formData.verificationNumber, 10),
+            },
+            user
+          )
+        );
+      } else {
+        dispatch(register(formData, user));
+      }
     }
   };
 
@@ -314,13 +351,16 @@ export default function SignIn() {
 
   return (
     <>
-      {(errorLogin||errorSignup) && (
+      {(errorLogin || errorSignup) && (
         <div
           class="alert alert-danger alert-dismissible fade show"
           role="alert"
         >
-          <strong>{errorLogin}{errorSignup}</strong> You should check in on some of those
-          fields below.
+          <strong>
+            {errorLogin}
+            {errorSignup}
+          </strong>{" "}
+          You should check in on some of those fields below.
         </div>
       )}
       <ThemeProvider theme={defaultTheme}>
@@ -367,7 +407,7 @@ export default function SignIn() {
                   autoFocus
                 />
               )}
-              {
+              {!verify && (
                 <TextField
                   margin="normal"
                   variant="outlined"
@@ -381,7 +421,7 @@ export default function SignIn() {
                   helperText={errors.username}
                   autoFocus
                 />
-              }
+              )}
               {isSignup && (user === "doctor" || user === "patient") && (
                 <TextField
                   margin="normal"
@@ -417,6 +457,22 @@ export default function SignIn() {
                   autoFocus
                 />
               )}
+              {verify && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="verificationNumber"
+                  type="number"
+                  label="Verification Number"
+                  name="verificationNumber"
+                  error={!!errors.verificationNumber}
+                  helperText={errors.verificationNumber}
+                  value={formData.verificationNumber}
+                  onChange={handleInputChange}
+                  autoFocus
+                />
+              )}
               {isSignup && (user === "doctor" || user === "patient") && (
                 <DatePicker
                   className="custom-datepicker"
@@ -435,7 +491,7 @@ export default function SignIn() {
                   maxDate={new Date()}
                 />
               )}
-              
+
               {isSignup && user === "doctor" && (
                 <TextField
                   autoFocus
@@ -514,7 +570,7 @@ export default function SignIn() {
                   helperText={errors.contactNumber}
                 />
               )}
-              {
+              {!verify && (
                 <TextField
                   margin="normal"
                   fullWidth
@@ -544,7 +600,7 @@ export default function SignIn() {
                     ),
                   }}
                 />
-              }
+              )}
               {isSignup && (
                 <TextField
                   margin="normal"
@@ -593,7 +649,7 @@ export default function SignIn() {
               >
                 {isSignup ? "Sign up" : "Sign in"}
               </Button>
-              {!isSignup && (
+              {!isSignup && !verify && (
                 <Grid container spacing={2}>
                   <Grid item xs>
                     <Link href="#" variant="body2">
@@ -601,7 +657,13 @@ export default function SignIn() {
                     </Link>
                   </Grid>
                   <Grid>
-                    <Button item onClick={() => setIsSignup(!isSignup)}>
+                    <Button
+                      item
+                      onClick={() => {
+                        setIsSignup(!isSignup);
+                        navigate(`/${user}/signup`);
+                      }}
+                    >
                       {"Sign Up"}
                     </Button>
                   </Grid>

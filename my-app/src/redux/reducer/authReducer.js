@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
+  statuscode:null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,18 +14,22 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
+        statuscode:null,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         user: action.payload,
+        statuscode:action.statuscode,
+
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
+        statuscode:action.statuscode,
       };
     default:
       return state;

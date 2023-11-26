@@ -38,7 +38,7 @@ export const register = (credentials, user) => {
         const { status } = error.response;
         const message = error.response.data.error;
 
-        if (status === 400) {
+        if (status === 400) {//bad request
           dispatch(registerFailure(message));
         } else {
           dispatch(registerFailure(`Error: ${status} Message:${message}`));

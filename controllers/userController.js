@@ -121,7 +121,7 @@ const loginUserasPatient = async (req, res) => {
       const user = await User.findOne({ username, verificationNumber });
       const patient = await Patient.findOne({ username});
       if (!user||!patient) {
-        return res.status(400).json({ error: 'Invalid verification code' });
+        return res.status(404).json({ error: 'Invalid verification code' });
       }
   
       // Update the isEmailVerified field
@@ -219,7 +219,7 @@ const loginUserasPatient = async (req, res) => {
       const docter = await Doctor.findOne({username})
       // If the user is not found or the password is incorrect
       if (!docter || !user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        return res.status(404).json({ error: 'Invalid email or password' });
       }
   
       // If the user is logging in for the first time (isEmailVerified is false)
@@ -258,7 +258,7 @@ const loginUserasPatient = async (req, res) => {
       const docter = await Doctor.findOne({ username });
   
       if (!user||!docter) {
-        return res.status(400).json({ error: 'Invalid verification code' });
+        return res.status(404).json({ error: 'Invalid verification code' });
       }
   
       // Update the isEmailVerified field
@@ -347,7 +347,7 @@ const loginUserasPatient = async (req, res) => {
         const medicallab = await MedicalLab.findOne({username})
         // If the user is not found or the password is incorrect
         if (!medicallab || !user || !(await bcrypt.compare(password, user.password))) {
-          return res.status(401).json({ error: 'Invalid email or password' });
+          return res.status(404).json({ error: 'Invalid email or password' });
         }
     
         // If the user is logging in for the first time (isEmailVerified is false)
@@ -387,7 +387,7 @@ const loginUserasPatient = async (req, res) => {
         const medicallab  = await MedicalLab.findOne({ username });
     
         if (!user||!medicallab ) {
-          return res.status(400).json({ error: 'Invalid verification code' });
+          return res.status(404).json({ error: 'Invalid verification code' });
         }
     
         // Update the isEmailVerified field
@@ -518,7 +518,7 @@ const loginUserasPatient = async (req, res) => {
           const medicallab  = await Pharmacy.findOne({ username });
       
           if (!user||!medicallab ) {
-            return res.status(400).json({ error: 'Invalid verification code' });
+            return res.status(404).json({ error: 'Invalid verification code' });
           }
       
           // Update the isEmailVerified field

@@ -1,8 +1,5 @@
 import React from 'react'
 import Carousel from 'react-bootstrap/Carousel';
-import img1 from './images/image1.jpg'
-import img2 from './images/image2.jpg'
-import img3 from './images/image3.jpg'
 import './CarouselPage.css'
 
 function CarouselPage() {

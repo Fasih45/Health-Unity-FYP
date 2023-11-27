@@ -7,6 +7,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'
 import { useEffect } from "react";
 import Dashboard from "./components/Dashboard";
+import MyProfile from "./components/MyProfile";
+
 
 
 function App() {
@@ -19,11 +21,13 @@ function App() {
 
   return (
     <>
-    <CarouselPage/>
+    {/* <CarouselPage/>
     <About/>
     <Services/>
-    <Footer/>
-      {/* <Dashboard/> */}
+    <Footer/> */}
+      <Dashboard/>
+      {/* <MyProfile/> */}
+      {/* <Profile/> */}
     </>
   );
 }

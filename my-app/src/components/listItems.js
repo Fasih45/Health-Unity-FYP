@@ -6,9 +6,12 @@ import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
+import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
+import VaccinesOutlinedIcon from '@mui/icons-material/VaccinesOutlined';
 
 export const mainListItems = (
   <React.Fragment>
@@ -22,7 +25,7 @@ export const mainListItems = (
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Medical History" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
@@ -32,7 +35,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <HistoryEduOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItemButton>
@@ -48,25 +51,25 @@ export const mainListItems = (
 export const secondaryListItems = (
   <React.Fragment>
     <ListSubheader component="div" inset>
-      Saved reports
+      Search
     </ListSubheader>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <PersonSearchOutlinedIcon />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Doctors" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <MedicalServicesOutlinedIcon />
       </ListItemIcon>
-      <ListItemText primary="Last quarter" />
+      <ListItemText primary="Labs" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <VaccinesOutlinedIcon />
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Pharmancy" />
     </ListItemButton>
   </React.Fragment>
 );

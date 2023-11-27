@@ -21,6 +21,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import MyProfile from './MyProfile';
 const drawerWidth = 190;
 
 const AppBar = styled(MuiAppBar, {
@@ -199,7 +200,9 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
+          <MyProfile/>
         </Box>
+        
       </Box>
     </ThemeProvider>
   );

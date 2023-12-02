@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import image1 from './images/doc1.jpg';
+import image2 from './images/doc2.jpg';
+import image3 from './images/doc3.jpg';
+import image4 from './images/doc4.jpg';
+import image5 from './images/doc5.jpg';
+
 
 const CarouselSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const images = [
-    'https://source.unsplash.com/1600x900/?beach',
-    'https://source.unsplash.com/1600x900/?cat',
-    'https://source.unsplash.com/1600x900/?dog',
-    'https://source.unsplash.com/1600x900/?lego',
-    'https://source.unsplash.com/1600x900/?textures&patterns'
+    // 'https://source.unsplash.com/1600x900/?hospital',
+    // 'https://source.unsplash.com/1600x900/?Doctor',
+    // 'https://source.unsplash.com/1600x900/?Patient',
+    // 'https://source.unsplash.com/1600x900/?Nurse',
+    // 'https://source.unsplash.com/1600x900/?textures&patterns'
+    image1, image2, image3, image4, image5
   ];
+  const intervalDuration = 5000;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      next();
+    }, intervalDuration);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [currentIndex]);
 
   const back = () => {
     if (currentIndex > 1) {
@@ -19,8 +35,8 @@ const CarouselSlider = () => {
   const next = () => {
     if (currentIndex < images.length) {
       setCurrentIndex(currentIndex + 1);
-    } else if (currentIndex <= images.length) {
-      setCurrentIndex(images.length - currentIndex + 1);
+    } else {
+      setCurrentIndex(1); // Reset to the first image if at the end
     }
   };
 
@@ -38,7 +54,7 @@ const CarouselSlider = () => {
         >
           <img src={image} alt={`Image ${index + 1}`} className="absolute inset-0 z-10 h-full w-full object-cover opacity-70" />
           <figcaption className="absolute inset-x-0 bottom-1 z-20 w-96 mx-auto p-4 font-light text-sm text-center tracking-widest leading-snug bg-gray-300 bg-opacity-25">
-            Any kind of content here! Primum in nostrane potestate est, quid meminerimus? Nulla erit controversia. Vestri haec verecundius, illi fortasse constantius.
+            Your Health , Our Secure Collaboration
           </figcaption>
         </figure>
       ))}

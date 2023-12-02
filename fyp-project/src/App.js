@@ -8,11 +8,16 @@ import Contactus from './components/Contactus';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
+import Dashboard from './components/Dashboard'
+import Editprofile from './components/Editprofile';
 
 function App() {
   return (
     <div className="App">
-      <Homepage/>
+      {/* <Homepage/> */}
+      {/* <Dashboard/> */}
+      <Editprofile/>
+      {/* <Footer/> */}
       {/* <Navbar/>
       <CarouselSlider/>
       <Aboutus/>

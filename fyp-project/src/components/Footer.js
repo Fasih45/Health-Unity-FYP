@@ -2,10 +2,10 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className="px-4 pt-16     bg-gray-300   sm:max-w-xl md:max-w-full lg:max-w-full md:px-24 lg:px-8">
+        <div className="px-4 pt-13     bg-gray-300   sm:max-w-xl md:max-w-full lg:max-w-full md:px-24 lg:px-8">
             <div className="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="sm:col-span-2">
-                    <a href="/" aria-label="Go home" title="Company" className="inline-flex items-center">
+                <div className="sm:col-span-2 w-full justify-start">
+                    {/* <a href="/" aria-label="Go home" title="Company" className="inline-flex items-center">
                         <svg className="w-8 text-deep-purple-accent-400" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" stroke="currentColor" fill="none">
                             <rect x="3" y="1" width="7" height="12"></rect>
                             <rect x="3" y="17" width="7" height="6"></rect>
@@ -13,36 +13,40 @@ const Footer = () => {
                             <rect x="14" y="11" width="7" height="12"></rect>
                         </svg>
                         <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">Company</span>
-                    </a>
-                    <div className="mt-6 lg:max-w-sm">
+                    </a> */}
+                    <div className="mt-3 lg:max-w-sm">
+                        <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">health Unity</span>
                         <p className="text-sm text-gray-800">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                        Health Unity is intended for use within the healthcare industry, aiming to enhance healthcare interactions, data sharing, and patient care.
                         </p>
-                        <p className="mt-4 text-sm text-gray-800">
-                            Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                        </p>
+                       
                     </div>
                 </div>
-                <div className="space-y-2 text-sm">
-                    <p className="text-base font-bold tracking-wide text-gray-900">Contacts</p>
+
+
+
+                <div className="space-y-2 mt-3 text-sm">
+                    <p className="text-base flex font-bold tracking-wide text-gray-900">Contacts</p>
                     <div className="flex">
                         <p className="mr-1 text-gray-800">Phone:</p>
-                        <a href="tel:850-123-5021" aria-label="Our phone" title="Our phone" className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">850-123-5021</a>
+                        <a href="tel:850-123-5021" aria-label="Our phone" title="Our phone" className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">(021) 341 00541-6</a>
                     </div>
                     <div className="flex">
                         <p className="mr-1 text-gray-800">Email:</p>
-                        <a href="mailto:info@lorem.mail" aria-label="Our email" title="Our email" className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">info@lorem.mail</a>
+                        <a href="mailto:info@lorem.mail" aria-label="Our email" title="Our email" className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">healthunity@gmail.com</a>
                     </div>
                     <div className="flex">
                         <p className="mr-1 text-gray-800">Address:</p>
                         <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" aria-label="Our address" title="Our address" className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">
-                            312 Lovely Street, NY
+                            FAST Nu CFD
                         </a>
                     </div>
                 </div>
-                <div>
+
+                
+                <div className='mt-3'>
                     <span className="text-base font-bold tracking-wide text-gray-900">Social</span>
-                    <div className="flex items-center mt-1 space-x-3">
+                    <div className="flex items-center mt-1  justify-center space-x-3">
                         <a href="/" className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400">
                             <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
                                 <path
@@ -67,7 +71,7 @@ const Footer = () => {
                         </a>
                     </div>
                     <p className="mt-4 text-sm text-gray-500">
-                        Bacon ipsum dolor amet short ribs pig sausage prosciutto chicken spare ribs salami.
+                        You can cotanct us.We are always here for you
                     </p>
                 </div>
             </div>
@@ -75,7 +79,7 @@ const Footer = () => {
                 <p className="text-sm text-gray-600">
                     © Copyright 2020 Lorem Inc. All rights reserved.
                 </p>
-                <ul className="flex flex-col mb-3 space-y-2 lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row">
+                {/* <ul className="flex flex-col mb-3 space-y-2 lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row">
                     <li>
                         <a href="/" className="text-sm text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">F.A.Q</a>
                     </li>
@@ -85,7 +89,7 @@ const Footer = () => {
                     <li>
                         <a href="/" className="text-sm text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">Terms &amp; Conditions</a>
                     </li>
-                </ul>
+                </ul> */}
             </div>
         </div>
     );

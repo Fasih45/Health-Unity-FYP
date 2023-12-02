@@ -3,81 +3,7 @@ import React from 'react';
 const Features = () => {
     return (
         <div>
-            <div className="text-center p-8">
-                <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                    Why to choose US?
-                </h2>
-
-                {/* First Flex Section */}
-                <div className="flex flex-wrap items-center mt-20 text-left text-center">
-                    <div className="w-full md:w-3/5 lg:w-1/2 px-4">
-                        <img src="https://picsum.photos/400/240" alt="gem" className="inline-block rounded shadow-lg border border-merino-400" />
-                    </div>
-                    <div className="w-full md:w-2/5 lg:w-1/2 px-4 text-center md:text-left lg:pl-12">
-                        <h3 className="font-bold mt-8 text-xl md:mt-0 sm:text-2xl">
-                            Simple integration
-                        </h3>
-                        <p className="sm:text-lg mt-6">
-                            Use the LocaleData gem to download translations directly into your Ruby on Rails
-                            projects using the provided command line interface. Just create a project and follow
-                            the step-by-step instructions.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Second Flex Section */}
-                <div className="flex flex-wrap items-center mt-20 text-left text-center">
-                    <div className="w-full md:w-3/5 lg:w-1/2 px-4">
-                        <img src="https://picsum.photos/400/240" alt="project members" className="inline-block rounded shadow-lg border border-merino-400" />
-                    </div>
-                    <div className="w-full md:w-2/5 lg:w-1/2 px-4 md:order-first text-center md:text-left lg:pr-12">
-                        <h3 className="font-bold mt-8 text-xl md:mt-0 sm:text-2xl">
-                            Easy collaboration
-                        </h3>
-                        <p className="sm:text-lg mt-6">
-                            All LocaleData projects are private. Each project can have multiple collaborators
-                            with different roles and access permissions. You determine who can see and edit
-                            your translations. Just add admins, developers, translators and configure their
-                            access rights.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Third Flex Section */}
-                <div className="flex flex-wrap items-center mt-20 text-left  text-center">
-                    <div className="w-full md:w-3/5 lg:w-1/2 px-4">
-                        <img src="https://picsum.photos/400/240" alt="editor" className="inline-block rounded shadow-lg border border-merino-400" />
-                    </div>
-                    <div className="w-full md:w-2/5 lg:w-1/2 px-4 text-center md:text-left lg:pl-12">
-                        <h3 className="font-bold mt-8 text-xl md:mt-0 sm:text-2xl">
-                            No more syntax errors
-                        </h3>
-                        <p className="sm:text-lg mt-6">
-                            LocaleData provides you easy import/export functions for your YAML files.
-                            Use a simple editor with many predefined languages to manage your locales.
-                            LocaleData also supports multiple translation types, such as simple text, plural forms,
-                            numbers, booleans, symbols, arrays, ...
-                        </p>
-                    </div>
-                </div>
-
-                {/* Fourth Flex Section */}
-                <div className="flex flex-wrap items-center mt-20 text-left text-center">
-                    <div className="w-full md:w-3/5 lg:w-1/2 px-4">
-                        <img src="https://picsum.photos/400/240" alt="bulk editing" className="inline-block rounded shadow-lg border border-merino-400" />
-                    </div>
-                    <div className="w-full md:w-2/5 lg:w-1/2 px-4 md:order-first text-center md:text-left lg:pr-12">
-                        <h3 className="font-bold mt-8 text-xl md:mt-0 sm:text-2xl">
-                            Bulk editing
-                        </h3>
-                        <p className="sm:text-lg mt-6">
-                            Do you need to change the path of many translation keys at once? No problem, just
-                            use the bulk editing feature and enjoy the results.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
+            
             <section className="bg-white pb-6">
                 <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
                     <div className="container mx-auto px-6 p-6 bg-white">
@@ -161,39 +87,39 @@ const Features = () => {
             </section>
 
             <div className="container mx-auto max-w-5xl flex gap-12 flex-wrap items-start justify-center md:justify-between">
-      {/* Feature 1 */}
-      <div className="grid gap-4 justify-items-center text-center md:flex-1">
-        <div className="rounded-full border-8 border-amber-400 p-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
-          </svg>
-        </div>
-        <h3 className="text-3xl font-bold">Safe</h3>
-        <p>Our products are secure and private out-of-the-box</p>
-      </div>
+                {/* Feature 1 */}
+                <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                    <div className="rounded-full border-8 border-amber-400 p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-3xl font-bold">Safe</h3>
+                    {/* <p>Our products are secure and private out-of-the-box</p> */}
+                </div>
 
-      {/* Feature 2 */}
-      <div className="grid gap-4 justify-items-center text-center md:flex-1">
-        <div className="rounded-full border-8 border-amber-400 p-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path>
-          </svg>
-        </div>
-        <h3 className="text-3xl font-bold">Efficient</h3>
-        <p>Feel good about your wallet and the environment</p>
-      </div>
+                {/* Feature 2 */}
+                <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                    <div className="rounded-full border-8 border-amber-400 p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-3xl font-bold">Efficient</h3>
+                    {/* <p>Feel good about your wallet and the environment</p> */}
+                </div>
 
-      {/* Feature 3 */}
-      <div className="grid gap-4 justify-items-center text-center md:flex-1">
-        <div className="rounded-full border-8 border-amber-400 p-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
-          </svg>
-        </div>
-        <h3 className="text-3xl font-bold">Proven</h3>
-        <p>Leading the Smart Home world for 10 years</p>
-      </div>
-    </div>
+                {/* Feature 3 */}
+                <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                    <div className="rounded-full border-8 border-amber-400 p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-14 h-14">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-3xl font-bold">Proven</h3>
+                    {/* <p>Leading the Smart Home world for 10 years</p> */}
+                </div>
+            </div>
 
 
         </div>

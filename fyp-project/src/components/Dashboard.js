@@ -78,43 +78,9 @@ const MainLayout = () => {
             <div className="flex">
                 {/* Aside */}
                 {
-                    // asideOpen && (
-                    //     <aside className="flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2"
-                    //         style={{ height: '90.5vh' }} x-show="asideOpen">
-                    //         <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                    //             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    //                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    //             </svg>
-
-                    //             <span>Dashboard</span>
-                    //         </a>
-
-                    //         <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                    //             <span class="text-2xl"><i class="bx bx-cart"></i></span>
-                    //             <span>Cart</span>
-                    //         </a>
-
-                    //         <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                    //             <span class="text-2xl"><i class="bx bx-shopping-bag"></i></span>
-                    //             <span>Shopping</span>
-                    //         </a>
-
-                    //         <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                    //             <span class="text-2xl"><i class="bx bx-heart"></i></span>
-                    //             <span>My Favourite</span>
-                    //         </a>
-
-                    //         <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                    //             <span class="text-2xl"><i class="bx bx-user"></i></span>
-                    //             <span>Profile</span>
-                    //         </a>
-
-                    //         {/* Repeat similar blocks for other aside links */}
-                    //     </aside>
-                    // )
 
                     <aside className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
-                        style={{   width: asideOpen ? '12rem' : '4rem'}} x-show="asideOpen">
+                        style={{ width: asideOpen ? '12rem' : '4rem' }} x-show="asideOpen">
                         <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -166,8 +132,8 @@ const MainLayout = () => {
 
                 {/* Main Content Page */}
                 <div className="w-full p-4">
-                    <UserInfoCard/>
-                    <PersonalInfo/>
+                    <UserInfoCard />
+                    <PersonalInfo />
                 </div>
             </div>
         </main>

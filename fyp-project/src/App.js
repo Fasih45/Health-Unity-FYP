@@ -10,11 +10,13 @@ import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
 import Dashboard from './components/Dashboard'
 import Editprofile from './components/Editprofile';
+import PersonalInfo from './components/PersonalInfo';
 
 function App() {
   return (
     <div className="App">
-      {/* <Homepage/> */}
+       {/* <Homepage/>  */}
+       {/* <PersonalInfo/> */}
       {/* <Dashboard/> */}
       <Editprofile/>
       {/* <Footer/> */}

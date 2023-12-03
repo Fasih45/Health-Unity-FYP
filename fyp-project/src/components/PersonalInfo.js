@@ -1,52 +1,156 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Select from 'react-select';
 
 const PersonalInfo = () => {
+    const [hospitalInfo, setHospitalInfo] = useState({
+        name: '',
+        address: '',
+    });
+    const weekdays = [
+        { value: 'Monday', label: 'Monday' },
+        { value: 'Tuesday', label: 'Tuesday' },
+        { value: 'Wednesday', label: 'Wednesday' },
+        { value: 'Thursday', label: 'Thursday' },
+        { value: 'Friday', label: 'Friday' },
+        { value: 'Saturday', label: 'Saturday' },
+        { value: 'Sunday', label: 'Sunday' },
+    ];
+
+    const [selectedSpecialty, setSelectedSpecialty] = useState('');
+    const [customSpecialty, setCustomSpecialty] = useState('');
+    const [selectedDays, setSelectedDays] = useState([]);
+    const [bio, setBio] = useState('');
+    const [description, setDescription] = useState('');
+
+    const [validationError, setValidationError] = useState('');
+
+    const handleDaysChange = (selectedOptions) => {
+        setSelectedDays(selectedOptions);
+    };
+
+    const handleSelectChange = (event) => {
+        setSelectedSpecialty(event.target.value);
+    };
+
+    const handleCustomInputChange = (event) => {
+        setCustomSpecialty(event.target.value);
+    };
+
+    const handleHospitalInputChange = (event) => {
+        setHospitalInfo({
+            ...hospitalInfo,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const handleBioChange = (event) => {
+        setBio(event.target.value);
+    };
+
+    const handleDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        // Basic form validation
+        if (!hospitalInfo.name || !hospitalInfo.address) {
+            setValidationError('Hospital Name and Address are required.');
+            return;
+        }
+
+        // Clear validation error if any
+        setValidationError('');
+
+        // Log form data to console
+        console.log('Form Data:', {
+            hospitalInfo,
+            selectedSpecialty,
+            customSpecialty,
+            selectedDays,
+            bio,
+            description,
+        });
+    };
+
     return (
         <div className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
             <div className="container mx-auto p-4">
                 <div className="bg-white dark:bg-gray-700 rounded-md shadow-md p-6">
-                    <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Work place infomation</h1>
+                    <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Workplace Information</h1>
                     <hr className="my-4 border-t border-gray-300" />
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 gap-4 mb-4">
-                            <input type="text" placeholder="Hospital Name & Address" className="border p-2 rounded w-full" />
-                            {/* <input type="text" placeholder="Last name" className="border p-2 rounded w-full" /> */}
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Hospital Name"
+                                value={hospitalInfo.name}
+                                onChange={handleHospitalInputChange}
+                                className="border p-2 rounded w-full"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="address"
+                                placeholder="Hospital Address"
+                                value={hospitalInfo.address}
+                                onChange={handleHospitalInputChange}
+                                className="border p-2 rounded w-full"
+                                required
+                            />
                         </div>
                         <div className="mb-4">
-                            <select className="border p-2  rounded w-full">
-                                <option value="" disabled selected>Select a Medical Specialty</option>
+                            <select
+                                value={selectedSpecialty}
+                                onChange={handleSelectChange}
+                                className="border p-2 rounded w-full"
+                            >
+                                <option value="" disabled>Select a Medical Specialty</option>
                                 <option value="Cardiology">Cardiology</option>
                                 <option value="Dermatology">Dermatology</option>
-                                <option value="Endocrinology">Endocrinology</option>
-                                <option value="Gastroenterology">Gastroenterology</option>
-                                <option value="Hematology">Hematology</option>
-                                <option value="Neurology">Neurology</option>
-                                <option value="Orthopedics">Orthopedics</option>
-                                <option value="Pediatrics">Pediatrics</option>
-                                <option value="Psychiatry">Psychiatry</option>
-                                <option value="Radiology">Radiology</option>
-                                <option value="Urology">Urology</option>
-                                {/* Add more countries as needed */}
+                                {/* Add other options */}
                             </select>
+
+                            <input
+                                type="text"
+                                value={customSpecialty}
+                                onChange={handleCustomInputChange}
+                                placeholder="Enter your own specialty"
+                                className="border p-2 rounded mt-2 w-full"
+                            />
                         </div>
                         <div className="mb-4">
-                            <input type="text" placeholder="Street address" className="border p-2 rounded w-full" />
+                            <Select
+                                isMulti
+                                options={weekdays}
+                                placeholder="Select Working days"
+                                className="basic-multi-select"
+                                classNamePrefix="select"
+                                value={selectedDays}
+                                onChange={handleDaysChange}
+                            />
                         </div>
                         <div className="mb-4">
-                            <input type="text" placeholder="City" className="border p-2 rounded w-full" />
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <input type="text" placeholder="State / Province" className="border p-2 rounded w-full" />
-                            <input type="text" placeholder="ZIP / Postal code" className="border p-2 rounded w-full" />
-                        </div>
-                        <div className="mb-4">
-                            <textarea placeholder="Bio" className="border p-2 rounded w-full h-24" />
+                            <textarea
+                                value={bio}
+                                onChange={handleBioChange}
+                                placeholder="Bio"
+                                className="border p-2 rounded w-full h-24"
+                            />
                         </div>
                         <div className="mb-6">
-                            <textarea placeholder="Description" className="border p-2 rounded w-full h-32" />
+                            <textarea
+                                value={description}
+                                onChange={handleDescriptionChange}
+                                placeholder="Description"
+                                className="border p-2 rounded w-full h-32"
+                            />
                         </div>
-                        <button type="button" id="theme-toggle" className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors">
-                            Toggle Theme
+                        <div className="text-red-500 mb-4">{validationError}</div>
+                        <button type="submit" id="theme-toggle" className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors">
+                            Save
                         </button>
                     </form>
                 </div>

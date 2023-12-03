@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import React from 'react'
 
 export default function Example() {
@@ -25,11 +11,6 @@ export default function Example() {
                     <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                             <div class="text-gray-600">
-                                <div className='h-30 w-17 overflow-hidden rounded-full'> 
-                                <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
-
-
-                                </div>
                                 <p class="font-medium text-lg">Personal Details</p>
                                 <p>Please fill out all the fields.</p>
                             </div>

@@ -17,8 +17,9 @@ function App() {
     <div className="App">
        {/* <Homepage/>  */}
        {/* <PersonalInfo/> */}
-      {/* <Dashboard/> */}
-      <Editprofile/>
+      <Dashboard/>
+      {/* <Footer/> */}
+      {/* <Editprofile/> */}
       {/* <Footer/> */}
       {/* <Navbar/>
       <CarouselSlider/>

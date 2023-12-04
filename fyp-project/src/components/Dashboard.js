@@ -6,6 +6,7 @@ import Aboutus from './Aboutus';
 import Contactus from './Contactus'
 import SearchDoc from './SearchDoc';
 import Footer from './Footer';
+import DocWorkPlaceInfo from './DocWorkPalceInfo';
 
 const MainLayout = () => {
     const [profileOpen, setProfileOpen] = useState(false);
@@ -13,9 +14,9 @@ const MainLayout = () => {
     const [completeprofile, setcompleteprofilemain] = useState(false);
 
     return (
-        <main className="min-h-screen w-full bg-gray-100 text-gray-700">
+        <main className="min-h-screen w-full text-gray-700">
             {/* Header */}
-            <header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
+            <header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-blue-500 p-2">
                 {/* Logo */}
                 <div className="flex items-center space-x-2">
                     <button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} onBlur={() => setAsideOpen(false)}>
@@ -29,14 +30,19 @@ const MainLayout = () => {
 
                 {/* Profile Button */}
                 <div>
-                    <button
-                        type="button"
-                        onClick={() => setProfileOpen(!profileOpen)}
-                        onBlur={() => setProfileOpen(false)}
-                        className="h-9 w-9 overflow-hidden rounded-full"
-                    >
-                        <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
-                    </button>
+                    <div className="flex items-center">
+                        <div className=' hidden sm:block'>Hey! </div>
+                        <div className=" hidden sm:block font-medium ml-2 mr-5 text-white">Hafiz Haziq</div>
+                        <button
+                            type="button"
+                            onClick={() => setProfileOpen(!profileOpen)}
+                            onBlur={() => setProfileOpen(false)}
+                            className="h-9 w-9 overflow-hidden rounded-full mr-3"
+                        >
+                            <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
+                        </button>
+                    </div>
+
 
                     {/* Profile Dropdown */}
                     {profileOpen && (
@@ -85,7 +91,7 @@ const MainLayout = () => {
                 {
 
                     <aside className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
-                        style={{ width: asideOpen ? '12rem' : '4rem', height: '95rem' }} x-show="asideOpen">
+                        style={{ width: asideOpen ? '12rem' : '4rem', height: '100vh' }} >
                         <a href="/" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -114,7 +120,7 @@ const MainLayout = () => {
                             {asideOpen && <span>Contact us</span>}
                         </a>
                         <hr className="my-4 border-t border-gray-300" />
-                        
+
                         <h6>Search</h6>
 
                         <a href="SearchDoctor" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
@@ -143,19 +149,19 @@ const MainLayout = () => {
                 <div className="w-full bg-gray-100 p-4">
                     <Routes>
                         {/* Each Route component corresponds to a specific path */}
-                        <Route path='/' element={<><UserInfoCard /><PersonalInfo /> </>}/>
+                        <Route path='/' element={<><UserInfoCard /><PersonalInfo /><DocWorkPlaceInfo/> </>} />
                         <Route path="/contact" element={<Contactus />} />
                         <Route path="/SearchDoctor" element={<SearchDoc />} />
-                        <Route path="/info" element={<PersonalInfo setcompleteprofilemain={setcompleteprofilemain}/>} />
+                        <Route path="/info" element={<PersonalInfo setcompleteprofilemain={setcompleteprofilemain} />} />
 
                         {/* Handle 404 - Page Not Found */}
                         <Route path="*" component={() => <div>404 - Page Not Found</div>} />
                     </Routes>
-                    
+
                 </div>
-            
+
             </div>
-            <Footer/>
+            <Footer />
         </main>
     );
 };

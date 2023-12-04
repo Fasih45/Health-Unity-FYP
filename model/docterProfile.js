@@ -1,7 +1,7 @@
 // models/doctor.js
 const mongoose = require('mongoose');
 
-const doctorSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -14,35 +14,25 @@ const doctorSchema = new mongoose.Schema({
     type: String,
   },
   currentHospital: {
-    name: {
       type: String,
-
-    },
-    startTime: {
-      type: Date,
-      
-    },
-    endTime: {
-      type: Date,
-      
-    },
   },
   currentClinic: {
-    name: {
-      type: String,
-      
-    },
-    startTime: {
-      type: Date,
-      
-    },
-    endTime: {
-      type: Date,
-      
-    },
+    type: String,
   },
+  description: {
+    type: String,
+  },
+  workingdays: {
+    type: [String], // This defines an array of strings
+    required: true, // You can add other validation options as needed
+  },
+  personalInfo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Doctor',
+  }
+
 });
 
-const Doctor = mongoose.model('DoctorProfile', doctorSchema);
+const DoctorProfile = mongoose.model('DoctorProfile', profileSchema);
 
-module.exports = Doctor;
+module.exports = DoctorProfile;

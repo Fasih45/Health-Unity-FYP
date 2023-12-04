@@ -140,7 +140,7 @@ const MainLayout = () => {
 
                 {/* Main Content Page */}
 
-                <div className="w-full p-4">
+                <div className="w-full bg-gray-100 p-4">
                     <Routes>
                         {/* Each Route component corresponds to a specific path */}
                         <Route path='/' element={<><UserInfoCard /><PersonalInfo /> </>}/>

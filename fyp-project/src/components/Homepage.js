@@ -7,8 +7,6 @@ import Footer from "./Footer";
 import CarouselSlider from "./CarouselSlider";
 
 const Homepage= () => {
-
-
     return (
         <div>
             <Navbar />
@@ -17,7 +15,6 @@ const Homepage= () => {
             <Features/>
             <Contactus/>
             <Footer/>
-
         </div>
 
 

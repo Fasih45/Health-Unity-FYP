@@ -9,7 +9,6 @@ import CarouselSlider from "./CarouselSlider";
 const Homepage= () => {
     return (
         <div>
-            <Navbar />
             <CarouselSlider/>
             <Aboutus />
             <Features/>

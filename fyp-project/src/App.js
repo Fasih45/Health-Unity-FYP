@@ -1,33 +1,39 @@
 import React from 'react';
 import './App.css';
 import './index.css'
-import CarouselSlider from './components/CarouselSlider';
-import Aboutus from './components/Aboutus';
-import Features from './components/Features';
-import Contactus from './components/Contactus';
-import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
 import Dashboard from './components/Dashboard'
-import Editprofile from './components/Editprofile';
-import PersonalInfo from './components/PersonalInfo';
+
+import { Route, Routes } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import SearchDoc from './components/SearchDoc';
+import RegistrationForm from './components/RegistrationForm';
 
 function App() {
   return (
-    <div className="App">
-       {/* <Homepage/>  */}
-       {/* <PersonalInfo/> */}
-      <Dashboard/>
-      {/* <Footer/> */}
-      {/* <Editprofile/> */}
-      {/* <Footer/> */}
-      {/* <Navbar/>
-      <CarouselSlider/>
-      <Aboutus/>
-      <Features/>
-      <Contactus/>
-      <Footer/> */}
-    </div>
+    <>
+
+
+    <Navbar />
+    <Routes>
+      <Route exact path="/" element={< Homepage/>} />
+      <Route exact path="/:user/signin" element={<LoginForm />} />
+      <Route exact path="welcome/:user/:username" element={<Dashboard/>} />
+      <Route exact path="/:user/signup" element={<RegistrationForm />} />
+      <Route exact path="/dic" element={<SearchDoc/>} />
+      
+
+      <Route
+        exact
+        path="/:username/:user/signin"
+        element={<LoginForm verify={true} />}
+      />
+    </Routes>
+    
+  </>
+
+
   );
 }
 

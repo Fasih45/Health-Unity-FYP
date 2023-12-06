@@ -1,10 +1,15 @@
 // models/doctor.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const profileSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+  },
+  fullName: {
+    type: String,
+    required: true,
+    minlength: 4,
   },
   specialty: {
     type: String,
@@ -14,7 +19,7 @@ const profileSchema = new mongoose.Schema({
     type: String,
   },
   currentHospital: {
-      type: String,
+    type: String,
   },
   currentClinic: {
     type: String,
@@ -28,11 +33,10 @@ const profileSchema = new mongoose.Schema({
   },
   personalInfo: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Doctor',
-  }
-
+    ref: "Doctor",
+  },
 });
 
-const DoctorProfile = mongoose.model('DoctorProfile', profileSchema);
+const DoctorProfile = mongoose.model("DoctorProfile", profileSchema);
 
 module.exports = DoctorProfile;

@@ -44,7 +44,7 @@ const LoginForm = () => {
   }, [location, dispatch]);
   useEffect(() => {
     if (!errorLogin && statuscode === 200) {
-      navigate(`/welcome/${user}/${loggedUser.fullName}`);
+      navigate(`/welcome/${user}/${formFields.username}/${loggedUser.fullName}`);
       dispatch(loginRequest());
       console.log(loggedUser);
     }

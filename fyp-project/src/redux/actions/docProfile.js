@@ -23,19 +23,19 @@ export const doctorProfileFailure = (error, statusCode) => ({
 });
 
 // Thunk to get doctor profile
-export const getDoctorProfile = (username) => {
+export const getProfile = (user,username) => {
   return async (dispatch) => {
     dispatch(getDoctorProfileRequest());
 
     try {
-      const response = await axios.get(`http://localhost:5000/profile/doctor/${username}`);
+      const response = await axios.get(`http://localhost:5000/profile/${user}/${username}`);
       const jsonResponse = response.data;
       dispatch(doctorProfileSuccess(jsonResponse, 200));
 
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
-        const message = error.response.data.error;
+        const message = error.response.data;
 
         if (status === 404) {
           dispatch(doctorProfileFailure(message, status));

@@ -29,7 +29,7 @@ import {
         return {
           ...state,
           status: 'failed',
-          user: null,
+          user: action.payload,
           statusCode: action.statuscode,
         };
       default:

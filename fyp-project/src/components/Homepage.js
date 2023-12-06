@@ -13,7 +13,6 @@ const Homepage= () => {
             <Aboutus />
             <Features/>
             <Contactus/>
-            <Footer/>
         </div>
 
 

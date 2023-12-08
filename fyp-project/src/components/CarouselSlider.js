@@ -9,11 +9,7 @@ import image5 from './images/doc5.jpg';
 const CarouselSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const images = [
-    // 'https://source.unsplash.com/1600x900/?hospital',
-    // 'https://source.unsplash.com/1600x900/?Doctor',
-    // 'https://source.unsplash.com/1600x900/?Patient',
-    // 'https://source.unsplash.com/1600x900/?Nurse',
-    // 'https://source.unsplash.com/1600x900/?textures&patterns'
+    
     image1, image2, image3, image4, image5
   ];
   const intervalDuration = 5000;
@@ -53,7 +49,7 @@ const CarouselSlider = () => {
           className={`h-96 ${currentIndex === index + 1 ? '' : 'hidden'}`}
         >
           <img src={image} alt={`Image ${index + 1}`} className="absolute inset-0 z-10 h-full w-full object-cover opacity-70" />
-          <figcaption className="absolute inset-x-0 bottom-1 z-20 w-96 mx-auto p-4 font-light text-sm text-center tracking-widest leading-snug bg-gray-300 bg-opacity-25">
+          <figcaption className="absolute inset-x-0 bottom-1 z-20 w-96 mx-auto p-4 text-black font-bold  text-sm text-center tracking-widest leading-snug bg-blue-500 bg-opacity-25">
             Your Health , Our Secure Collaboration
           </figcaption>
         </figure>

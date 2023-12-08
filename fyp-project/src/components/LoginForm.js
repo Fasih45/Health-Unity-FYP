@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import image1 from './images/patient.jpg'
+import docimage from './images/doc2.jpg'
+import labimage from './images/mediclalabs.jpg'
+import pharmacyimage from './images/pharmancy.jpg'
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   login,
@@ -18,6 +22,11 @@ const LoginForm = () => {
   const [formFields, setFormFields] = useState({
     username: "",
     password: "",
+  });
+  const [flexchange, setflexchange] = useState({
+    username: "",
+    userdes: "",
+    userimage: null
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -55,6 +64,46 @@ const LoginForm = () => {
       });
     }
   }, [dispatch, errorLogin, loggedUser, navigate, statuscode, user]);
+
+
+  useEffect(() => {
+
+    if (user === 'patient') {
+      console.log("userpatien :", user)
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        username: "Patient",
+        userimage: image1,
+        userdes: "Patients will use the platform to access and manage their personal medical data, view medical records, prescriptions, and collaborate with healthcare providers."
+
+      }));
+      console.log(flexchange.username)
+    }
+    else if (user === 'doctor') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        username: "Doctor",
+        userimage: docimage,
+        userdes: " Healthcare professionals such as doctors will use the platform to access patient records, make informed medical decisions, and collaborate with patients."
+      }));
+    }
+    else if (user === 'medical_labs') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        username: "Medical Labs",
+        userimage: labimage,
+        userdes: " Medical laboratories and technicians will use the platform to input and share test results securely with authorized healthcare providers and patients."
+      }));
+    }
+    else if (user === 'pharmacy') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        username: "Pharmacy",
+        userimage: pharmacyimage,
+        userdes: "  Pharmacies will integrate with the platform to provide real-time information on medication availability, receive prescriptions electronically, and fulfill patient medication needs."
+      }));
+    }
+  }, [user]);
 
   const validateForm = () => {
     let hasError = false;
@@ -144,27 +193,16 @@ const LoginForm = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-900">
+      <div className="">
         <div className="flex justify-center h-screen">
-          <div
-            className="hidden bg-cover lg:block lg:w-2/3"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)",
-            }}
-          >
-            <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+          <div className="hidden bg-cover lg:block lg:w-2/3" style={{ backgroundImage: `url(${flexchange.userimage})`, }}>
+            <div className="flex items-center h-full px-20  bg-opacity-40">
               <div>
-                <h2 className="text-4xl font-bold text-white">Brand</h2>
-                <p className="max-w-xl mt-3 text-gray-300">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
-                  autem ipsa, nulla laboriosam dolores, repellendus perferendis
-                  libero suscipit nam temporibus molestiae
-                </p>
+                <h2 className="text-4xl font-bold text-white">{flexchange.username}</h2>
+                <p className="max-w-xl mt-3 text-black">{flexchange.userdes}</p>
               </div>
             </div>
           </div>
-
           <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
             <div className="flex-1">
               <div className="text-center">
@@ -185,10 +223,10 @@ const LoginForm = () => {
                   </div>
                 )}
 
-                <h1 className="text-5xl font-bold text-center text-gray-700 dark:text-white">
-                  Welcome
+                <h1 className="text-1.5xl font-bold text-center text-gray-700 dark:text-white">
+                  Welcome to Health Unity
                 </h1>
-                <h2 className="text-3xl font-bold text-center text-gray-700 dark:text-white">
+                <h2 className="text-0xl font-bold text-center text-gray-700 dark:text-white">
                   {user ? user.charAt(0).toUpperCase() + user.slice(1) : null}
                 </h2>
                 <p className="mt-3 text-gray-500 dark:text-gray-300">
@@ -212,9 +250,8 @@ const LoginForm = () => {
                         name={fieldName}
                         id={fieldName}
                         placeholder={`Enter your ${fieldName}`}
-                        className={`block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 ${
-                          formErrors[fieldName] ? "border-red-500" : ""
-                        }`}
+                        className={`block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 ${formErrors[fieldName] ? "border-red-500" : ""
+                          }`}
                         value={formFields[fieldName]}
                         onChange={(e) =>
                           handleInputChange(fieldName, e.target.value)

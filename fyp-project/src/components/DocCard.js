@@ -1,56 +1,66 @@
 import React from 'react';
 
 const DocCard = () => {
+    const user = {
+        bio: 'Healthcare professionals such as doctors will use the platform to access patient records, make informed medical decisions, and collaborate with patients.',
+        des: 'Pharmacies will integrate with the platform to provide real-time information on medication availability, receive prescriptions electronically, and fulfill patient medication needs. Medical laboratories and technicians will use the platform to input and share test results securely with authorized healthcare providers and patients.',
+        speciality: 'Heart specialist',
+        name: 'John Doe',
+    }
     return (
-        <div className="mb-6 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-white-100 duration-500">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                    <img
-                        className="mr-2 h-10 w-10 rounded-full object-cover"
-                        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="profile"
-                    />
-                    <div>
-                        <h3 className="text-base font-semibold text-gray-900">Alex Stanton</h3>
-                        <span className="block text-xs font-normal text-gray-500">UI / UX Designer</span>
+        <div className="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
+            <div className="mb-6 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 duration-500">
+                <div className="flex items-center justify-between">
+
+                    <div className="flex items-center">
+                        <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                            {user.name.charAt(0)}
+                        </div>
+
+                        <div>
+                            <h3 className="text-base  ml-2 font-semibold text-gray-900">Dr . {user.name}</h3>
+                            <span className="block  ml-2 text-xs font-normal text-gray-500">{user.speciality}</span>
+                        </div>
+                    </div>
+                   
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                        <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                        <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
+                        <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
+                        <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
+                    </div>
+
+                </div>
+                <p className="my-6 text-sm font-normal text-justify text-gray-500">
+                    {user.des}
+                </p>
+                <div className="mt-6 flex items-center justify-between text-sm font-semibold text-gray-900">
+                    <div className="flex">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">View Profile</button>
+                    </div>
+                    <div className="flex items-center">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Schulde Appoinment</button>
+
                     </div>
                 </div>
-                <p className="text-sm font-medium text-indigo-500">
-                    <span className="mr-0.5">+</span>Follow
-                </p>
             </div>
-            <p className="my-6 text-sm font-normal text-gray-500">
-                Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . .
-            </p>
-            <div className="mt-6 flex items-center justify-between text-sm font-semibold text-gray-900">
-                <div className="flex">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="mr-2 h-5 w-5 text-base text-gray-500"
-                    >
-                        {/* ... */}
-                    </svg>
-                    <span className="mr-1">40</span> Task
-                </div>
-                <div className="flex items-center">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="mr-1 h-5 w-6 text-yellow-500"
-                    >
-                        {/* ... */}
-                    </svg>
-                    4.7 (750 Reviews)
-                </div>
-            </div>
+
         </div>
+
     );
 };
 

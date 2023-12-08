@@ -14,6 +14,7 @@ import Welcome from "./components/Welcome";
 function App() {
   return (
     <>
+
       <Routes>
         <Route exact path="" element={<Navbar />}>
           <Route exact path="/" element={<Homepage />} />

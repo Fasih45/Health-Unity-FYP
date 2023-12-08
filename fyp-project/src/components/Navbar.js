@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import imagelogo from './images/healthunitylogo.jpg'
 import Footer from "./Footer";
+
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -20,9 +22,10 @@ const Navbar = () => {
           <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" aria-label="Home">
               <img
-                src="https://www.svgrepo.com/show/491978/gas-costs.svg"
-                height="40"
-                width="40"
+                src={imagelogo}
+                height="100"
+                width="100"
+                className="rounded-full"
                 alt="Logo"
               />
             </Link>
@@ -80,7 +83,7 @@ const Navbar = () => {
             </svg>
           </button>
           {isMenuOpen && (
-            <div className="flex flex-col absolute top-16 right-4 bg-gray-800 text-white p-2 rounded-md">
+            <div className="flex flex-col absolute top-16 right-4 bg-blue-800 text-white p-2 rounded-md">
               <Link
                 to="/patient/signin"
                 className="block py-2 hover:text-gray-300"

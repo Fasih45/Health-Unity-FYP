@@ -5,12 +5,20 @@ import NationalityDropdown from "./NationalityDrop";
 import { useLocation, useParams } from "react-router-dom";
 import { register, registerRequest } from "../redux/actions/registerAction";
 import { useDispatch, useSelector } from "react-redux";
+import image1 from './images/doc4.jpg';
+import image2 from './images/patient2.jpg';
+import image3 from './images/doctor2.jpg';
+import image4 from './images/pharmancy2.jpg';
+
 
 const RegistrationForm = () => {
   const { user, username } = useParams();
   const location = useLocation();
   const errorSignup = useSelector((state) => state.regis.error);
   const dispatch = useDispatch();
+  const [flexchange, setflexchange] = useState({
+    userimage: null
+  });
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -22,6 +30,36 @@ const RegistrationForm = () => {
     dateOfBirth: "",
     medicalLicenseNumber: "",
   });
+
+  useEffect(() => {
+
+    if (user === 'patient') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        userimage: image2,
+      }));
+      console.log(flexchange.username)
+    }
+    else if (user === 'doctor') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        userimage: image3,
+      }));
+    }
+    else if (user === 'medical_labs') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+
+        userimage: image4,
+      }));
+    }
+    else if (user === 'pharmacy') {
+      setflexchange((prevstate) => ({
+        ...prevstate,
+        userimage: image4,
+      }));
+    }
+  }, [user]);
 
   const [formErrors, setFormErrors] = useState({});
 
@@ -90,59 +128,59 @@ const RegistrationForm = () => {
         error = !formData.username
           ? "Username is required"
           : !/^[A-Za-z][A-Za-z0-9]*$/.test(formData.username)
-          ? "Username must start with an alphabet and can only contain alphabets and numbers"
-          : formData.username.length < 4
-          ? "Username must be at least 4 characters long"
-          : "";
+            ? "Username must start with an alphabet and can only contain alphabets and numbers"
+            : formData.username.length < 4
+              ? "Username must be at least 4 characters long"
+              : "";
         break;
       case "email":
         error = !formData.email
           ? "Email is required"
           : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-          ? "Invalid email format"
-          : "";
+            ? "Invalid email format"
+            : "";
         break;
       case "password":
         error = !formData.password
           ? "Password is required"
           : formData.password.length < 4
-          ? "Password must be at least 4 characters long"
-          : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$/.test(
+            ? "Password must be at least 4 characters long"
+            : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$/.test(
               formData.password
             )
-          ? ""
-          : "Password must contain at least one letter, one digit, and one special character";
+              ? ""
+              : "Password must contain at least one letter, one digit, and one special character";
         break;
       case "confirmPassword":
         error = !formData.confirmPassword
           ? "Confirm Password is required"
           : formData.confirmPassword !== formData.password
-          ? "Passwords do not match"
-          : "";
+            ? "Passwords do not match"
+            : "";
         break;
       case "fullName":
         error = !formData.fullName
           ? "Full name is required"
           : !/^[A-Za-z ]+$/.test(formData.fullName)
-          ? "Full name must contain only alphabets and spaces"
-          : formData.fullName.length < 4
-          ? "Full name must be at least 4 characters long"
-          : "";
+            ? "Full name must contain only alphabets and spaces"
+            : formData.fullName.length < 4
+              ? "Full name must be at least 4 characters long"
+              : "";
         break;
       case "cnic":
         error = !formData.cnic
           ? "CNIC is required"
           : !/^\d{13}$/.test(formData.cnic)
-          ? "CNIC must be exactly 13 digits"
-          : "";
+            ? "CNIC must be exactly 13 digits"
+            : "";
         break;
       case "nationality":
         error =
           formData.nationality === "Select Nationality"
             ? "Nationality is required"
             : !formData.nationality
-            ? "Nationality is required"
-            : "";
+              ? "Nationality is required"
+              : "";
         break;
       case "dateOfBirth":
         error = !formData.dateOfBirth ? "Date of birth is required" : "";
@@ -151,8 +189,8 @@ const RegistrationForm = () => {
         error = !formData.medicalLicenseNumber
           ? "Medical License Number is required"
           : /^(MD\d+|\d+MD)$/.test(formData.medicalLicenseNumber)
-          ? ""
-          : "Invalid Medical License Number try MD12345 or 12345MD";
+            ? ""
+            : "Invalid Medical License Number try MD12345 or 12345MD";
         break;
 
       case "labName":
@@ -206,20 +244,14 @@ const RegistrationForm = () => {
   return (
     <div
       className="h-full bg-gray-400 dark:bg-gray-900"
-      style={{
-        backgroundImage:
-          "url(https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)",
-      }}
+      style={{ backgroundImage: `url(${image1})`, }}
     >
       <div className="mx-auto">
         <div className="flex justify-center px-6 py-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
             <div
-              className="w-full h-auto bg-gray-400 dark:bg-gray-800 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-              style={{
-                backgroundImage:
-                  "url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')",
-              }}
+              className="w-full h-auto  hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+              style={{ backgroundImage: `url(${flexchange.userimage})`, }}
             ></div>
 
             <div className="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
@@ -253,9 +285,8 @@ const RegistrationForm = () => {
                       Username
                     </label>
                     <input
-                      className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.username ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.username ? "border-red-500" : ""
+                        }`}
                       id="username"
                       type="text"
                       placeholder="Username"
@@ -278,9 +309,8 @@ const RegistrationForm = () => {
                       Email
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.email ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.email ? "border-red-500" : ""
+                        }`}
                       id="email"
                       type="email"
                       placeholder="Email"
@@ -306,9 +336,8 @@ const RegistrationForm = () => {
                         Lab Name
                       </label>
                       <input
-                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.labName ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.labName ? "border-red-500" : ""
+                          }`}
                         id="labName"
                         type="text"
                         placeholder="Lab Name"
@@ -331,9 +360,8 @@ const RegistrationForm = () => {
                         Lab License
                       </label>
                       <input
-                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.labLicense ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.labLicense ? "border-red-500" : ""
+                          }`}
                         id="labLicense"
                         type="text"
                         placeholder="Lab License"
@@ -361,9 +389,8 @@ const RegistrationForm = () => {
                         Full Name
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.fullName ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.fullName ? "border-red-500" : ""
+                          }`}
                         id="fullName"
                         type="text"
                         placeholder="Full Name"
@@ -387,9 +414,8 @@ const RegistrationForm = () => {
                         CNIC
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.cnic ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.cnic ? "border-red-500" : ""
+                          }`}
                         id="cnic"
                         type="text"
                         placeholder="CNIC"
@@ -417,11 +443,10 @@ const RegistrationForm = () => {
                         Medical License Number
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.medicalLicenseNumber
-                            ? "border-red-500"
-                            : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.medicalLicenseNumber
+                          ? "border-red-500"
+                          : ""
+                          }`}
                         id="medicalLicenseNumber"
                         type="text"
                         placeholder="Medical License Number"
@@ -461,9 +486,8 @@ const RegistrationForm = () => {
                       </label>
                       <input
                         id="dateOfBirth"
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.dateOfBirth ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.dateOfBirth ? "border-red-500" : ""
+                          }`}
                         type="text"
                         placeholder="Select Date of Birth"
                         value={formData.dateOfBirth}
@@ -488,9 +512,8 @@ const RegistrationForm = () => {
                       Contact Number
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.contactNumber ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.contactNumber ? "border-red-500" : ""
+                        }`}
                       id="contactNumber"
                       type="text"
                       placeholder="Contact Number"
@@ -515,9 +538,8 @@ const RegistrationForm = () => {
                       Password
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.password ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.password ? "border-red-500" : ""
+                        }`}
                       id="password"
                       type="password"
                       placeholder="******************"
@@ -541,9 +563,8 @@ const RegistrationForm = () => {
                       Confirm Password
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.confirmPassword ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.confirmPassword ? "border-red-500" : ""
+                        }`}
                       id="c_password"
                       type="password"
                       placeholder="******************"

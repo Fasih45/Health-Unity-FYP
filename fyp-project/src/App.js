@@ -10,12 +10,17 @@ import LoginForm from "./components/LoginForm";
 import SearchDoc from "./components/SearchDoc";
 import RegistrationForm from "./components/RegistrationForm";
 import Welcome from "./components/Welcome";
+import DocCard from "./components/DocCard";
+import BookAppoinment from "./components/BookAppoinment";
+import DocViewProfile from "./components/DocViewProfile";
 
 function App() {
   return (
     <>
-
-      <Routes>
+    <DocViewProfile/>
+    {/* <BookAppoinment/> */}
+      {/* <SearchDoc/> */}
+      {/* <Routes>
         <Route exact path="" element={<Navbar />}>
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/:user/signin" element={<LoginForm />} />
@@ -29,7 +34,7 @@ function App() {
         </Route>
         <Route exact path="/dic" element={<SearchDoc />} />
 
-      </Routes>
+      </Routes> */}
     </>
   );
 }

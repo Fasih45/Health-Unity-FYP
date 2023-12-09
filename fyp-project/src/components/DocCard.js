@@ -8,7 +8,7 @@ const DocCard = () => {
         name: 'John Doe',
     }
     return (
-        <div className="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
+        <div className="">
             <div className="mb-6 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 duration-500">
                 <div className="flex items-center justify-between">
 

@@ -62,8 +62,8 @@ export const registerAppointment = (appointmentDetails) => {
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
-        const message = error.response.data.error;
-        dispatch(appointmentsFailure(`Error: ${status} Message:${message}`, status));
+        const message = error.response.data.message;
+        dispatch(appointmentsFailure(message, status));
       } else {
         dispatch(appointmentsFailure('Network error', 500));
       }

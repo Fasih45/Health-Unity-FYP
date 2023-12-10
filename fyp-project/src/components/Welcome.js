@@ -4,7 +4,7 @@ import { getProfile } from "../redux/actions/docProfile";
 import UserInfoCard from "./UserInfoCard";
 import WorkInfoCard from "./DocWorkPalceInfo";
 import PersonalInfo from "./PersonalInfo";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Medicalrecord from "./Medicalrecord";
 import Labrecord from "./Labrecord";
 
@@ -14,18 +14,25 @@ export default function Welcome() {
   const [completeprofile, setcompleteprofile] = useState(false);
   const [reload, reloadset] = useState(false);
   const profile = useSelector((state) => state.profile.user);
+  const errorlog = useSelector((state) => state.profile.statusCode);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getProfile(user, username));
+    
     // if 401 route to login for state managment
   }, [reload, dispatch, user, username]);
 
   useEffect(() => {
     console.log(profile);
-  }, [profile]);
+    if((errorlog ===404||errorlog ===401)){
+      navigate(`/`)
+    }
+  }, [profile,errorlog,navigate]);
 
   return (
     <>
-      {user === "doctor" ? (
+      {(errorlog!==404&&errorlog!==401)?
+      user === "doctor" ? (
         profile && profile.error ? (
           <>
             <UserInfoCard data={profile.doctor} />
@@ -76,7 +83,7 @@ export default function Welcome() {
           </div>{" "}
           <Labrecord />
         </>
-      ) : null}
+      ) : null:null}
     </>
   );
 }

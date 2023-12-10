@@ -10,6 +10,8 @@ import LoginForm from "./components/LoginForm";
 import SearchDoc from "./components/SearchDoc";
 import RegistrationForm from "./components/RegistrationForm";
 import Welcome from "./components/Welcome";
+import BookAppoinment from "./components/BookAppoinment";
+import DocViewProfile from "./components/DocViewProfile";
 
 function App() {
   return (
@@ -25,10 +27,10 @@ function App() {
         <Route exact path="/welcome/:user/:username/:fullname" element={<Dashboard/>}>
         <Route exact path="" element={<Welcome />} />
         <Route exact path="search" element={<SearchDoc />} />
-        
+        <Route exact path="book" element={<BookAppoinment />} />
         
         </Route>
-        <Route exact path="/dic" element={<SearchDoc />} />
+        <Route exact path="/dic" element={<DocViewProfile />} />
 
       </Routes>
     </>

@@ -90,12 +90,22 @@ const DocCard = (props) => {
         </p>
         <div className="mt-6 flex items-center justify-between text-sm font-semibold text-gray-900">
           <div className="flex">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => {
+                props.viewprofile(profile); // Calls setbook(1)
+              }}
+            >
               View Profile
             </button>
           </div>
           <div className="flex items-center">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => {
+                props.book(profile); // Calls setbook(1)
+              }}
+            >
               Schulde Appoinment
             </button>
           </div>

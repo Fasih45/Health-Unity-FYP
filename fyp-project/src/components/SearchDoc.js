@@ -15,7 +15,9 @@ const ToolSearchForm = () => {
 
   useEffect(() => {
     // Dispatch the API call with initial parameters
-    dispatch(getProfiles({ page: 1, fullName: searchInput, specialty: pricingType }));
+    dispatch(
+      getProfiles({ page: 1, fullName: searchInput, specialty: pricingType })
+    );
   }, [dispatch, searchInput, pricingType]);
 
   useEffect(() => {
@@ -30,13 +32,21 @@ const ToolSearchForm = () => {
     if (newPage >= 1) {
       setNum(newPage);
       setCur(newPage);
-      dispatch(getProfiles({ page: newPage, fullName: searchInput, specialty: pricingType }));
+      dispatch(
+        getProfiles({
+          page: newPage,
+          fullName: searchInput,
+          specialty: pricingType,
+        })
+      );
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(getProfiles({ page: 1, fullName: searchInput, specialty: pricingType }));
+    dispatch(
+      getProfiles({ page: 1, fullName: searchInput, specialty: pricingType })
+    );
   };
 
   return (
@@ -68,10 +78,17 @@ const ToolSearchForm = () => {
           value={pricingType}
           onChange={(e) => setPricingType(e.target.value)}
         >
-          <option value="">All</option>
-          <option value="Freemium">Freemium</option>
-          <option value="Free">Free</option>
-          <option value="Paid">Paid</option>
+          <option value="">All</option>{" "}
+          <option value="General Medicine">General Medicine</option>
+          <option value="Cardiology">Cardiology</option>
+          <option value="Dermatology">Dermatology</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Ophthalmology">Ophthalmology</option>
+          <option value="Gastroenterology">Gastroenterology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Dentistry">Dentistry</option>
+          <option value="Psychiatry">Psychiatry</option>
         </select>
       </form>
 
@@ -94,7 +111,9 @@ const ToolSearchForm = () => {
       <div className="flex justify-center py-4 bg-white rounded-lg font-[Poppins]">
         <button
           onClick={() => handlePageChange(num - 1)}
-          className={`h-12 border-2 border-r-0 border-indigo-600 px-4 rounded-l-lg hover:bg-indigo-600 hover:text-white ${num === 1 && "opacity-50 cursor-not-allowed"}`}
+          className={`h-12 border-2 border-r-0 border-indigo-600 px-4 rounded-l-lg hover:bg-indigo-600 hover:text-white ${
+            num === 1 && "opacity-50 cursor-not-allowed"
+          }`}
           disabled={num === 1}
         >
           Previous
@@ -103,14 +122,18 @@ const ToolSearchForm = () => {
           <button
             key={i}
             onClick={() => handlePageChange(pg)}
-            className={`h-12 border-2 border-r-0 border-indigo-600 w-12 ${cur === pg && "bg-indigo-600 text-white"}`}
+            className={`h-12 border-2 border-r-0 border-indigo-600 w-12 ${
+              cur === pg && "bg-indigo-600 text-white"
+            }`}
           >
             {pg}
           </button>
         ))}
         <button
           onClick={() => handlePageChange(num + 1)}
-          className={`h-12 border-2  border-indigo-600 px-4 rounded-r-lg hover:bg-indigo-600 hover:text-white ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`h-12 border-2  border-indigo-600 px-4 rounded-r-lg hover:bg-indigo-600 hover:text-white ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
           disabled={loading}
         >
           Next

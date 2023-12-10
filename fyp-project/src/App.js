@@ -24,6 +24,7 @@ function App() {
 
         <Route exact path="/welcome/:user/:username/:fullname" element={<Dashboard/>}>
         <Route exact path="" element={<Welcome />} />
+        <Route exact path="search" element={<SearchDoc />} />
         
         
         </Route>

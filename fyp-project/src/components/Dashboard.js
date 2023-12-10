@@ -56,7 +56,7 @@ const MainLayout = () => {
             <div className="flex items-center">
               <div className=" hidden sm:block">Hey! </div>
               <div className=" hidden sm:block font-medium ml-2 mr-5 text-white">
-                {username} ali
+                {username} 
               </div>
               <button
                 type="button"
@@ -65,8 +65,8 @@ const MainLayout = () => {
                 className="h-9 w-9 overflow-hidden rounded-full mr-3"
               >
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
-                  {/* {username.charAt(0)}  */}
-                  R
+                  {username.charAt(0)  }
+                  
                 </div>
               </button>
             </div>

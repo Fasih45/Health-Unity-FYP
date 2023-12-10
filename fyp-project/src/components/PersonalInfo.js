@@ -93,8 +93,16 @@ const PersonalInfo = (props) => {
                 <option value="" disabled>
                   Select a Medical Specialty
                 </option>
+                <option value="General Medicine">General Medicine</option>
                 <option value="Cardiology">Cardiology</option>
                 <option value="Dermatology">Dermatology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Dentistry">Dentistry</option>
+                <option value="Psychiatry">Psychiatry</option>
                 {/* Add other options */}
               </select>
             </div>

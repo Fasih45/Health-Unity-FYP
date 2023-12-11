@@ -5,7 +5,7 @@ import {
   } from '../actions/appointmentAction';
   
   const initialState = {
-    appointments: [],
+    appointments: null,
     loading: false,
     error: null,
     statusCode: null,

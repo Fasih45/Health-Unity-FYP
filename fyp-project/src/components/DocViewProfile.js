@@ -120,7 +120,7 @@ const DocViewProfile = (props) => {
                 <p class="mt-2">RS. Not dicussed</p>
               </div>
               <div className="flex justify-center ">
-                <button
+                {props.book?<button
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   onClick={() => {
                     props.book(docuser);
@@ -128,7 +128,7 @@ const DocViewProfile = (props) => {
                   }}
                 >
                   Book Appointment
-                </button>
+                </button>:null}
               </div>
             </div>
           </div>

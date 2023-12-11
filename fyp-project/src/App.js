@@ -13,11 +13,15 @@ import Welcome from "./components/Welcome";
 import DocCard from "./components/DocCard";
 import BookAppoinment from "./components/BookAppoinment";
 import DocViewProfile from "./components/DocViewProfile";
+import UpcommingAppoinment from "./components/UpcommingAppoinment";
+
 
 function App() {
   return (
     <>
-    <DocViewProfile/>
+    <Dashboard/>
+    {/* <UpcommingAppoinment/> */}
+    {/* <DocViewProfile/> */}
     {/* <BookAppoinment/> */}
       {/* <SearchDoc/> */}
       {/* <Routes>

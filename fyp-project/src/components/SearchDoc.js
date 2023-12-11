@@ -81,10 +81,10 @@ const ToolSearchForm = () => {
           <main className="bg-blue-500">
             <div className="px-4 mt-10 bg-blue-500">
               <div className="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
-                <DocCard/>
-                {/* {profiles.map((profile) => (
+                {/* <DocCard/> */}
+                {profiles.map((profile) => (
                   <DocCard key={profile.id} profile={profile} />
-                ))} */}
+                ))}
               </div>
             </div>
           </main>

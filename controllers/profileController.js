@@ -78,8 +78,13 @@ exports.getDoctorProfileDocter = async (req, res) => {
 
     if (!doctorProfile) {
       const checkdoctor = await Doctor.findOne({ username });
-      return res
+      if (!checkdoctor){
+        return res
         .status(404)
+        .json({ error: "Doctor  not found"});
+      }
+      return res
+        .status(422)
         .json({ error: "Doctor profile not found", doctor: checkdoctor });
     }
 
@@ -184,5 +189,27 @@ exports.getDoctorProfiles = async (req, res, next) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getDoctorProfile = async (req, res, next) => {
+  try {
+    const username = req.params.username;
+
+    // Find the doctor profile by username and populate the 'personalInfo' field with doctor details
+    const doctorProfile = await DoctorProfile.findOne({ username });
+
+    if (!doctorProfile) {
+      const checkdoctor = await Doctor.findOne({ username });
+      return res
+        .status(404)
+        .json({ error: "Doctor profile not found", doctor: checkdoctor });
+    }
+
+    res.status(200).json(doctorProfile);
+  } catch (error) {
+    // Handle errors, for example, send a 500 Internal Server Error response
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

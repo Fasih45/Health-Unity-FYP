@@ -13,11 +13,14 @@ import Welcome from "./components/Welcome";
 import BookAppoinment from "./components/BookAppoinment";
 import DocViewProfile from "./components/DocViewProfile";
 import UpcommingAppoinment from "./components/UpcommingAppoinment";
+import Notfound404 from "./components/Notfound404";
+import Comingsoon from "./components/Comingsoon";
 
 function App() {
   return (
     <>
       <Routes>
+      <Route exact path="*" element={< Notfound404/>} />
         <Route exact path="" element={<Navbar />}>
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/:user/signin" element={<LoginForm />} />
@@ -33,6 +36,10 @@ function App() {
           <Route exact path="search" element={<SearchDoc />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
+          <Route exact path="comingsoon" element={<Comingsoon />} />
+
+
+
         </Route>
         <Route exact path="/dic" element={<DocViewProfile />} />
       </Routes>

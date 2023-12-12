@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile } from "../redux/actions/docProfile";
+import { getDoctorProfileRequest, getProfile } from "../redux/actions/docProfile";
 import UserInfoCard from "./UserInfoCard";
 import WorkInfoCard from "./DocWorkPalceInfo";
 import PersonalInfo from "./PersonalInfo";
@@ -18,20 +18,21 @@ export default function Welcome() {
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(getProfile(user, username));
-    
     // if 401 route to login for state managment
   }, [reload, dispatch, user, username]);
 
   useEffect(() => {
     console.log(profile);
     if((errorlog ===404||errorlog ===401)){
+      console.log(errorlog);
       navigate(`/`)
+      window.location.reload(true);
     }
-  }, [profile,errorlog,navigate]);
+  }, [profile,errorlog,navigate,dispatch]);
 
   return (
     <>
-      {(errorlog!==404&&errorlog!==401)?
+      {((errorlog!==404&&errorlog!==401)||(errorlog===422))?///422 is for incomplete
       user === "doctor" ? (
         profile && profile.error ? (
           <>

@@ -1,45 +1,62 @@
 // UpcomingAppointment.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { getAppointments, getAppointmentsRequest } from "../redux/actions/appointmentAction";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  getAppointments,
+  getAppointmentsRequest,
+} from "../redux/actions/appointmentAction";
 import TableBody from "./TableBody"; // Import the new component
-import { getDoctorProfilesRequest, getProfileDoc } from "../redux/actions/searcProfileAction";
+import {
+  getDoctorProfilesRequest,
+  getProfileDoc,
+} from "../redux/actions/searcProfileAction";
 import DocViewProfile from "./DocViewProfile";
+import Notfound404 from "./Notfound404";
 
 const UpcomingAppointment = () => {
   const appointments = useSelector((state) => state.appointment.appointments);
   const statusCode = useSelector((state) => state.appointment.statusCode);
-  const { singleprofile, statuscode } =
-    useSelector((state) => state.searchProfile);
+  const { singleprofile, statuscode } = useSelector(
+    (state) => state.searchProfile
+  );
   const location = useLocation();
   const dispatch = useDispatch();
   const { user, username } = useParams();
   const [viewprofile, setviewprofile] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     return () => {
       setviewprofile(null);
       dispatch(getDoctorProfilesRequest());
+      dispatch(getAppointmentsRequest());
       console.log("Component unmounted");
     };
-  }, [location,dispatch]);
+  }, [location, dispatch]);
   useEffect(() => {
     dispatch(getAppointments(user, username));
   }, [dispatch, user, username]);
+  useEffect(() => {
+ console.log(statusCode)
+  }, [statusCode]);
+
   useEffect(() => {
     if (viewprofile) {
       dispatch(getProfileDoc(viewprofile));
     }
   }, [viewprofile, dispatch]);
-  useEffect(() => {
-    if (statuscode === 200) {
-      console.log("pro", singleprofile, statuscode);
-    }
-  }, [singleprofile, statuscode]);
 
+  useEffect(() => {
+ 
+    if((statusCode ===404||statusCode ===401)){
+      dispatch(getAppointmentsRequest());
+      navigate(`/`)
+    }
+  }, [navigate,statusCode,dispatch]);
+  
   return (
     <>
-      {statusCode === 200 && !viewprofile && (
+      {((appointments)&&(!viewprofile))&& (
         <div>
           <section className="container px-4 mx-auto">
             <div className="flex flex-col">
@@ -64,32 +81,37 @@ const UpcomingAppointment = () => {
                           >
                             Status
                           </th>
-                          <th
+                          {user==="patient"?(<th
                             scope="col"
                             className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                           >
                             Doctor
-                          </th>
+                          </th>):<th
+                            scope="col"
+                            className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          >
+                           Patient 
+                          </th>}
                           <th
                             scope="col"
                             className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                           >
                             Appointment Fee
                           </th>
-                          <th scope="col" className="relative py-3.5 px-4">
+                          {user==='patient'&&<th scope="col" className="relative py-3.5 px-4">
                             <span className="sr-only">Actions</span>
-                          </th>
+                          </th>}
                         </tr>
                       </thead>
                       {/* Use the TableBody component and pass appointments as props */}
 
-                      {
+                      {appointments.appointments&&(
                         <TableBody
                           appointments={appointments.appointments}
                           viewprofile={(profile) => {
                             setviewprofile(profile);
                           }}
-                        />
+                        />)
                       }
                     </table>
                   </div>
@@ -98,9 +120,11 @@ const UpcomingAppointment = () => {
             </div>
           </section>
         </div>
-      )}
+      ) }
 
-      {(viewprofile&& statuscode===200)&&<DocViewProfile docProfile={singleprofile} />}
+      {(viewprofile && singleprofile) && (
+        <DocViewProfile docProfile={singleprofile} />
+      ) }
     </>
   );
 };

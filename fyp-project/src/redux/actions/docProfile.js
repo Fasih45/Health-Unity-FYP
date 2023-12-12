@@ -26,9 +26,14 @@ export const doctorProfileFailure = (error, statusCode) => ({
 export const getProfile = (user,username) => {
   return async (dispatch) => {
     dispatch(getDoctorProfileRequest());
-
+    let token = localStorage.getItem(user);
+    const parsedtoken = token ? JSON.parse(token) : [];
     try {
-      const response = await axios.get(`http://localhost:5000/profile/${user}/${username}`);
+      const response = await axios.get(`http://localhost:5000/profile/${user}/${username}`, {
+        headers: {
+          Authorization: `Bearer ${parsedtoken}`,
+        },
+      });
       const jsonResponse = response.data;
       dispatch(doctorProfileSuccess(jsonResponse, 200));
 
@@ -37,7 +42,7 @@ export const getProfile = (user,username) => {
         const { status } = error.response;
         const message = error.response.data;
 
-        if (status === 404) {
+        if (status === 404||status === 422) {
           dispatch(doctorProfileFailure(message, status));
         } else {
           dispatch(doctorProfileFailure(`Error: ${status} Message:${message}`, status));

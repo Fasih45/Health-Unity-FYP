@@ -18,6 +18,9 @@ import {
           ...state,
           loading: true,
           error: null,
+          appointments: null,
+          statusCode: null,
+
         };
   
       case APPOINTMENTS_SUCCESS:
@@ -32,6 +35,7 @@ import {
         return {
           ...state,
           loading: false,
+          appointments: null,
           error: action.payload,
           statusCode: action.statuscode,
         };

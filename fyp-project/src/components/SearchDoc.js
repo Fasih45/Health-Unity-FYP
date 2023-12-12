@@ -3,18 +3,21 @@ import DocCard from "./DocCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfiles } from "../redux/actions/searcProfileAction";
 import BookAppoinment from "./BookAppoinment";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import DocViewProfile from "./DocViewProfile";
+import Notfound404 from "./Notfound404";
 
 const ToolSearchForm = () => {
   const [searchInput, setSearchInput] = useState("");
   const [pricingType, setPricingType] = useState("");
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
-  const [book, setbook] = useState(null);
-  const [viewprofile, setviewprofile] = useState(null);
+  const [book, setBook] = useState(null);
+  const [viewProfile, setViewProfile] = useState(null);
   const dispatch = useDispatch();
   const location = useLocation();
+  const { user } = useParams();
+
   useEffect(() => {
     // Cleanup function
     return () => {
@@ -23,21 +26,20 @@ const ToolSearchForm = () => {
       setPricingType("");
       setNum(1);
       setCur(1);
-      setbook(null);
-      setviewprofile(null);
+      setBook(null);
+      setViewProfile(null);
     };
   }, [location]);
 
   const { profiles, currentPage, totalItems, loading, error } = useSelector(
     (state) => state.searchProfile
   );
-
   useEffect(() => {
     // Dispatch the API call with initial parameters
     dispatch(
-      getProfiles({ page: 1, fullName: searchInput, specialty: pricingType })
+      getProfiles(user, { page: 1, fullName: searchInput, specialty: pricingType })
     );
-  }, [dispatch, searchInput, pricingType]);
+  }, [dispatch, searchInput, pricingType, user]);
 
   useEffect(() => {
     console.log("Profiles:", profiles);
@@ -52,7 +54,7 @@ const ToolSearchForm = () => {
       setNum(newPage);
       setCur(newPage);
       dispatch(
-        getProfiles({
+        getProfiles(user, {
           page: newPage,
           fullName: searchInput,
           specialty: pricingType,
@@ -64,13 +66,15 @@ const ToolSearchForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(
-      getProfiles({ page: 1, fullName: searchInput, specialty: pricingType })
+      getProfiles(user, { page: 1, fullName: searchInput, specialty: pricingType })
     );
   };
 
   return (
     <>
-      {!book && !viewprofile ? (
+      {user!=='patient' ? (
+        <Notfound404 />
+      ) : !book && !viewProfile ? (
         <div>
           {/* Search Bar */}
           <form
@@ -99,17 +103,17 @@ const ToolSearchForm = () => {
               value={pricingType}
               onChange={(e) => setPricingType(e.target.value)}
             >
-              <option value="">All</option>{" "}
+              <option value="">All</option>
               <option value="General Medicine">General Medicine</option>
-              <option value="Cardiology">Cardiology</option>
-              <option value="Dermatology">Dermatology</option>
-              <option value="Orthopedics">Orthopedics</option>
-              <option value="Pediatrics">Pediatrics</option>
-              <option value="Ophthalmology">Ophthalmology</option>
-              <option value="Gastroenterology">Gastroenterology</option>
-              <option value="Neurology">Neurology</option>
-              <option value="Dentistry">Dentistry</option>
-              <option value="Psychiatry">Psychiatry</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Dentistry">Dentistry</option>
+                <option value="Psychiatry">Psychiatry</option>
             </select>
           </form>
 
@@ -123,12 +127,8 @@ const ToolSearchForm = () => {
                       <DocCard
                         key={profile.id}
                         profile={profile}
-                        book={(profile) => {
-                          setbook(profile);
-                        }}
-                        viewprofile={(profile) => {
-                          setviewprofile(profile);
-                        }}
+                        book={() => setBook(profile)}
+                        viewprofile={() => setViewProfile(profile)}
                       />
                     ))}
                   </div>
@@ -174,13 +174,9 @@ const ToolSearchForm = () => {
         <BookAppoinment docProfile={book} />
       ) : (
         <DocViewProfile
-          docProfile={viewprofile}
-          book={(profile) => {
-            setbook(profile);
-          }}
-          viewprofile={(profile) => {
-            setviewprofile(profile);
-          }}
+          docProfile={viewProfile}
+          book={() => setBook(viewProfile)}
+          viewprofile={() => setViewProfile(viewProfile)}
         />
       )}
     </>

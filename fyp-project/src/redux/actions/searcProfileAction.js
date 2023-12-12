@@ -2,7 +2,7 @@ import axios from "axios";
 // Action types
 export const GET_DOCTOR_PROFILES = "GET_DOCTOR_PROFILES";
 export const DOCTOR_PROFILES_SUCCESS = "DOCTOR_PROFILES_SUCCESS";
-export const DOCTOR_PROFILE_SUCCESS = "DOCTOR_PROFILE_SUCCESS";///for single profile
+export const DOCTOR_PROFILE_SUCCESS = "DOCTOR_PROFILE_SUCCESS"; ///for single profile
 export const DOCTOR_PROFILES_FAILURE = "DOCTOR_PROFILES_FAILURE";
 export const RESET_DOCTOR_PROFILES = "RESET_DOCTOR_PROFILES";
 
@@ -30,12 +30,8 @@ export const doctorProfileSuccess = (
 ) => ({
   type: DOCTOR_PROFILE_SUCCESS,
   statuscode: statusCode,
-  singleprofile:profiles
+  singleprofile: profiles,
 });
-
-
-
-
 
 export const doctorProfilesFailure = (error, statusCode) => ({
   type: DOCTOR_PROFILES_FAILURE,
@@ -48,14 +44,20 @@ export const resetDoctorProfiles = () => ({
 });
 
 // Thunk to get doctor profiles
-export const getProfiles = (params) => {
+export const getProfiles = (user,params) => {
   return async (dispatch) => {
     dispatch(getDoctorProfilesRequest());
-
+    let token = localStorage.getItem(user);
+    const parsedtoken = token ? JSON.parse(token) : [];
     try {
       const response = await axios.post(
         `http://localhost:5000/profile/doctorProfiles`,
-        params
+        params,
+        {
+          headers: {
+            Authorization: `Bearer ${parsedtoken}`,
+          },
+        }
       );
       const jsonResponse = response.data;
       const { profiles, currentPage, totalItems } = jsonResponse;

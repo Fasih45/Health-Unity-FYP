@@ -26,9 +26,15 @@ export const appointmentsFailure = (error, statusCode) => ({
 export const getAppointments = (user, username) => {
   return async (dispatch) => {
     dispatch(getAppointmentsRequest());
-
+    let token = localStorage.getItem(user);
+    const parsedtoken = token ? JSON.parse(token) : [];
     try {
-      const response = await axios.get(`http://localhost:5000/appointments/${user}/${username}`);
+      const response = await axios.get(`http://localhost:5000/appointments/${user}/${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${parsedtoken}`,
+        },
+      });
       const jsonResponse = response.data;
       dispatch(appointmentsSuccess(jsonResponse, 200));
 

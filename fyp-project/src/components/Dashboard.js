@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import imagelogo from './images/healthunitylogo.jpg'
+import imagelogo from "./images/healthunitylogo.jpg";
 import UserInfoCard from "./UserInfoCard";
 import PersonalInfo from "./PersonalInfo";
 import { Routes, Route, Outlet, useParams, Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const MainLayout = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [asideOpen, setAsideOpen] = useState(true);
   const [completeprofile, setcompleteprofilemain] = useState(false);
-  const { user, username } = useParams();
+  const { user, username, fullname } = useParams();
 
   return (
     <>
@@ -56,7 +56,7 @@ const MainLayout = () => {
             <div className="flex items-center">
               <div className=" hidden sm:block">Hey! </div>
               <div className=" hidden sm:block font-medium ml-2 mr-5 text-white">
-                {username} 
+                {username}
               </div>
               <button
                 type="button"
@@ -65,8 +65,7 @@ const MainLayout = () => {
                 className="h-9 w-9 overflow-hidden rounded-full mr-3"
               >
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
-                  {username.charAt(0)  }
-                  
+                  {username.charAt(0)}
                 </div>
               </button>
             </div>
@@ -81,20 +80,31 @@ const MainLayout = () => {
                     alt="plchldr.co"
                     className="h-9 w-9 rounded-full"
                   />
-                  <div className="font-medium">Hafiz Haziq</div>
+                  <div className="font-medium">{fullname}</div>
                 </div>
 
                 {/* Profile Options */}
                 <div className="flex flex-col space-y-3 p-2">
-                  <a href="#" className="transition hover:text-blue-600">
+                  
+                  <Link
+                    to={`/welcome/${user}/${username}/${fullname}`}
+                    className="transition hover:text-blue-600"
+                  >
                     My Profile
-                  </a>
-                  <a href="#" className="transition hover:text-blue-600">
+                  </Link>
+
+                  <Link
+                    to="comingsoon"
+                    className="transition hover:text-blue-600"
+                  >
                     Edit Profile
-                  </a>
-                  <a href="#" className="transition hover:text-blue-600">
+                  </Link>
+                  <Link
+                    to="comingsoon"
+                    className="transition hover:text-blue-600"
+                  >
                     Settings
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Logout Button */}
@@ -130,29 +140,29 @@ const MainLayout = () => {
               className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
               style={{ width: asideOpen ? "12rem" : "4rem", height: "100vh" }}
             >
-              <a
-                href="/"
+              <Link
+                to={`/welcome/${user}/${username}/${fullname}`}
                 className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
                 {asideOpen && <span>Dashboard</span>}
-              </a>
+              </Link>
 
-              <a
-                href="#"
+              {(user==='patient'||user==='doctor')  && <Link
+                to={`noti`}
                 class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
                 <svg
@@ -169,11 +179,11 @@ const MainLayout = () => {
                   />
                 </svg>
 
-                {asideOpen && <span>Cart</span>}
-              </a>
+                {asideOpen && <span>Shedule</span>}
+              </Link>}
 
-              <a
-                href="contact"
+              <Link
+                to="comingsoon"
                 class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
                 <svg
@@ -195,13 +205,14 @@ const MainLayout = () => {
                 </svg>
 
                 {asideOpen && <span>Contact us</span>}
-              </a>
+              </Link>
               <hr className="my-4 border-t border-gray-300" />
 
               <h6>Search</h6>
 
               {/* Link to Search Doctor */}
-              <Link
+
+             {(user==='patient')  &&  <Link
                 to="search"
                 className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
@@ -214,10 +225,10 @@ const MainLayout = () => {
                   <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.v.003z" />
                 </svg>
                 {asideOpen && <span>Search Doctor</span>}
-              </Link>
+              </Link>}
 
-              <a
-                href="info"
+        { (user!=='patient')  &&  (<Link
+                to="comingsoon"
                 class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
                 <svg
@@ -229,19 +240,17 @@ const MainLayout = () => {
                   <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
                 </svg>
 
-                {asideOpen && <span>Profile</span>}
-              </a>
+                {asideOpen && <span>Patient</span>}
+              </Link>)}
 
               {/* Repeat similar blocks for other aside links */}
             </aside>
           }
 
-
           <div className="w-full bg-gray-100 p-4">
             <Outlet />
           </div>
         </div>
-
       </main>
       <Footer />
     </>

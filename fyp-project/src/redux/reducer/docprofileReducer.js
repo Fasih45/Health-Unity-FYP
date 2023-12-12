@@ -17,6 +17,7 @@ import {
         return {
           ...state,
           status: 'loading',
+          
         };
       case DOCTOR_PROFILE_SUCCESS:
         return {

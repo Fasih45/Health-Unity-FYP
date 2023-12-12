@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getAppointmentsRequest, registerAppointment } from "../redux/actions/appointmentAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +8,7 @@ const BookAppointment = (props) => {
   const error = useSelector((state) => state.appointment.error);
   const statuscode = useSelector((state) => state.appointment.statuscode);
   const docuser = props.docProfile;
+  const location = useLocation();
   const dispatch = useDispatch();
   const [selectedDay, setSelectedDay] = useState("");
   const [formFields, setFormFields] = useState({
@@ -25,6 +26,12 @@ const BookAppointment = (props) => {
     dispatch(getAppointmentsRequest());
     console.log(props.docProfile);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(getAppointmentsRequest());
+    };
+  }, [location,dispatch]);
 
   const handleDayChange = (e) => {
     setSelectedDay(e.target.value);

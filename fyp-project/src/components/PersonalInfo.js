@@ -108,6 +108,7 @@ const PersonalInfo = (props) => {
             </div>
             <div className="mb-4">
               <Select
+                required
                 isMulti
                 options={weekdays}
                 placeholder="Select Working days"

@@ -35,7 +35,7 @@ const UpcomingAppointment = () => {
   }, [location, dispatch]);
   useEffect(() => {
     dispatch(getAppointments(user, username));
-  }, [dispatch, user, username]);
+  }, [dispatch, user, username,location]);
   useEffect(() => {
  console.log(statusCode)
   }, [statusCode]);

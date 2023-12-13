@@ -4,13 +4,14 @@ import { getAppointmentsRequest, registerAppointment } from "../redux/actions/ap
 import { useDispatch, useSelector } from "react-redux";
 
 const BookAppointment = (props) => {
-  const { username, fullname } = useParams();
+  const { user,username, fullname } = useParams();
   const error = useSelector((state) => state.appointment.error);
-  const statuscode = useSelector((state) => state.appointment.statuscode);
+  const statuscode = useSelector((state) => state.appointment.statusCode);
   const docuser = props.docProfile;
   const location = useLocation();
   const dispatch = useDispatch();
   const [selectedDay, setSelectedDay] = useState("");
+  const navigate = useNavigate();
   const [formFields, setFormFields] = useState({
     doctorName: docuser.fullName,
     doctorSpeciality: docuser.specialty,
@@ -26,6 +27,15 @@ const BookAppointment = (props) => {
     dispatch(getAppointmentsRequest());
     console.log(props.docProfile);
   }, []);
+
+  useEffect(() => {
+
+    console.log("code:",statuscode);
+    if(statuscode===201){
+      navigate(`/welcome/${user}/${username}/${fullname}/noti`)
+      dispatch(getAppointmentsRequest());
+    }
+  }, [statuscode]);
 
   useEffect(() => {
     return () => {

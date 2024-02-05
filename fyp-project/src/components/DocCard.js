@@ -1,12 +1,7 @@
 import React from "react";
 
 const DocCard = (props) => {
-  const user = {
-    bio: "Healthcare professionals such as doctors will use the platform to access patient records, make informed medical decisions, and collaborate with patients.",
-    des: "Pharmacies will integrate with the platform to provide real-time information on medication availability, receive prescriptions electronically, and fulfill patient medication needs. Medical laboratories and technicians will use the platform to input and share test results securely with authorized healthcare providers and patients.",
-    speciality: "Heart specialist",
-    name: "John Doe",
-  };
+
 
   const profile = props.profile;
   return (
@@ -15,7 +10,7 @@ const DocCard = (props) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
-              {user.name.charAt(0)}
+              {profile.fullName.charAt(0)}
             </div>
 
             <div>
@@ -85,8 +80,8 @@ const DocCard = (props) => {
             </p>
           </div>
         </div>
-        <p className="my-6 text-sm font-normal text-justify text-gray-500">
-          {user.des}
+        <p className="my-6  text-sm font-normal text-justify text-gray-500">
+          {profile.description}
         </p>
         <div className="mt-6 flex items-center justify-between text-sm font-semibold text-gray-900">
           <div className="flex">

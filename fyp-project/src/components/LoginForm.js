@@ -13,7 +13,7 @@ import {
 
 const LoginForm = () => {
   const location = useLocation();
-  const { user, username } = useParams();
+  const { user} = useParams();
   const dispatch = useDispatch();
   const errorLogin = useSelector((state) => state.auth.error);
   const statuscode = useSelector((state) => state.auth.statuscode);

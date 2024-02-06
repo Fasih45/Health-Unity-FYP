@@ -98,7 +98,7 @@ const UpcomingAppointment = () => {
                           >
                             Appointment Fee
                           </th>
-                          {user==='patient'&&<th scope="col" className="relative py-3.5 px-4">
+                          {<th scope="col" className="relative py-3.5 px-4">
                             <span className="sr-only">Actions</span>
                           </th>}
                         </tr>

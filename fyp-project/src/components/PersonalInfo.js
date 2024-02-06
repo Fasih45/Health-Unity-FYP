@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
+import Swal from "sweetalert2";
 import { registerDoctorProfile } from "../redux/actions/docProfile";
 
 const PersonalInfo = (props) => {
@@ -42,11 +43,45 @@ const PersonalInfo = (props) => {
     }));
   };
 
+  const handleSweetfair = () => {
+    let timerInterval;
+    Swal.fire({
+      title: "Just wait!",
+      width:'20em',
+      
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector("b");
+        timerInterval = setInterval(() => {
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        // Swal.fire("Saved!", "", "success");
+        Swal.fire({
+          title: "Saved!",
+          width:'20em',
+          text: "Information is Saved :)",
+          icon: "success"
+        });
+        console.log("I was closed by the timer");
+      }
+    });
+
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Form Data:", formData);
-    dispatch(registerDoctorProfile(formData));
-    props.reload();
+    
+    // dispatch(registerDoctorProfile(formData));
+    // props.reload();
 
     // Add your logic to submit the form data
   };
@@ -141,17 +176,29 @@ const PersonalInfo = (props) => {
                 required
               />
             </div>
+
+          </form>
+          <div className="grid justify-items-center">
             <button
               type="submit"
               id="theme-toggle"
-              className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
+              onClick={handleSweetfair}
+              className="flex items-center	px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
             >
               Save
             </button>
-          </form>
+
+          </div>
+
+
+
         </div>
+
       </div>
+
+
     </div>
+
   );
 };
 

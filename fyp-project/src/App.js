@@ -14,13 +14,17 @@ import DocCard from "./components/DocCard";
 import BookAppoinment from "./components/BookAppoinment";
 import DocViewProfile from "./components/DocViewProfile";
 import UpcommingAppoinment from "./components/UpcommingAppoinment";
+import MyModal from "./components/Mymodel";
+import DatePicker1Presentation from './components/DatePicker1Presentation'
 
 
 function App() {
   return (
     <>
-    <Dashboard/>
-    {/* <UpcommingAppoinment/> */}
+    {/* <Dashboard/> */}
+    {/* <MyModal/> */}
+    <UpcommingAppoinment/>
+    {/* <DatePicker1Presentation/> */}
     {/* <DocViewProfile/> */}
     {/* <BookAppoinment/> */}
       {/* <SearchDoc/> */}

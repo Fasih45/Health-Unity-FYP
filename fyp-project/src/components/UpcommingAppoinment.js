@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import MyModal from "./Mymodel";
 
 const UpcommingAppoinment = () => {
     const user = {
@@ -10,6 +11,9 @@ const UpcommingAppoinment = () => {
         workingdays: "Tuesday",
         fee: "Not Defined"
     }
+
+    const [showmymodel,setshowmymodel]=useState(false);
+    const handleonclose =()=>setshowmymodel(false);
 
     return (
         <div>
@@ -74,6 +78,10 @@ const UpcommingAppoinment = () => {
                                                     <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
                                                         View Doctor Profile
                                                     </button>
+
+                                                    <button onClick={()=>setshowmymodel(true)} class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                                        Status
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -88,8 +96,9 @@ const UpcommingAppoinment = () => {
 
             </section>
 
-
+            <MyModal onclose={handleonclose} visible={showmymodel}/>
         </div>
+
 
 
 

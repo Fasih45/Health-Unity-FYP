@@ -47,9 +47,8 @@ const PersonalInfo = (props) => {
     let timerInterval;
     Swal.fire({
       title: "Just wait!",
-      width:'20em',
-      
-      timer: 2000,
+      width:'21em',
+      timer: 2500,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();

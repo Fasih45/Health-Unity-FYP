@@ -11,9 +11,9 @@ import {
   getDoctorProfilesRequest,
   getProfileDoc,
 } from "../redux/actions/searcProfileAction";
-import DocViewProfile from "./DocViewProfile";
 
-const UpcomingAppointment = () => {
+
+const ConfirmAppointment = () => {
   const appointments = useSelector((state) => state.appointment.appointments);
   const statusCode = useSelector((state) => state.appointment.statusCode);
   const { singleprofile, statuscode } = useSelector(
@@ -55,7 +55,8 @@ const UpcomingAppointment = () => {
   
   return (
     <>
-      {((appointments)&&(!viewprofile))&& (
+      {/* {((appointments)&&(!viewprofile))&& ( */}
+      {(
         <div>
           <section className="container px-4 mx-auto">
             <div className="flex flex-col">
@@ -73,6 +74,12 @@ const UpcomingAppointment = () => {
                             className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                           >
                             Date
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          >
+                            Time
                           </th>
                           <th
                             scope="col"
@@ -104,14 +111,14 @@ const UpcomingAppointment = () => {
                       </thead>
                       {/* Use the TableBody component and pass appointments as props */}
 
-                      {appointments.appointments&&(
+                      {/* {appointments.appointments&&(
                         <TableBody
                           appointments={appointments.appointments}
                           viewprofile={(profile) => {
                             setviewprofile(profile);
                           }}
                         />)
-                      }
+                      } */}
                     </table>
                   </div>
                 </div>
@@ -121,11 +128,9 @@ const UpcomingAppointment = () => {
         </div>
       ) }
 
-      {(viewprofile && singleprofile) && (
-        <DocViewProfile docProfile={singleprofile} />
-      ) }
+     
     </>
   );
 };
 
-export default UpcomingAppointment;
+export default ConfirmAppointment;

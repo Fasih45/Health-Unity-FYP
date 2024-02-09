@@ -1,24 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import imagelogo from "./images/healthunitylogo.jpg";
-import UserInfoCard from "./UserInfoCard";
-import PersonalInfo from "./PersonalInfo";
 import { Routes, Route, Outlet, useParams, Link } from "react-router-dom";
-import Aboutus from "./Aboutus";
-import Contactus from "./Contactus";
-
-import SearchDoc from "./SearchDoc";
 import Footer from "./Footer";
-import DocWorkPlaceInfo from "./DocWorkPalceInfo";
+
 
 const MainLayout = () => {
   const [profileOpen, setProfileOpen] = useState(false);
-  const [asideOpen, setAsideOpen] = useState(true);
+  const [asideOpen, setAsideOpen] = useState(false);
   const [completeprofile, setcompleteprofilemain] = useState(false);
   const { user, username, fullname } = useParams();
+  const sidebarRef = useRef();
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setAsideOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
-      <main className="min-h-screen w-full text-gray-700">
+      <main ref={sidebarRef} className="min-h-screen w-full text-gray-700 fixed top-0 left-0 transition-all ${asideOpen ? 'translate-x-0' : '-translate-x-full'}`}">
         {/* Header */}
         <header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-blue-500 p-2">
           {/* Logo */}
@@ -65,7 +74,7 @@ const MainLayout = () => {
                 className="h-9 w-9 overflow-hidden rounded-full mr-3"
               >
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
-                  {username.charAt(0)}
+                  {username.charAt(0).toUpperCase()}
                 </div>
               </button>
             </div>
@@ -75,17 +84,15 @@ const MainLayout = () => {
               <div className="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md">
                 {/* Profile Info */}
                 <div className="flex items-center space-x-2 p-2">
-                  <img
-                    src="https://plchldr.co/i/40x40?bg=111111"
-                    alt="plchldr.co"
-                    className="h-9 w-9 rounded-full"
-                  />
+                  <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
+                    {username.charAt(0).toUpperCase()}
+                  </div>
                   <div className="font-medium">{fullname}</div>
                 </div>
 
                 {/* Profile Options */}
-                <div className="flex flex-col space-y-3 p-2">
-                  
+                {/* <div className="flex flex-col space-y-3 p-2">
+
                   <Link
                     to={`/welcome/${user}/${username}/${fullname}`}
                     className="transition hover:text-blue-600"
@@ -105,10 +112,10 @@ const MainLayout = () => {
                   >
                     Settings
                   </Link>
-                </div>
+                </div> */}
 
                 {/* Logout Button */}
-                <div className="p-2">
+                {/* <div className="p-2">
                   <button className="flex items-center space-x-2 transition hover:text-blue-600">
                     <svg
                       className="h-4 w-4"
@@ -126,7 +133,7 @@ const MainLayout = () => {
                     </svg>
                     <div>Log Out</div>
                   </button>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -161,7 +168,7 @@ const MainLayout = () => {
                 {asideOpen && <span>Dashboard</span>}
               </Link>
 
-              {(user==='patient'||user==='doctor')  && <Link
+              {(user === 'patient' || user === 'doctor') && <Link
                 to={`noti`}
                 class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
@@ -180,6 +187,18 @@ const MainLayout = () => {
                 </svg>
 
                 {asideOpen && <span>Shedule</span>}
+              </Link>}
+
+              {(user === 'patient' || user === 'doctor') && <Link
+                to={`confirm`}
+                class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                </svg>
+
+
+                {asideOpen && <span>Confirm</span>}
               </Link>}
 
               <Link
@@ -212,7 +231,7 @@ const MainLayout = () => {
 
               {/* Link to Search Doctor */}
 
-             {(user==='patient')  &&  <Link
+              {(user === 'patient') && <Link
                 to="search"
                 className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
@@ -227,7 +246,7 @@ const MainLayout = () => {
                 {asideOpen && <span>Search Doctor</span>}
               </Link>}
 
-        { (user!=='patient')  &&  (<Link
+              {(user !== 'patient') && (<Link
                 to="comingsoon"
                 class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
               >
@@ -242,6 +261,19 @@ const MainLayout = () => {
 
                 {asideOpen && <span>Patient</span>}
               </Link>)}
+
+
+
+              {(user === 'patient' || user === 'doctor') && <Link
+                to="comingsoon"
+                class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd" d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6Zm-5.03 4.72a.75.75 0 0 0 0 1.06l1.72 1.72H2.25a.75.75 0 0 0 0 1.5h10.94l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 0 0-1.06 0Z" clip-rule="evenodd" />
+                </svg>
+
+                {asideOpen && <span>Log Out</span>}
+              </Link>}
 
               {/* Repeat similar blocks for other aside links */}
             </aside>

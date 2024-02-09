@@ -15,6 +15,7 @@ import DocViewProfile from "./components/DocViewProfile";
 import UpcommingAppoinment from "./components/UpcommingAppoinment";
 import Notfound404 from "./components/Notfound404";
 import Comingsoon from "./components/Comingsoon";
+import ConfirmAppointment from "./components/ConfirmAppoinment";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="search" element={<SearchDoc />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
+          <Route exact path="confirm" element={<ConfirmAppointment />} />
           <Route exact path="comingsoon" element={<Comingsoon />} />
 
 

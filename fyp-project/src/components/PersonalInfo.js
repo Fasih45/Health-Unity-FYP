@@ -79,8 +79,8 @@ const PersonalInfo = (props) => {
     event.preventDefault();
     console.log("Form Data:", formData);
     
-    // dispatch(registerDoctorProfile(formData));
-    // props.reload();
+    dispatch(registerDoctorProfile(formData));
+    props.reload();
 
     // Add your logic to submit the form data
   };
@@ -175,9 +175,7 @@ const PersonalInfo = (props) => {
                 required
               />
             </div>
-
-          </form>
-          <div className="grid justify-items-center">
+            <div className="grid justify-items-center">
             <button
               type="submit"
               id="theme-toggle"
@@ -188,6 +186,9 @@ const PersonalInfo = (props) => {
             </button>
 
           </div>
+
+          </form>
+          
 
 
 

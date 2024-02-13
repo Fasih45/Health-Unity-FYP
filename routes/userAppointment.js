@@ -7,7 +7,16 @@ const authenticateTokenDocter=require('../middleware/authMiddlewareDocter');
 router.post(
   "/appointments/register",
   appointmentController.registerAppointment
-); //get patient user from auth
+); 
+router.post(
+  "/appointments/registerCheck",
+  appointmentController.registerAppointmentcheck
+); 
+
+router.post(
+  "/appointments/registerTiming",
+  appointmentController.registerAppointmentTime
+);
 router.get(
   "/appointments/patient/:username",authenticateTokenPatient,
   appointmentController.getPatientAppointments

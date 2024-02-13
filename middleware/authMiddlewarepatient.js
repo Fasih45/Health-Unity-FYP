@@ -8,9 +8,14 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token,key);
+    const decoded = jwt.verify(token, key);
     const { username } = decoded;
     req.username = username;
+    if (req.params.username)
+      if (req.params.username !== username) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {

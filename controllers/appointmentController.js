@@ -1,5 +1,5 @@
 const Appointment = require("../model/Appointment");
-
+const Patient = require("../model/patientModal");
 // Function to get the next occurrence of a specific day of the week
 const getNextDateForDay = (day) => {
   const today = new Date();
@@ -35,6 +35,21 @@ const getNextDateForDay = (day) => {
 
   return nextDate;
 };
+const calculateAge = (dob) => {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+};
 
 // Controller to handle appointment registration
 exports.registerAppointment = async (req, res) => {
@@ -48,6 +63,12 @@ exports.registerAppointment = async (req, res) => {
       patientUsername,
       dayOfWeek,
     } = req.body;
+    const patientProfile = await Patient.findOne({ username:patientUsername });
+
+    if (!patientProfile) {
+      return res.status(404).json({ error: "Patient profile not found" });
+    }
+    const age=calculateAge(patientProfile.dateOfBirth)
 
     // Validate dayOfWeek
     nextDate = getNextDateForDay(dayOfWeek);
@@ -75,12 +96,16 @@ exports.registerAppointment = async (req, res) => {
       patientName,
       patientUsername,
       date: nextDate,
+      age:age
     });
 
     // Save the appointment to the database
     await newAppointment.save();
 
-    res.status(201).json({ message: "Appointment registered successfully.", Appointment: newAppointment });
+    res.status(201).json({
+      message: "Appointment registered successfully.",
+      Appointment: newAppointment,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -89,7 +114,7 @@ exports.registerAppointment = async (req, res) => {
 
 exports.getPatientAppointments = async (req, res) => {
   try {
-    const patientUsername  = req.params.username;
+    const patientUsername = req.params.username;
 
     // Retrieve appointments for the specified patient
     const appointments = await Appointment.find({ patientUsername });
@@ -104,12 +129,81 @@ exports.getPatientAppointments = async (req, res) => {
 // Controller to retrieve appointments for doctors
 exports.getDoctorAppointments = async (req, res) => {
   try {
-    const  doctorUsername  = req.params.username;
+    const doctorUsername = req.params.username;
 
     // Retrieve appointments for the specified doctor
     const appointments = await Appointment.find({ doctorUsername });
 
     res.status(200).json({ appointments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+exports.registerAppointmentTime = async (req, res) => {
+  try {
+    const { _id, timing,status } = req.body;
+
+    const existingAppointment = await Appointment.findById(_id);
+
+    if (!existingAppointment) {
+      return res.status(404).json({
+        message: "Appointment not found!",
+      });
+    }
+    existingAppointment.timing = timing;
+    existingAppointment.status = status;
+    await existingAppointment.save();
+    res.status(201).json({
+      message: "Appointment timing set successfully.",
+      Appointment: existingAppointment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+exports.registerAppointmentcheck = async (req, res) => {
+  let nextDate; // Declare nextDate outside the try block
+
+  try {
+    const {
+      doctorName,
+      doctorUsername,
+      patientName,
+      patientUsername,
+      dayOfWeek,
+    } = req.body;
+    const patientProfile = await Patient.findOne({ username:patientUsername });
+
+    if (!patientProfile) {
+      return res.status(404).json({ error: "Patient profile not found" });
+    }
+    const age=calculateAge(patientProfile.dateOfBirth)
+
+    // Validate dayOfWeek
+    nextDate = getNextDateForDay(dayOfWeek);
+
+    // Set the hours, minutes, seconds, and milliseconds to 0 AFTER setting the date
+    nextDate.setHours(0, 0, 0, 0);
+
+    // Check if the appointment already exists for the given date and doctor
+    const existingAppointment = await Appointment.findOne({
+      doctorUsername,
+      patientUsername,
+      date: nextDate,
+    });
+
+    if (existingAppointment) {
+      return res.status(409).json({
+        message: "Appointment already exists for this date and doctor.",
+      });
+    }
+
+    res.status(200).json({
+      message: "Good to go"
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

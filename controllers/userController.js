@@ -33,8 +33,11 @@ const registerUserasPatient = async (req, res) => {
       return res.status(400).json({ error: "Username is already taken" });
     }
     if (existingUseremail) {
+      
+
       return res.status(400).json({ error: "email is already taken" });
     }
+
     if (existingUsercnic) {
       return res.status(400).json({ error: "cnic is already taken" });
     }

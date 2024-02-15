@@ -124,7 +124,7 @@ const loginUserasPatient = async (req, res) => {
     // Create JWT token
     console.log(Patientkey);
     const token = jwt.sign({ username: user.username }, Patientkey, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     console.log(token);
@@ -303,7 +303,7 @@ const loginUserasDocter = async (req, res) => {
     // Create JWT token
     console.log(Docterkey);
     const token = jwt.sign({ username: user.username }, Docterkey, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     console.log(token);

@@ -4,6 +4,7 @@ const connectDB = require('./connection/connectionstring');
 const userRoutes = require('./routes/userRoutes');
 const userAppointmentRoutes = require('./routes/userAppointment');
 const profileRoutes=require('./routes/userProfileRoutes');
+const patientTrustedListRoutes=require('./routes/PatientTrusedList');
 const bodyParser = require('body-parser');
 const cors = require("cors")
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/profile', profileRoutes);
 app.use('/',userAppointmentRoutes );
+app.use('/list',patientTrustedListRoutes );
 
 app.listen(PORT, () => {
    console.log(`Server is running on port ${PORT}`);

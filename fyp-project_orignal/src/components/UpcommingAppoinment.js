@@ -95,7 +95,9 @@ const UpcomingAppointment = () => {
         <div className="container mx-auto px-4 sm:px-8">
           <div className="py-8">
             <div>
-              <h2 className="text-2xl font-semibold leading-tight">Appointments</h2>
+              <h2 className="text-2xl font-semibold leading-tight">
+                Appointments
+              </h2>
             </div>
             <div className="my-2 flex sm:flex-row flex-col">
               <div className="flex flex-row mb-1 sm:mb-0">
@@ -184,17 +186,14 @@ const UpcomingAppointment = () => {
                       </th>
                     </tr>
                   </thead>
-                  <TableBody
-                    appointments={appointments.appointments}
-                    viewprofile={(profile) => {
-                      setviewprofile(profile);
-                    }}
-                  />
-                  {appointments.appointments.length < 1 ? (
-                    <p className="text-center mx-auto w-1/2">
-                      No Appointments.
-                    </p>
-                  ) : null}
+                  {appointments.appointments && (
+                    <TableBody
+                      appointments={appointments.appointments}
+                      viewprofile={(profile) => {
+                        setviewprofile(profile);
+                      }}
+                    />
+                  )}
                 </table>
                 <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                   <span className="text-xs text-gray-900">
@@ -210,7 +209,7 @@ const UpcomingAppointment = () => {
                     </button>
                     <button
                       onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={appointments.appointments.length === 0}
+                      disabled={appointments?.appointments?.length === 0}
                       className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
                     >
                       Next

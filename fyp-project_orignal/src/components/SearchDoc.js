@@ -39,7 +39,7 @@ const ToolSearchForm = () => {
     dispatch(
       getProfiles(user, { page: 1, fullName: searchInput, specialty: pricingType })
     );
-  }, [dispatch, searchInput, pricingType, user]);
+  }, [dispatch, pricingType, user]);
 
   useEffect(() => {
     console.log("Profiles:", profiles);

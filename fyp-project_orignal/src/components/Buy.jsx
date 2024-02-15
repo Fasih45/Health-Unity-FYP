@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { registerAppointmentCheck } from "../redux/actions/appointmentAction";
+import { registerAppointmentCheck, registerAppointmentTimingCheck } from "../redux/actions/appointmentAction";
 
 const Buy = ({ state, setdoc, setcall, setappointment, acceptAppointment }) => {
   const { user, username } = useParams();
@@ -118,7 +118,20 @@ const Buy = ({ state, setdoc, setcall, setappointment, acceptAppointment }) => {
         acceptAppointment.patientName,
         acceptAppointment.doctorName
       );
-      acceptsAppointment();
+      let response = dispatch(registerAppointmentTimingCheck(acceptAppointment));
+      response.then((result) => {
+        if (result === 200) {
+          console.log("yes",result);
+          acceptsAppointment();
+        } else {
+          console.log("no",result);
+          setcall("no");
+        }
+      });
+      
+
+
+      
     }
   }, [state.contract]);
 

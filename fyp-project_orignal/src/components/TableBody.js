@@ -19,10 +19,30 @@ const TableBody = ({ appointments, viewprofile }) => {
             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
               {appointment.date.split("T")[0]}
             </td>
-            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-              <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                <h2 className="text-sm font-normal">{appointment.status}</h2>
-              </div>
+            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+              <span class={`relative inline-block px-3 py-1 font-semibold
+              ${
+                appointment.status === "Approved"
+                  ? "text-green-900"
+                  : appointment.status === "Pending"
+                  ? "text-orange-900"
+                  :appointment.status === "Rejected"
+                  ? "text-red-900":""
+              }  leading-tight`}>
+                <span
+                  aria-hidden
+                  className={`absolute inset-0 ${
+                    appointment.status === "Approved"
+                      ? "bg-green-300"
+                      : appointment.status === "Pending"
+                      ? "bg-orange-300"
+                      :appointment.status === "Rejected"
+                      ? "bg-red-300":""
+                  } opacity-50 rounded-full`}
+                ></span>
+
+                <span class="relative">{appointment.status}</span>
+              </span>
             </td>
             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
               <div className="flex items-center gap-x-2">

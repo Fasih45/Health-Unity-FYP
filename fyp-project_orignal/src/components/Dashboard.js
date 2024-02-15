@@ -9,6 +9,7 @@ import Contactus from "./Contactus";
 import SearchDoc from "./SearchDoc";
 import Footer from "./Footer";
 import DocWorkPlaceInfo from "./DocWorkPalceInfo";
+import FormExample from "./FormExample";
 
 const MainLayout = () => {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -252,6 +253,7 @@ const MainLayout = () => {
           </div>
         </div>
       </main>
+      <FormExample/>
       <Footer />
     </>
   );

@@ -250,6 +250,10 @@ export default function PopupModel({ visible, onclose, data }) {
             value: Accept,
             patientName: data.patientUsername,
             doctorName: data.doctorUsername,
+            timing:data.timing,
+            dayOfWeek:data.date,
+            doctorUsername: data.doctorUsername,
+
           }}
         />
       )}

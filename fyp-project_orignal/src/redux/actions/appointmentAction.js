@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Action types
-export const GET_APPOINTMENTS = 'GET_APPOINTMENTS';
-export const APPOINTMENTS_SUCCESS = 'APPOINTMENTS_SUCCESS';
-export const APPOINTMENTS_FAILURE = 'APPOINTMENTS_FAILURE';
+export const GET_APPOINTMENTS = "GET_APPOINTMENTS";
+export const APPOINTMENTS_SUCCESS = "APPOINTMENTS_SUCCESS";
+export const APPOINTMENTS_FAILURE = "APPOINTMENTS_FAILURE";
 
 // Action creators
 export const getAppointmentsRequest = () => ({
@@ -23,21 +23,32 @@ export const appointmentsFailure = (error, statusCode) => ({
 });
 
 // Thunk to get appointments
-export const getAppointments = (user, username) => {
+export const getAppointments = (user, username, page, status, name) => {
   return async (dispatch) => {
     dispatch(getAppointmentsRequest());
+    console.log(        {
+      name: name,
+      status: status,
+      page: page,
+    });
     let token = localStorage.getItem(user);
     const parsedtoken = token ? JSON.parse(token) : [];
     try {
-      const response = await axios.get(`http://localhost:5000/appointments/${user}/${username}`,
-      {
-        headers: {
-          Authorization: `Bearer ${parsedtoken}`,
+      const response = await axios.post(
+        `http://localhost:5000/appointments/${user}/${username}`,
+        {
+          name: name,
+          status: status,
+          page: page,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${parsedtoken}`,
+          },
+        }
+      );
       const jsonResponse = response.data;
       dispatch(appointmentsSuccess(jsonResponse, 200));
-
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
@@ -46,10 +57,12 @@ export const getAppointments = (user, username) => {
         if (status === 404) {
           dispatch(appointmentsFailure(message, status));
         } else {
-          dispatch(appointmentsFailure(`Error: ${status} Message:${message}`, status));
+          dispatch(
+            appointmentsFailure(`Error: ${status} Message:${message}`, status)
+          );
         }
       } else {
-        dispatch(appointmentsFailure('Network error', 500));
+        dispatch(appointmentsFailure("Network error", 500));
       }
     }
   };
@@ -61,17 +74,19 @@ export const registerAppointment = (appointmentDetails) => {
     dispatch(getAppointmentsRequest());
 
     try {
-      const response = await axios.post('http://localhost:5000/appointments/register', appointmentDetails);
+      const response = await axios.post(
+        "http://localhost:5000/appointments/register",
+        appointmentDetails
+      );
       const jsonResponse = response.data;
       dispatch(appointmentsSuccess(jsonResponse, 201));
-
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
         const message = error.response.data.message;
         dispatch(appointmentsFailure(message, status));
       } else {
-        dispatch(appointmentsFailure('Network error', 500));
+        dispatch(appointmentsFailure("Network error", 500));
       }
     }
   };
@@ -81,17 +96,19 @@ export const registerAppointmentTiming = (appointmentDetails) => {
     dispatch(getAppointmentsRequest());
 
     try {
-      const response = await axios.post('http://localhost:5000/appointments/registerTiming', appointmentDetails);
+      const response = await axios.post(
+        "http://localhost:5000/appointments/registerTiming",
+        appointmentDetails
+      );
       const jsonResponse = response.data;
       dispatch(appointmentsSuccess(jsonResponse, 201));
-
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
         const message = error.response.data.message;
         dispatch(appointmentsFailure(message, status));
       } else {
-        dispatch(appointmentsFailure('Network error', 500));
+        dispatch(appointmentsFailure("Network error", 500));
       }
     }
   };
@@ -100,11 +117,12 @@ export const registerAppointmentCheck = (appointmentDetails) => {
   return async (dispatch) => {
     dispatch(getAppointmentsRequest());
     try {
-      const response = await axios.post('http://localhost:5000/appointments/registerCheck', appointmentDetails);
+      const response = await axios.post(
+        "http://localhost:5000/appointments/registerCheck",
+        appointmentDetails
+      );
       const jsonResponse = response.data;
       return 200;
-      
-
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
@@ -112,7 +130,29 @@ export const registerAppointmentCheck = (appointmentDetails) => {
         dispatch(appointmentsFailure(message, status));
         return 409;
       } else {
-        dispatch(appointmentsFailure('Network error', 500));
+        dispatch(appointmentsFailure("Network error", 500));
+        return 500;
+      }
+    }
+  };
+};
+
+export const registerAppointmentTimingCheck = (appointmentDetails) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/appointments/registerTimingCheck",
+        appointmentDetails
+      );
+      const jsonResponse = response.data;
+      return 200;
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        const message = error.response.data.message;
+        return 409;
+      } else {
+        dispatch(appointmentsFailure("Network error", 500));
         return 500;
       }
     }

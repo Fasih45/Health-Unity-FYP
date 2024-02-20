@@ -243,7 +243,7 @@ exports.registerAppointmentcheck = async (req, res) => {
 
     if (existingAppointment) {
       return res.status(409).json({
-        message: "Appointment already exists for this date and doctor.",
+        message: "Appointment already exists with this doctor in this week.",
       });
     }
 
@@ -256,7 +256,6 @@ exports.registerAppointmentcheck = async (req, res) => {
   }
 };
 exports.registerAppointmentTimeCheck = async (req, res) => {
-  let nextDate; // Declare nextDate outside the try block
 
   try {
     const { doctorUsername, dayOfWeek, timing } = req.body;

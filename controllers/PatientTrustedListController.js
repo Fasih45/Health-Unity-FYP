@@ -2,7 +2,7 @@ const PatientTrustedList = require("../model/PatientTrustedList");
 
 async function addDoctorToList(req, res) {
   const { doctorName } = req.body;
-  const { patientUsername } = req.params;
+  const  patientUsername  = req.params.username;
 
   try {
     let patientList = await PatientTrustedList.findOne({ patientUsername });
@@ -34,7 +34,7 @@ async function addDoctorToList(req, res) {
 // Controller function to remove a doctor's name from the list
 async function removeDoctorFromList(req, res) {
   const { doctorName } = req.body;
-  const { patientUsername } = req.params;
+  const  patientUsername  = req.params.username;
 
   try {
     const patientList = await PatientTrustedList.findOne({ patientUsername });
@@ -47,7 +47,7 @@ async function removeDoctorFromList(req, res) {
     if (index !== -1) {
       patientList.trustedDoctors.splice(index, 1);
       await patientList.save();
-      res.json({
+      res.status(201).json({
         message: "Doctor removed from the trusted list successfully",
       });
     } else {
@@ -58,7 +58,7 @@ async function removeDoctorFromList(req, res) {
   }
 }
 async function getTrustedDoctorsList(req, res) {
-  const { patientUsername } = req.params;
+  const  patientUsername  = req.params.username;
 
   try {
     const patientList = await PatientTrustedList.findOne({ patientUsername });
@@ -67,7 +67,7 @@ async function getTrustedDoctorsList(req, res) {
       return res.status(404).json({ message: "Patient not found" });
     }
 
-    res.json({ trustedDoctors: patientList.trustedDoctors });
+    res.status(200).json({ trustedDoctors: patientList.trustedDoctors });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

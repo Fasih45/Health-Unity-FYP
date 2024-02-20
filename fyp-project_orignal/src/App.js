@@ -15,6 +15,8 @@ import DocViewProfile from "./components/DocViewProfile";
 import UpcommingAppoinment from "./components/UpcommingAppoinment";
 import Notfound404 from "./components/Notfound404";
 import Comingsoon from "./components/Comingsoon";
+import TrustedDoc from "./components/TrustedDoc";
+import WritePriscription from "./components/WritePriscription";
 
 function App() {
   return (
@@ -34,9 +36,11 @@ function App() {
         >
           <Route exact path="" element={<Welcome />} />
           <Route exact path="search" element={<SearchDoc />} />
+          <Route exact path="trust" element={<TrustedDoc />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
-          <Route exact path="comingsoon" element={<Comingsoon />} />
+          {/* <Route exact path="comingsoon" element={<Comingsoon />} /> */}
+          <Route exact path="comingsoon" element={<WritePriscription />} />
 
 
 

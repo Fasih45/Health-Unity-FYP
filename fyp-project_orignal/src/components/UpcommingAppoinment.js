@@ -20,6 +20,7 @@ const UpcomingAppointment = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const appointments = useSelector((state) => state.appointment.appointments);
   const statusCode = useSelector((state) => state.appointment.statusCode);
+  const test = useSelector((state) => state.patientTrustedList.statusCode);
   const { singleprofile, statuscode } = useSelector(
     (state) => state.searchProfile
   );

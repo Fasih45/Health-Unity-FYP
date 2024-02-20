@@ -62,6 +62,8 @@ function Hardhat(props) {
           setcall={(message) => {
             props.setcall(message);
           }}
+          removeDoc={props.removeDoc}
+          write={props.write}
         />
       }
     </div>

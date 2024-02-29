@@ -5,13 +5,15 @@ import docprofileReducer from './reducer/docprofileReducer';
 import searchProfileReducer from './reducer/searchProfileReducer';
 import appointmentReducer from './reducer/appointmentReducer';
 import patientTrustedListReducer from "./reducer/patientTrustedlistReducer";
+import patientPrescriptionReducer from "./reducer/prescriptionReducer";
 const rootReducer = combineReducers({
   auth: authReducer,
   regis: registerReducer,
   profile:docprofileReducer,
   searchProfile:searchProfileReducer,
   appointment:appointmentReducer,
-  patientTrustedList: patientTrustedListReducer
+  patientTrustedList: patientTrustedListReducer,
+  patientPrescription:patientPrescriptionReducer
 });
 
 export default rootReducer;

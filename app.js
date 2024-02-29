@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const userAppointmentRoutes = require('./routes/userAppointment');
 const profileRoutes=require('./routes/userProfileRoutes');
 const patientTrustedListRoutes=require('./routes/PatientTrusedList');
+const patientPrescription=require('./routes/Prescription');
 const bodyParser = require('body-parser');
 const cors = require("cors")
 const app = express();
@@ -21,6 +22,7 @@ app.use('/users', userRoutes);
 app.use('/profile', profileRoutes);
 app.use('/',userAppointmentRoutes );
 app.use('/list',patientTrustedListRoutes );
+app.use('/patient',patientPrescription );
 
 app.listen(PORT, () => {
    console.log(`Server is running on port ${PORT}`);

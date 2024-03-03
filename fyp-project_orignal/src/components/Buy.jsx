@@ -16,6 +16,8 @@ const Buy = ({
   acceptAppointment,
   removeDoc,
   write,
+  getPatientkey,
+  getKey,
 }) => {
   const { user, username } = useParams();
   const setDoc = async () => {
@@ -107,17 +109,45 @@ const Buy = ({
 
   const writePres = async () => {
     const { contract } = state;
-    const amount = { value: ethers.utils.parseEther("0.05") };
-
     try {
-      const test = await contract.getHashedKeybyDoctor("test1", "doc1");
-      console.log(test);
-      
+      const test = await contract.getHashedKeybyDoctor(getPatientkey, username);
+      setcall(test);
+      // window.location.reload();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setcall("no");
+      if (error.message.includes("insufficient funds")) {
+        alert("Insufficient funds. Please make sure you have enough Ether.");
+      } else if (error.message.includes("Please pay more than 0 ether")) {
+        alert("Please pay more than 0 ether");
+      } else {
+        alert(error);
+      }
+    }
+  };
+  const getOwnKey = async () => {
+    const { contract } = state;
+    try {
+      const test = await contract.getHashedKeybyPatient();
+      if (
+        test.includes(
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        )
+      ) {
+        setcall("no");
+        alert("No Record Exit with this Meta Account!");
+        
+      } else {
+        console.log(test);
+
+        alert("Acess granted");
+        setcall(test);
+      }
 
       // window.location.reload();
     } catch (error) {
       console.error("Transaction failed:", error);
-
+      setcall("no");
       if (error.message.includes("insufficient funds")) {
         alert("Insufficient funds. Please make sure you have enough Ether.");
       } else if (error.message.includes("Please pay more than 0 ether")) {
@@ -223,6 +253,14 @@ const Buy = ({
     if (state.contract && write) {
       console.log("write called:", write);
       writePres();
+    }
+    if (state.contract && getPatientkey) {
+      console.log("getPatienkeycalled:", getPatientkey);
+      writePres();
+    }
+    if (state.contract && getKey) {
+      console.log("getKey:", getKey);
+      getOwnKey();
     }
   }, [state.contract]);
 

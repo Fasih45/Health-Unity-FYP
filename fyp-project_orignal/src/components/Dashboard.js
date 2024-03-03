@@ -10,7 +10,6 @@ import SearchDoc from "./SearchDoc";
 import Footer from "./Footer";
 import DocWorkPlaceInfo from "./DocWorkPalceInfo";
 
-
 const MainLayout = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [asideOpen, setAsideOpen] = useState(true);
@@ -246,6 +245,7 @@ const MainLayout = () => {
                   {asideOpen && <span>Trusted Doctor</span>}
                 </Link>
               )}
+              
 
               {user !== "patient" && (
                 <Link

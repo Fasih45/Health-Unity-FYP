@@ -5,6 +5,7 @@ import {
   DELETE_PRESCRIPTION,
   PRESCRIPTION_SUCCESS,
   PRESCRIPTION_FAILURE,
+  SetKeypair
 } from '../actions/prescriptionAction';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   loading: false,
   error: null,
   statusCode: null,
+  keypair:null
 };
 
 const prescriptionReducer = (state = initialState, action) => {
@@ -44,7 +46,12 @@ const prescriptionReducer = (state = initialState, action) => {
         error: action.payload,
         statusCode: action.statuscode,
       };
+      case SetKeypair:
+        return {
+          ...state,
+          keypair:action.value
 
+        };
     default:
       return state;
   }

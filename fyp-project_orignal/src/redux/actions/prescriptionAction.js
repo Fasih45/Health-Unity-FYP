@@ -7,6 +7,8 @@ export const UPDATE_PRESCRIPTION = "UPDATE_PRESCRIPTION";
 export const DELETE_PRESCRIPTION = "DELETE_PRESCRIPTION";
 export const PRESCRIPTION_SUCCESS = "PRESCRIPTION_SUCCESS";
 export const PRESCRIPTION_FAILURE = "PRESCRIPTION_FAILURE";
+export const SetKeypair = "SetKeypair";
+
 
 // Action creators
 export const createPrescriptionRequest = () => ({
@@ -37,6 +39,11 @@ export const prescriptionFailure = (error, statusCode) => ({
   statuscode: statusCode,
 });
 
+export const setkeypair = (value) => ({
+  type: SetKeypair,
+  value:value 
+});
+
 // Thunk to create a prescription
 export const createPrescription = (prescriptionDetails) => {
   return async (dispatch) => {
@@ -53,13 +60,13 @@ export const createPrescription = (prescriptionDetails) => {
 };
 
 // Thunk to get a prescription by ID
-export const getPrescription = (id) => {
+export const getPrescription = (id,page) => {
   return async (dispatch) => {
     dispatch(getPrescriptionRequest());
 
     try {
         
-      const response = await axios.get(`http://localhost:5000/patient/prescriptions/${id}`);
+      const response = await axios.get(`http://localhost:5000/patient/prescriptions/${id}/${page}`);
       const jsonResponse = response.data;
       dispatch(prescriptionSuccess(jsonResponse, 200));
     } catch (error) {

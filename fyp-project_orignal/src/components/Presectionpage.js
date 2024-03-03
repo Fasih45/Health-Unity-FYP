@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import WritePriscription from "./WritePriscription";
 import { createPrescription, getPrescription } from "../redux/actions/prescriptionAction";
 
-const Presectionpage = () => {
+const Presectionpage = ({priscriptionData,id}) => {
   const { user, username } = useParams();
   const [selectedTests, setSelectedTests] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -145,7 +145,9 @@ const Presectionpage = () => {
       data1.writtenBydoctor = username;
       data1.predata = formData;
       data1.testbydoc=selectedTests;
-      data1.id="78216371863";
+      data1.id=id;
+      data1.date=priscriptionData.date.split("T")[0];
+
       console.log("Submitted", data1);
 
       dispatch(createPrescription(data1));
@@ -159,15 +161,15 @@ const Presectionpage = () => {
           <div class="flex items-center justify-between">
             <div>
               <h2 class="font-semibold">Patient Name:</h2>
-              <h1 class="ml-11">Zain Ali</h1>
-              <h2 class="font-semibold">Patient :</h2>
-              <h1 class="ml-11">Zain Ali</h1>
+              <h1 class="ml-11">{priscriptionData.patientName}</h1>
+              <h2 class="font-semibold">Doctor Name :</h2>
+              <h1 class="ml-11">{priscriptionData.doctorName}</h1>
             </div>
             <div>
               <h2 class="font-semibold">Patient Age:</h2>
-              <h1 class="ml-11">13</h1>
+              <h1 class="ml-11">{priscriptionData.age}</h1>
               <h2 class="font-semibold">Appoinment Date:</h2>
-              <h1 class="ml-11">20/2/2000</h1>
+              <h1 class="ml-11">{priscriptionData.date.split("T")[0]}</h1>
             </div>
           </div>
 

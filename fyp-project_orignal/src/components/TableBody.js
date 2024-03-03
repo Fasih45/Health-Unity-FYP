@@ -3,7 +3,14 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "react-router-dom";
 import PopupModel from "./PopupModel";
-const TableBody = ({ appointments, viewprofile }) => {
+import WritePriscription from "./WritePriscription";
+const TableBody = ({
+  appointments,
+  viewprofile,
+  setWritePriscription,
+  writePriscription,
+  setPriscriptionData,
+}) => {
   const { user, username } = useParams();
   const [showmymodel, setshowmymodel] = useState(false);
   const [data, setData] = useState(null);
@@ -20,15 +27,18 @@ const TableBody = ({ appointments, viewprofile }) => {
               {appointment.date.split("T")[0]}
             </td>
             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <span class={`relative inline-block px-3 py-1 font-semibold
+              <span
+                class={`relative inline-block px-3 py-1 font-semibold
               ${
                 appointment.status === "Approved"
                   ? "text-green-900"
                   : appointment.status === "Pending"
                   ? "text-orange-900"
-                  :appointment.status === "Rejected"
-                  ? "text-red-900":""
-              }  leading-tight`}>
+                  : appointment.status === "Rejected"
+                  ? "text-red-900"
+                  : ""
+              }  leading-tight`}
+              >
                 <span
                   aria-hidden
                   className={`absolute inset-0 ${
@@ -36,8 +46,9 @@ const TableBody = ({ appointments, viewprofile }) => {
                       ? "bg-green-300"
                       : appointment.status === "Pending"
                       ? "bg-orange-300"
-                      :appointment.status === "Rejected"
-                      ? "bg-red-300":""
+                      : appointment.status === "Rejected"
+                      ? "bg-red-300"
+                      : ""
                   } opacity-50 rounded-full`}
                 ></span>
 
@@ -63,6 +74,11 @@ const TableBody = ({ appointments, viewprofile }) => {
             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
               1000
             </td>
+            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+              {appointment.status === "Approved"
+                ? appointment.timing
+                : "Not Assigned"}
+            </td>
             {/* IF user is patient */}
             {user === "patient" && (
               <td className="px-4 py-4 text-sm whitespace-nowrap">
@@ -83,15 +99,31 @@ const TableBody = ({ appointments, viewprofile }) => {
             {user === "doctor" && (
               <td className="px-4 py-4 text-sm whitespace-nowrap">
                 <div className="flex items-center gap-x-6">
-                  <button
-                    className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-[#1da1f2] text-white   transition-colors duration-200 dark:hover:text-indigo-500 dark:text-white hover:text-indigo-500 focus:outline-none"
-                    onClick={() => {
-                      setshowmymodel(true);
-                      setData(appointment);
-                    }}
-                  >
-                    Confirm appointment
-                  </button>
+                  {appointment.status === "Approved" ? (
+                    <button
+                      className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-green-300 text-green-900   transition-colors duration-200 dark:hover:text-indigo-500 dark:text-white hover:text-indigo-500 focus:outline-none"
+                      onClick={() => {
+                        setWritePriscription();
+                        setPriscriptionData(appointment);
+                      }}
+                    >
+                      Write Priscription ......
+                    </button>
+                  ) : appointment.status === "Pending" ? (
+                    <button
+                      className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-[#1da1f2] text-white   transition-colors duration-200 dark:hover:text-indigo-500 dark:text-white hover:text-indigo-500 focus:outline-none"
+                      onClick={() => {
+                        setshowmymodel(true);
+                        setData(appointment);
+                      }}
+                    >
+                      Confirm appointment
+                    </button>
+                  ) : appointment.status === "Rejected" ? (
+                    "rejected"
+                  ) : (
+                    ""
+                  )}
                 </div>
               </td>
             )}

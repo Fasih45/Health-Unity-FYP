@@ -17,12 +17,17 @@ import Notfound404 from "./components/Notfound404";
 import Comingsoon from "./components/Comingsoon";
 import TrustedDoc from "./components/TrustedDoc";
 import WritePriscription from "./components/WritePriscription";
+import MedicalRecord from "./components/MedicalRecordx";
+import { useSelector } from "react-redux";
 
 function App() {
+  const keypair = useSelector(
+    (state) => state.patientPrescription.keypair
+  );
   return (
     <>
       <Routes>
-      <Route exact path="*" element={< Notfound404/>} />
+        <Route exact path="*" element={<Notfound404 />} />
         <Route exact path="" element={<Navbar />}>
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/:user/signin" element={<LoginForm />} />
@@ -40,10 +45,8 @@ function App() {
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
           {/* <Route exact path="comingsoon" element={<Comingsoon />} /> */}
-          <Route exact path="comingsoon" element={<WritePriscription />} />
-
-
-
+          <Route exact path="comingsoon" element={<Comingsoon />} />
+          <Route exact path="record" element={<MedicalRecord />} />
         </Route>
         <Route exact path="/dic" element={<DocViewProfile />} />
       </Routes>

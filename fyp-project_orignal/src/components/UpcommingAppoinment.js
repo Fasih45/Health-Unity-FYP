@@ -12,6 +12,7 @@ import {
 } from "../redux/actions/searcProfileAction";
 import DocViewProfile from "./DocViewProfile";
 import Notfound404 from "./Notfound404";
+import WritePriscription from "./WritePriscription";
 
 const UpcomingAppointment = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,6 +29,8 @@ const UpcomingAppointment = () => {
   const dispatch = useDispatch();
   const { user, username } = useParams();
   const [viewprofile, setviewprofile] = useState(null);
+  const [writePriscription, setWritePriscription] = useState(false);
+  const [priscriptionData, setPriscriptionData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const UpcomingAppointment = () => {
   useEffect(() => {
     if (statusCode === 201) {
       console.log(statusCode);
+      setStatusFilter("All");
       dispatch(getAppointments(user, username, 1, "", ""));
     }
   }, [statusCode, dispatch, user, username]);
@@ -92,7 +96,7 @@ const UpcomingAppointment = () => {
 
   return (
     <>
-      {appointments && !viewprofile && (
+      {appointments && !viewprofile && !writePriscription && (
         <div className="container mx-auto px-4 sm:px-8">
           <div className="py-8">
             <div>
@@ -102,7 +106,7 @@ const UpcomingAppointment = () => {
             </div>
             <div className="my-2 flex sm:flex-row flex-col">
               <div className="flex flex-row mb-1 sm:mb-0">
-                <div className="relative">
+                {/* <div className="relative">
                   <select
                     value={itemsPerPage}
                     onChange={(e) => setItemsPerPage(e.target.value)}
@@ -121,12 +125,12 @@ const UpcomingAppointment = () => {
                       <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                     </svg>
                   </div>
-                </div>
+                </div> */}
                 <div className="relative">
                   <select
                     value={statusFilter}
                     onChange={handleStatusFilterChange}
-                    className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                    className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   >
                     <option value="">All</option>
                     <option value="Approved">Approved</option>
@@ -170,6 +174,7 @@ const UpcomingAppointment = () => {
                       <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                         Status
                       </th>
+
                       {user === "patient" ? (
                         <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                           Doctor
@@ -182,16 +187,26 @@ const UpcomingAppointment = () => {
                       <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                         Appointment Fee
                       </th>
-                      <th className="relative py-3.5 px-4">
-                        <span className="sr-only">Actions</span>
+                      <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        Timing
+                      </th>
+                      <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        Action
                       </th>
                     </tr>
                   </thead>
                   {appointments.appointments && (
                     <TableBody
                       appointments={appointments.appointments}
+                      writePriscription={writePriscription}
                       viewprofile={(profile) => {
                         setviewprofile(profile);
+                      }}
+                      setWritePriscription={() => {
+                        setWritePriscription(true);
+                      }}
+                      setPriscriptionData={(profile) => {
+                        setPriscriptionData(profile);
                       }}
                     />
                   )}
@@ -225,6 +240,14 @@ const UpcomingAppointment = () => {
 
       {viewprofile && singleprofile && (
         <DocViewProfile docProfile={singleprofile} />
+      )}
+      {writePriscription && (
+        <WritePriscription
+          priscriptionData={priscriptionData}
+          setWritePriscription={(data) => {
+            setWritePriscription(data);
+          }}
+        />
       )}
     </>
   );

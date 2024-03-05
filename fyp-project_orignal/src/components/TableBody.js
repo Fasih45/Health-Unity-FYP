@@ -10,6 +10,7 @@ const TableBody = ({
   setWritePriscription,
   writePriscription,
   setPriscriptionData,
+  setviewpatientPrescriptiondata
 }) => {
   const { user, username } = useParams();
   const [showmymodel, setshowmymodel] = useState(false);
@@ -71,9 +72,27 @@ const TableBody = ({
                 </div>
               </div>
             </td>
-            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-              1000
-            </td>
+            {user === "patient" ? (
+              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                1000
+              </td>
+            ) : (
+              <td className="px-8 py-4 text-sm whitespace-nowrap">
+                <div className="flex items-center gap-x-6">
+                  <button
+                    className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
+                    onClick={() => {
+                      setWritePriscription();
+                      setPriscriptionData(appointment);
+                      setviewpatientPrescriptiondata(true);
+                    }}
+                  >
+                    View MedicalRecord
+                  </button>
+                </div>
+              </td>
+            )}
+
             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
               {appointment.status === "Approved"
                 ? appointment.timing

@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
-export default function PresDetails({pres}) {
-    useEffect(() => {
-        console.log("Details:",pres)
-      }, [pres]);
+export default function PresDetails({ pres }) {
+  useEffect(() => {
+    console.log("Details:", pres);
+  }, [pres]);
 
-  return (
-    <div>PresDetails</div>
-  )
+  return <div>PresDetails</div>;
 }

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Hardhat from "./Hardhat";
 import { useDispatch, useSelector } from "react-redux";
-import { getPrescription } from "../redux/actions/prescriptionAction";
+import { getPrescription, setkeypair } from "../redux/actions/prescriptionAction";
 import Presectionpage from "./Presectionpage";
 import Loader from "./Loader";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function WritePriscription({
   priscriptionData,
   setWritePriscription,
+  forview ///used as view medical record
 }) {
   const list = useSelector((state) => state.patientPrescription.statusCode);
   const dispatch = useDispatch();
@@ -18,6 +20,8 @@ export default function WritePriscription({
     // dispatch(getPrescription("23876876381683"));
     console.log("data:", priscriptionData);
   }, []);
+  const navigate = useNavigate();
+
   const handledelet = (e) => {
     Swal.fire({
       title: "Rejected!",
@@ -38,6 +42,10 @@ export default function WritePriscription({
     } else if (Apiwrite) {
       console.log("id:", Apiwrite);
       setSpecificState(false);
+      if(forview){
+        dispatch(setkeypair(Apiwrite));
+        navigate(`Patientrecord`);
+      }
     }
   }, [list, Apiwrite]);
   return (

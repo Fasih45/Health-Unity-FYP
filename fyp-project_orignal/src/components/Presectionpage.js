@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PresectionInput from "./PresectionInput";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import WritePriscription from "./WritePriscription";
-import { createPrescription, getPrescription } from "../redux/actions/prescriptionAction";
+import {
+  createPrescription,
+  getPrescription,
+  setkeypair,
+} from "../redux/actions/prescriptionAction";
+import Swal from "sweetalert2";
 
-const Presectionpage = ({priscriptionData,id}) => {
+const Presectionpage = ({ priscriptionData, id }) => {
   const { user, username } = useParams();
   const [selectedTests, setSelectedTests] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const predefinedTests = ["Blood Test", "X-Ray", "MRI", "Ultrasound"];
   const [submitdata, setsubmitdata] = useState("");
-  const list = useSelector((state) => state.patientPrescription.prescription);
+  const navigate = useNavigate();
+  const statusCode = useSelector(
+    (state) => state.patientPrescription.statusCode
+  );
   const dispatch = useDispatch();
   const [formData, setFormData] = useState([
     {
@@ -29,6 +37,26 @@ const Presectionpage = ({priscriptionData,id}) => {
       timing: false,
     },
   ]);
+
+  const handleSave = () => {
+    Swal.fire({
+      title: "Success!",
+      width: "20em",
+      text: "Prescription is saved :)",
+      icon: "success",
+    }).then(() => {
+      // Call handleonclose function here
+      // handleonclose(fieldid);
+    });
+  };
+  useEffect(() => {
+    if (statusCode === 201) {
+      handleSave();
+      dispatch(setkeypair(id));
+      navigate(`Patientrecord`);
+
+    }
+  }, [statusCode]);
 
   const handleDeleteTest = (index) => {
     const updatedTests = [...selectedTests];
@@ -120,7 +148,7 @@ const Presectionpage = ({priscriptionData,id}) => {
       const { medcinename, doz, timing } = formData[i];
       let errors = { medcinename: false, doz: false, timing: false };
       // Check for empty fields
-      if (medcinename.length<2) {
+      if (medcinename.length < 2) {
         errors.medcinename = true;
         checkallErrors = 1;
       }
@@ -144,12 +172,10 @@ const Presectionpage = ({priscriptionData,id}) => {
       const data1 = submitdata;
       data1.writtenBydoctor = username;
       data1.predata = formData;
-      data1.testbydoc=selectedTests;
-      data1.id=id;
-      data1.date=priscriptionData.date.split("T")[0];
-
+      data1.testbydoc = selectedTests;
+      data1.id = id;
+      data1.date = priscriptionData.date.split("T")[0];
       console.log("Submitted", data1);
-
       dispatch(createPrescription(data1));
     }
   };

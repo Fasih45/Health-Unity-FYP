@@ -29,6 +29,7 @@ const Medicalrecord = () => {
   useEffect(() => {
     if (Apiwrite === "no") {
       setSpecificState(false);
+      setcall(null);
       handledelet();
     } else if (Apiwrite) {
       console.log("id:", Apiwrite);
@@ -66,7 +67,7 @@ const Medicalrecord = () => {
         getKey={username}
        
       />}
-      {listRecord&&<MedicalRecord/>}
+      
     </>
   );
 };

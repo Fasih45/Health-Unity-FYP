@@ -31,6 +31,8 @@ const UpcomingAppointment = () => {
   const [viewprofile, setviewprofile] = useState(null);
   const [writePriscription, setWritePriscription] = useState(false);
   const [priscriptionData, setPriscriptionData] = useState(null);
+  const [viewPrescriptiondata, setviewpatientPrescriptiondata] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +52,6 @@ const UpcomingAppointment = () => {
   useEffect(() => {
     if (statusCode === 201) {
       console.log(statusCode);
-      setStatusFilter("All");
       dispatch(getAppointments(user, username, 1, "", ""));
     }
   }, [statusCode, dispatch, user, username]);
@@ -184,9 +185,17 @@ const UpcomingAppointment = () => {
                           Patient
                         </th>
                       )}
-                      <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                        Appointment Fee
-                      </th>
+
+                      {user === "patient" ? (
+                        <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                          Appointment Fee
+                        </th>
+                      ) : (
+                        <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                          MedicalRecord Record
+                        </th>
+                      )}
+
                       <th className="px-5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                         Timing
                       </th>
@@ -207,6 +216,9 @@ const UpcomingAppointment = () => {
                       }}
                       setPriscriptionData={(profile) => {
                         setPriscriptionData(profile);
+                      }}
+                      setviewpatientPrescriptiondata={(value) => {
+                        setviewpatientPrescriptiondata(value);
                       }}
                     />
                   )}
@@ -247,6 +259,7 @@ const UpcomingAppointment = () => {
           setWritePriscription={(data) => {
             setWritePriscription(data);
           }}
+          forview={viewPrescriptiondata}
         />
       )}
     </>

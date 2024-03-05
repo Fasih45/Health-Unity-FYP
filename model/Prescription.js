@@ -16,6 +16,10 @@ const prescriptionSchema = new mongoose.Schema({
     testbydoc: {
         type: [String],
     },
+    date: {
+        type: String,
+    },
+    
     predata: [
         {
             medcinename: {

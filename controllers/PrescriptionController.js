@@ -12,7 +12,13 @@ const createPrescription = async (req, res) => {
 
 const getAllPrescriptions = async (req, res) => {
   try {
-    const prescriptions = await Prescription.find({ id: req.params.id });
+    const ITEMS_PER_PAGE = 10;
+    const parsedPage = +req.params.page || 1;
+
+    const prescriptions = await Prescription.find({ id: req.params.id })
+      .skip((parsedPage - 1) * ITEMS_PER_PAGE)
+      .limit(ITEMS_PER_PAGE)
+      .exec();
     res.send(prescriptions);
   } catch (error) {
     res.status(500).send(error);

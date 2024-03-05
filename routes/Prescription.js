@@ -6,7 +6,7 @@ const prescriptionController = require('../controllers/PrescriptionController');
 router.post('/prescriptions', prescriptionController.createPrescription);
 
 // Get prescription by ID
-router.get('/prescriptions/:id', prescriptionController.getAllPrescriptions);
+router.get('/prescriptions/:id/:page', prescriptionController.getAllPrescriptions);
 
 // Update prescription by ID using POST
 router.post('/prescriptions/:id', prescriptionController.updatePrescription);

@@ -34,9 +34,7 @@ export default function PresectionInput({
                         value={dataform.medcinename}
                         onChange={handle}
                     />
-                    {errorsdata[index].medcinename && (
-                        <span className="text-danger">medcinename is required</span>
-                    )}
+                    
                 </div>
                 <div className="col-auto mb-4">
 
@@ -51,9 +49,7 @@ export default function PresectionInput({
                         value={dataform.doz}
                         onChange={handle}
                     />
-                    {errorsdata[index].doz && (
-                        <span className="text-danger">doz is required</span>
-                    )}
+                   
                 </div>
                 <div className="col-auto mb-4">
                     <Select
@@ -67,9 +63,7 @@ export default function PresectionInput({
                         placeholder="Select Timings"
                         onChange={handleSelectedOptions}
                     />
-                    {errorsdata[index].timing && (
-                        <span className="text-danger">timing is required</span>
-                    )}
+                    
                 </div>
                 <div className="col-1 mb-4">
                     {totalForms > 1 ? (

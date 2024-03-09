@@ -50,7 +50,9 @@ export default function WritePriscription({
   }, [list, Apiwrite]);
   return (
     <>
-      <div>WritePriscription</div>
+     <div className="">
+
+     
       {!specificState && <Presectionpage priscriptionData={priscriptionData} id={Apiwrite} />}
       {specificState && <Loader isLoading={specificState} />}
       <Hardhat
@@ -59,6 +61,7 @@ export default function WritePriscription({
         }}
         getPatientkey={priscriptionData?.patientUsername}
       />
+      </div>
     </>
   );
 }

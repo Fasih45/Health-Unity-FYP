@@ -16,7 +16,7 @@ const RegistrationForm = () => {
   const errorSignup = useSelector((state) => state.regis.error);
   const successMessage = useSelector((state) => state.regis.successMessage);
   const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const [flexchange, setflexchange] = useState({
     userimage: null,
@@ -129,59 +129,59 @@ const RegistrationForm = () => {
         error = !formData.username
           ? "Username is required"
           : !/^[A-Za-z][A-Za-z0-9]*$/.test(formData.username)
-          ? "Username must start with an alphabet and can only contain alphabets and numbers"
-          : formData.username.length < 4
-          ? "Username must be at least 4 characters long"
-          : "";
+            ? "Username must start with an alphabet and can only contain alphabets and numbers"
+            : formData.username.length < 4
+              ? "Username must be at least 4 characters long"
+              : "";
         break;
       case "email":
         error = !formData.email
           ? "Email is required"
           : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-          ? "Invalid email format"
-          : "";
+            ? "Invalid email format"
+            : "";
         break;
       case "password":
         error = !formData.password
           ? "Password is required"
           : formData.password.length < 4
-          ? "Password must be at least 4 characters long"
-          : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$/.test(
+            ? "Password must be at least 4 characters long"
+            : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$/.test(
               formData.password
             )
-          ? ""
-          : "Password must contain at least one letter, one digit, and one special character";
+              ? ""
+              : "Password must contain at least one letter, one digit, and one special character";
         break;
       case "confirmPassword":
         error = !formData.confirmPassword
           ? "Confirm Password is required"
           : formData.confirmPassword !== formData.password
-          ? "Passwords do not match"
-          : "";
+            ? "Passwords do not match"
+            : "";
         break;
       case "fullName":
         error = !formData.fullName
           ? "Full name is required"
           : !/^[A-Za-z ]+$/.test(formData.fullName)
-          ? "Full name must contain only alphabets and spaces"
-          : formData.fullName.length < 4
-          ? "Full name must be at least 4 characters long"
-          : "";
+            ? "Full name must contain only alphabets and spaces"
+            : formData.fullName.length < 4
+              ? "Full name must be at least 4 characters long"
+              : "";
         break;
       case "cnic":
         error = !formData.cnic
           ? "CNIC is required"
           : !/^\d{13}$/.test(formData.cnic)
-          ? "CNIC must be exactly 13 digits"
-          : "";
+            ? "CNIC must be exactly 13 digits"
+            : "";
         break;
       case "nationality":
         error =
           formData.nationality === "Select Nationality"
             ? "Nationality is required"
             : !formData.nationality
-            ? "Nationality is required"
-            : "";
+              ? "Nationality is required"
+              : "";
         break;
       case "dateOfBirth":
         error = !formData.dateOfBirth ? "Date of birth is required" : "";
@@ -190,14 +190,15 @@ const RegistrationForm = () => {
         error = !formData.medicalLicenseNumber
           ? "Medical License Number is required"
           : /^(MD\d+|\d+MD)$/.test(formData.medicalLicenseNumber)
-          ? ""
-          : "Invalid Medical License Number try MD12345 or 12345MD";
+            ? ""
+            : "Invalid Medical License Number try MD12345 or 12345MD";
         break;
 
       case "labName":
-        if (!/^[A-Za-z]{4,}$/.test(formData.labName)) {
-          error = "Lab Name must atleast 4 characters long and aplhabets";
+        if (formData.labName.length < 4) {
+          error = "Lab Name must be at least 4 characters long.";
         }
+        
         break;
       case "labLicense":
         if (!formData.labLicense || !/^FPHRA\d+$/i.test(formData.labLicense)) {
@@ -273,9 +274,8 @@ const RegistrationForm = () => {
                 </div>
               )}
               <h3 className="py-4 text-2xl text-center text-gray-800 dark:text-white">
-                {`Account Creation of ${
-                  user ? user.charAt(0).toUpperCase() + user.slice(1) : null
-                }`}
+                {`Account Creation of ${user ? user.charAt(0).toUpperCase() + user.slice(1) : null
+                  }`}
               </h3>
 
               <form className="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
@@ -288,9 +288,8 @@ const RegistrationForm = () => {
                       Username
                     </label>
                     <input
-                      className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.username ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.username ? "border-red-500" : ""
+                        }`}
                       id="username"
                       type="text"
                       placeholder="Username"
@@ -313,9 +312,8 @@ const RegistrationForm = () => {
                       Email
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.email ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.email ? "border-red-500" : ""
+                        }`}
                       id="email"
                       type="email"
                       placeholder="Email"
@@ -341,9 +339,8 @@ const RegistrationForm = () => {
                         Lab Name
                       </label>
                       <input
-                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.labName ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.labName ? "border-red-500" : ""
+                          }`}
                         id="labName"
                         type="text"
                         placeholder="Lab Name"
@@ -366,9 +363,8 @@ const RegistrationForm = () => {
                         Lab License
                       </label>
                       <input
-                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.labLicense ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.labLicense ? "border-red-500" : ""
+                          }`}
                         id="labLicense"
                         type="text"
                         placeholder="Lab License"
@@ -396,9 +392,8 @@ const RegistrationForm = () => {
                         Full Name
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.fullName ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.fullName ? "border-red-500" : ""
+                          }`}
                         id="fullName"
                         type="text"
                         placeholder="Full Name"
@@ -422,9 +417,8 @@ const RegistrationForm = () => {
                         CNIC
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.cnic ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.cnic ? "border-red-500" : ""
+                          }`}
                         id="cnic"
                         type="text"
                         placeholder="CNIC"
@@ -452,11 +446,10 @@ const RegistrationForm = () => {
                         Medical License Number
                       </label>
                       <input
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.medicalLicenseNumber
-                            ? "border-red-500"
-                            : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.medicalLicenseNumber
+                          ? "border-red-500"
+                          : ""
+                          }`}
                         id="medicalLicenseNumber"
                         type="text"
                         placeholder="Medical License Number"
@@ -496,9 +489,8 @@ const RegistrationForm = () => {
                       </label>
                       <input
                         id="dateOfBirth"
-                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                          formErrors.dateOfBirth ? "border-red-500" : ""
-                        }`}
+                        className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.dateOfBirth ? "border-red-500" : ""
+                          }`}
                         type="text"
                         placeholder="Select Date of Birth"
                         value={formData.dateOfBirth}
@@ -523,9 +515,8 @@ const RegistrationForm = () => {
                       Contact Number
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.contactNumber ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.contactNumber ? "border-red-500" : ""
+                        }`}
                       id="contactNumber"
                       type="text"
                       placeholder="Contact Number"
@@ -541,8 +532,9 @@ const RegistrationForm = () => {
                     )}
                   </div>
                 )}
+                
                 <div className="mb-4 md:flex md:justify-between">
-                  <div className="mb-4 md:mr-2 md:mb-0">
+                  <div className="mb-4 md:mr-2 md:mb-0 relative">
                     <label
                       className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
                       htmlFor="password"
@@ -550,25 +542,54 @@ const RegistrationForm = () => {
                       Password
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.password ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.password ? "border-red-500" : ""
+                        }`}
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="******************"
                       value={formData.password}
                       onChange={(e) =>
                         handleInputChange("password", e.target.value)
                       }
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 pt-4 flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? (
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                          />
+                        </svg>
+
+
+                      )}
+                    </button>
                     {formErrors.password && (
-                      <p className="text-xs italic text-red-500">
+                      <p className="text-xs italic text-red-500 absolute bottom-0 left-0">
                         {formErrors.password}
                       </p>
                     )}
                   </div>
 
-                  <div className="md:ml-2">
+                  <div className="md:ml-2 relative">
                     <label
                       className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
                       htmlFor="c_password"
@@ -576,24 +597,54 @@ const RegistrationForm = () => {
                       Confirm Password
                     </label>
                     <input
-                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                        formErrors.confirmPassword ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${formErrors.confirmPassword ? "border-red-500" : ""
+                        }`}
                       id="c_password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="******************"
                       value={formData.confirmPassword}
                       onChange={(e) =>
                         handleInputChange("confirmPassword", e.target.value)
                       }
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 pt-4 flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? (
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                          />
+                        </svg>
+
+
+                      )}
+                    </button>
                     {formErrors.confirmPassword && (
-                      <p className="text-xs italic text-red-500">
+                      <p className="text-xs italic text-red-500 absolute bottom-0 left-0">
                         {formErrors.confirmPassword}
                       </p>
                     )}
                   </div>
                 </div>
+
 
                 <div className="mb-6 text-center">
                   <button

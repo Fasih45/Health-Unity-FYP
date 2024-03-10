@@ -7,6 +7,7 @@ import PersonalInfo from "./PersonalInfo";
 import { useNavigate, useParams } from "react-router-dom";
 import Medicalrecord from "./Medicalrecord";
 import Labrecord from "./Labrecord";
+import InputComp_profileforMed from "./InputComp_profileforMed";
 
 export default function Welcome() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ export default function Welcome() {
           <div className="mb-8">
             <UserInfoCard data={profile} />
           </div>{" "}
+          <InputComp_profileforMed />
           <Labrecord />
         </>
       ) :  user === "pharmacy" && profile ? (

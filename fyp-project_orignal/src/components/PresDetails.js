@@ -64,7 +64,7 @@ export default function PresDetails({ pres }) {
                   </thead>
                   <tbody>
                     {predata.map((item, index) => (
-                      <tr key={index} className={ "bg-gray-100"}>
+                      <tr key={index}  className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                           {item.medcinename}

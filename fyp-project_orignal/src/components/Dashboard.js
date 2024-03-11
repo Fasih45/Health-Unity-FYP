@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import imagelogo from "./images/healthunitylogo.jpg";
+import UserInfoCard from "./UserInfoCard";
+import PersonalInfo from "./PersonalInfo";
 import { Routes, Route, Outlet, useParams, Link } from "react-router-dom";
-import Footer from "./Footer";
+import Aboutus from "./Aboutus";
+import Contactus from "./Contactus";
 
+import SearchDoc from "./SearchDoc";
+import Footer from "./Footer";
+import DocWorkPlaceInfo from "./DocWorkPalceInfo";
 
 const MainLayout = () => {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -59,7 +65,7 @@ const MainLayout = () => {
                 className="h-9 w-9 overflow-hidden rounded-full mr-3"
               >
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
-                  {username.charAt(0).toUpperCase()}
+                  {username.charAt(0)}
                 </div>
               </button>
             </div>
@@ -69,13 +75,57 @@ const MainLayout = () => {
               <div className="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md">
                 {/* Profile Info */}
                 <div className="flex items-center space-x-2 p-2">
-                  <div className="w-10 h-10 flex items-center justify-center bg-gray-500 text-white font-bold rounded-full">
-                    {username.charAt(0).toUpperCase()}
-                  </div>
+                  <img
+                    src="https://plchldr.co/i/40x40?bg=111111"
+                    alt="plchldr.co"
+                    className="h-9 w-9 rounded-full"
+                  />
                   <div className="font-medium">{fullname}</div>
                 </div>
 
-                
+                {/* Profile Options */}
+                <div className="flex flex-col space-y-3 p-2">
+                  <Link
+                    to={`/welcome/${user}/${username}/${fullname}`}
+                    className="transition hover:text-blue-600"
+                  >
+                    My Profile
+                  </Link>
+
+                  <Link
+                    to="comingsoon"
+                    className="transition hover:text-blue-600"
+                  >
+                    Edit Profile
+                  </Link>
+                  <Link
+                    to="comingsoon"
+                    className="transition hover:text-blue-600"
+                  >
+                    Settings
+                  </Link>
+                </div>
+
+                {/* Logout Button */}
+                <div className="p-2">
+                  <button className="flex items-center space-x-2 transition hover:text-blue-600">
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      ></path>
+                    </svg>
+                    <div>Log Out</div>
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -179,6 +229,23 @@ const MainLayout = () => {
                   {asideOpen && <span>Search Doctor</span>}
                 </Link>
               )}
+
+              {user === "patient" && (
+                <Link
+                  to="searchLab"
+                  className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.v.003z" />
+                  </svg>
+                  {asideOpen && <span>Search Lab</span>}
+                </Link>
+              )}
               {user === "patient" && (
                 <Link
                   to="trust"
@@ -195,7 +262,6 @@ const MainLayout = () => {
                   {asideOpen && <span>Trusted Doctor</span>}
                 </Link>
               )}
-
 
               {user !== "patient" && (
                 <Link
@@ -215,19 +281,6 @@ const MainLayout = () => {
                 </Link>
               )}
 
-              <Link
-                to="comingsoon"
-                class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-                </svg>
-
-
-
-                {asideOpen && <span>Logout</span>}
-              </Link>
-
               {/* Repeat similar blocks for other aside links */}
             </aside>
           }
@@ -236,7 +289,7 @@ const MainLayout = () => {
             <Outlet />
           </div>
         </div>
-      </main >
+      </main>
       <Footer />
     </>
   );

@@ -66,6 +66,7 @@ function Hardhat(props) {
           write={props.write}
           getPatientkey={props.getPatientkey}
           getKey={props.getKey}
+          setmed={props.setmed}
         />
       }
     </div>

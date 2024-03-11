@@ -55,14 +55,14 @@ export const getProfile = (user,username) => {
 };
 
 // Thunk to register doctor profile
-export const registerDoctorProfile = (credentials) => {
+export const registerDoctorProfile = (user,credentials) => {
   return async (dispatch) => {
     // Dispatch an action indicating the start of the registration process
     dispatch(getDoctorProfileRequest());
 
     try {
       // Make a POST request to register the doctor profile
-      const response = await axios.post(`http://localhost:5000/profile/doctor/register`, credentials);
+      const response = await axios.post(`http://localhost:5000/profile/${user}/register`, credentials);
 
       // Handle the successful registration
       const jsonResponse = response.data;

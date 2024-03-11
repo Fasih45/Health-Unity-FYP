@@ -225,6 +225,14 @@ const Presectionpage = ({ priscriptionData, id }) => {
                 Add Medicine
               </button>
             </div>
+            <div className="flex justify-center items-center">
+              <div className="flex text-center p-5">
+                {formErrors.some(error => error.medcinename || error.doz || error.timing) && (
+                  <div className="text-danger">Please fill in all required fields.</div>
+                )}
+              </div>
+            </div>
+
             {formData.map((data, index) => (
               <PresectionInput
                 key={index}

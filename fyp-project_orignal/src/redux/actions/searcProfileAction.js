@@ -44,14 +44,14 @@ export const resetDoctorProfiles = () => ({
 });
 
 // Thunk to get doctor profiles
-export const getProfiles = (user,params) => {
+export const getProfiles = (user,params,typeOf) => {
   return async (dispatch) => {
     dispatch(getDoctorProfilesRequest());
     let token = localStorage.getItem(user);
     const parsedtoken = token ? JSON.parse(token) : [];
     try {
       const response = await axios.post(
-        `http://localhost:5000/profile/doctorProfiles`,
+        `http://localhost:5000/profile/${typeOf}Profiles`,
         params,
         {
           headers: {

@@ -38,7 +38,8 @@ function App() {
           element={<Dashboard />}
         >
           <Route exact path="" element={<Welcome />} />
-          <Route exact path="search" element={<SearchDoc />} />
+          <Route exact path="search" element={<SearchDoc Medicallab={false} />} />
+          <Route exact path="searchLab" element={<SearchDoc Medicallab={true} />} />
           <Route exact path="trust" element={<TrustedDoc />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />

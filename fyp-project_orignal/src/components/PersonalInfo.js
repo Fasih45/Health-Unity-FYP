@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { registerDoctorProfile } from "../redux/actions/docProfile";
 import Hardhat from "./Hardhat";
 import Loader from "./Loader";
+import { useParams } from "react-router-dom";
 
 const PersonalInfo = (props) => {
   const [specificState, setSpecificState] = useState(false);
@@ -38,11 +39,10 @@ const PersonalInfo = (props) => {
     { value: "Sunday", label: "Sunday" },
   ];
   const dispatch = useDispatch();
-  const { user } = props;
-
+  
   useEffect(() => {
     if (Apiwrite === "yes") {
-      let response = dispatch(registerDoctorProfile(formData));
+      let response = dispatch(registerDoctorProfile("doctor",formData));
       response.then((result) => {
         if (result === 201) {
           setSpecificState(false);
@@ -60,7 +60,7 @@ const PersonalInfo = (props) => {
 
 
   const [formData, setFormData] = useState({
-    username: user,
+    username: props.user,
     currentHospital: "",
     currentClinic: "",
     specialty: "",

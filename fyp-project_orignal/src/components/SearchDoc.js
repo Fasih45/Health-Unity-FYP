@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import DocCard from "./DocCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfiles } from "../redux/actions/searcProfileAction";
+import { getDoctorProfilesRequest, getProfiles } from "../redux/actions/searcProfileAction";
 import BookAppoinment from "./BookAppoinment";
 import { useLocation, useParams } from "react-router-dom";
 import DocViewProfile from "./DocViewProfile";
 import Notfound404 from "./Notfound404";
+import LabViewProfile from "./LabViewProfile";
 
-const ToolSearchForm = () => {
+const ToolSearchForm = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [pricingType, setPricingType] = useState("");
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
   const [book, setBook] = useState(null);
   const [viewProfile, setViewProfile] = useState(null);
+  const [viewProfileLab, setViewProfileLab] = useState(null);
   const dispatch = useDispatch();
   const location = useLocation();
   const { user } = useParams();
@@ -28,6 +30,8 @@ const ToolSearchForm = () => {
       setCur(1);
       setBook(null);
       setViewProfile(null);
+      setViewProfileLab(null);  
+          
     };
   }, [location]);
 
@@ -36,10 +40,30 @@ const ToolSearchForm = () => {
   );
   useEffect(() => {
     // Dispatch the API call with initial parameters
-    dispatch(
-      getProfiles(user, { page: 1, fullName: searchInput, specialty: pricingType })
-    );
-  }, [dispatch, pricingType, user]);
+    !props.Medicallab
+      ? dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: searchInput, specialty: pricingType },
+            "doctor"
+          )
+        )
+      : pricingType === "ok"
+      ? dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: "", specialty: searchInput },
+            "medicalLab"
+          )
+        )
+      : dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: searchInput, specialty: "" },
+            "medicalLab"
+          )
+        );
+  }, [dispatch, pricingType, user,props.Medicallab,searchInput]);
 
   useEffect(() => {
     console.log("Profiles:", profiles);
@@ -53,28 +77,64 @@ const ToolSearchForm = () => {
     if (newPage >= 1) {
       setNum(newPage);
       setCur(newPage);
-      dispatch(
-        getProfiles(user, {
-          page: newPage,
-          fullName: searchInput,
-          specialty: pricingType,
-        })
-      );
+      !props.Medicallab
+        ? dispatch(
+            getProfiles(
+              user,
+              { page: newPage, fullName: searchInput, specialty: pricingType },
+              "doctor"
+            )
+          )
+        : pricingType === "ok"
+        ? dispatch(
+            getProfiles(
+              user,
+              { page: newPage, fullName: "", specialty: searchInput },
+              "medicalLab"
+            )
+          )
+        : dispatch(
+            getProfiles(
+              user,
+              { page: newPage, fullName: searchInput, specialty: "" },
+              "medicalLab"
+            )
+          );
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(
-      getProfiles(user, { page: 1, fullName: searchInput, specialty: pricingType })
-    );
+    !props.Medicallab
+      ? dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: searchInput, specialty: pricingType },
+            "doctor"
+          )
+        )
+      : pricingType === "ok"
+      ? dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: "", specialty: searchInput },
+            "medicalLab"
+          )
+        )
+      : dispatch(
+          getProfiles(
+            user,
+            { page: 1, fullName: searchInput, specialty: "" },
+            "medicalLab"
+          )
+        );
   };
 
   return (
     <>
-      {user!=='patient' ? (
+      {user !== "patient" ? (
         <Notfound404 />
-      ) : !book && !viewProfile ? (
+      ) : !book && !viewProfile && !viewProfileLab  ? (
         <div>
           {/* Search Bar */}
           <form
@@ -96,15 +156,16 @@ const ToolSearchForm = () => {
                 Search
               </button>
             </div>
-            <select
-              id="pricingType"
-              name="pricingType"
-              className="w-21 h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-500 text-sky-500 rounded px-2 md:px-3 py-0 md:py-1 "
-              value={pricingType}
-              onChange={(e) => setPricingType(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="General Medicine">General Medicine</option>
+            {!props.Medicallab && (
+              <select
+                id="pricingType"
+                name="pricingType"
+                className="w-21 h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-500 text-sky-500 rounded px-2 md:px-3 py-0 md:py-1 "
+                value={pricingType}
+                onChange={(e) => setPricingType(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="General Medicine">General Medicine</option>
                 <option value="Cardiology">Cardiology</option>
                 <option value="Dermatology">Dermatology</option>
                 <option value="Orthopedics">Orthopedics</option>
@@ -114,7 +175,20 @@ const ToolSearchForm = () => {
                 <option value="Neurology">Neurology</option>
                 <option value="Dentistry">Dentistry</option>
                 <option value="Psychiatry">Psychiatry</option>
-            </select>
+              </select>
+            )}
+            {props.Medicallab && (
+              <select
+                id="pricingType"
+                name="pricingType"
+                className="w-21 h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-500 text-sky-500 rounded px-2 md:px-3 py-0 md:py-1 "
+                value={pricingType}
+                onChange={(e) => setPricingType(e.target.value)}
+              >
+                <option value="">By Lab</option>
+                <option value="ok">By Test</option>
+              </select>
+            )}
           </form>
 
           {/* User info card */}
@@ -123,14 +197,18 @@ const ToolSearchForm = () => {
               <main className="bg-blue-500">
                 <div className="px-4 mt-10 bg-blue-500">
                   <div className="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
-                    {profiles.map((profile) => (
-                      <DocCard
-                        key={profile.id}
-                        profile={profile}
-                        book={() => setBook(profile)}
-                        viewprofile={() => setViewProfile(profile)}
-                      />
-                    ))}
+                    {profiles&&
+                      profiles.map((profile) => (
+                        <DocCard
+                          key={profile.id}
+                          profile={profile}
+                          book={() => setBook(profile)}
+                          viewprofile={() => setViewProfile(profile)}
+                          setViewProfileLab={() => setViewProfileLab(profile)}
+                          Medicallab={props.Medicallab}
+                        />
+                      ))}
+                    
                   </div>
                 </div>
               </main>
@@ -172,7 +250,7 @@ const ToolSearchForm = () => {
         </div>
       ) : book ? (
         <BookAppoinment docProfile={book} />
-      ) : (
+      ) : viewProfileLab?(<LabViewProfile profile={viewProfileLab}/>):(
         <DocViewProfile
           docProfile={viewProfile}
           book={() => setBook(viewProfile)}

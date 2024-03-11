@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 
 const UserInfoCard = ({ data }) => {
-  const {
-    fullName,
-    medicalLicenseNumber,
-    dateOfBirth,
-    username,
-    nationality,
-    cnic,
-    labName,
-    labLicense,
-    contactNumber,
-  } = data;
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -44,22 +33,22 @@ const UserInfoCard = ({ data }) => {
       <hr className="my-4 border-t border-gray-300" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {labName && <InfoItem label="LabName" value={labName} />}
-        {labLicense && <InfoItem label="LabLicense" value={labLicense} />}
-        {contactNumber && <InfoItem label="Contact NO. " value={contactNumber} />}
-        {fullName && <InfoItem label="Name" value={fullName} />}
-        {medicalLicenseNumber && (
-          <InfoItem label="Lisence N0" value={medicalLicenseNumber} />
+        {data?.labName && <InfoItem label="LabName" value={data.labName} />}
+        {data?.labLicense && <InfoItem label="LabLicense" value={data.labLicense} />}
+        {data?.contactNumber && <InfoItem label="Contact NO. " value={data.contactNumber} />}
+        {data?.fullName && <InfoItem label="Name" value={data.fullName} />}
+        {data?.medicalLicenseNumber && (
+          <InfoItem label="Lisence N0" value={data.medicalLicenseNumber} />
         )}
-        {dateOfBirth && (
-          <InfoItem label="Age" value={calculateAge(dateOfBirth)} />
+        {data?.dateOfBirth && (
+          <InfoItem label="Age" value={calculateAge(data.dateOfBirth)} />
         )}
-        {username && <InfoItem label="Username" value={username} />}
-        {dateOfBirth && (
-          <InfoItem label="Birth Date" value={formatDate(dateOfBirth)} />
+        {data?.username && <InfoItem label="Username" value={data.username} />}
+        {data?.dateOfBirth && (
+          <InfoItem label="Birth Date" value={formatDate(data.dateOfBirth)} />
         )}
-        {cnic && <InfoItem label="Cnic" value={cnic} />}
-        {nationality && <InfoItem label="Nationality" value={nationality} />}
+        {data?.cnic && <InfoItem label="Cnic" value={data.cnic} />}
+        {data?.nationality && <InfoItem label="Nationality" value={data.nationality} />}
       </div>
     </div>
   );

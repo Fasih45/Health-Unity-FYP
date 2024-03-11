@@ -11,6 +11,7 @@ import { addDoctorToList } from "../redux/actions/patientTrustedlistAction";
 const Buy = ({
   state,
   setdoc,
+  setmed,
   setcall,
   setappointment,
   acceptAppointment,
@@ -42,6 +43,30 @@ const Buy = ({
       }
     }
   };
+  const setMed = async () => {
+    const { contract } = state;
+    const amount = { value: ethers.utils.parseEther("0.2") };
+
+    try {
+      const transaction = await contract.addLab(username,amount);
+      await transaction.wait();
+      alert("Transaction is successful");
+      setcall("yes");
+      // window.location.reload();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setcall("no");
+      if (error.message.includes("insufficient funds")) {
+        alert("Insufficient funds. Please make sure you have enough Ether.");
+      } else if (error.message.includes("Please pay more than 0 ether")) {
+        alert("Please pay more than 0 ether");
+      } else {
+        alert(error);
+      }
+    }
+  };
+
+
   const removeDoctor = async () => {
     const { contract } = state;
     const amount = { value: ethers.utils.parseEther("0") };
@@ -136,7 +161,6 @@ const Buy = ({
       ) {
         setcall("no");
         alert("No Record Exit with this Meta Account!");
-        
       } else {
         console.log(test);
 
@@ -200,6 +224,10 @@ const Buy = ({
     if (state.contract && setdoc) {
       console.log("addDoc called");
       setDoc();
+    }
+    if (state.contract && setmed) {
+      console.log("addmed called");
+      setMed();
     }
     if (state.contract && setappointment) {
       console.log(

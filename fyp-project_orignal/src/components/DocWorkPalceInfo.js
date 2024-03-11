@@ -28,7 +28,7 @@ const WorkInfoCard = ({ data }) => {
         <div>
           <p className="text-sm text-gray-600">Working Days:</p>
           <ul>
-            {workingdays.map((day, index) => (
+            {workingdays?.map((day, index) => (
               <li key={index} className="text-lg font-semibold text-gray-800">
                 {day}
               </li>

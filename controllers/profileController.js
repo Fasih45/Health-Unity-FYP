@@ -243,7 +243,7 @@ exports.getLabProfiles = async (req, res, next) => {
     // Check if the user sent a specialty
     if (specialty) {
       const fullNameRegex = new RegExp(specialty, "i");
-      query['testdata.testname'] = fullNameRegex;
+      query['test.name'] = fullNameRegex;
     }
 
     const doctorProfiles = await MedicalLabProfile.find(query)

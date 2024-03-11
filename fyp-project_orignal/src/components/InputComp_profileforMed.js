@@ -4,6 +4,7 @@ import Addtest from "./Addtest";
 
 const InputComp_profileforMed = (props) => {
     const weekdays = [
+        { value: "7 Days", label: "7 Days" },
         { value: "Monday", label: "Monday" },
         { value: "Tuesday", label: "Tuesday" },
         { value: "Wednesday", label: "Wednesday" },
@@ -29,14 +30,42 @@ const InputComp_profileforMed = (props) => {
             ...prevData,
             [name]: value,
         }));
+        setFormErrors("address", false);
     };
 
+
     const handleDaysChange = (selectedOptions) => {
-        const selectedValues = selectedOptions.map((option) => option.value);
-        setFormData((prevData) => ({
-            ...prevData,
-            workingdays: selectedValues,
-        }));
+
+        if (selectedOptions.length === 1 && selectedOptions[0].value === "7 Days") {
+            // If "7 Days" is selected, deselect all other options
+            // setSelectedDays([{ value: "7 Days", label: "7 Days" }]);
+            const selectedValues = selectedOptions.map((option) => option.value);
+            // console.log("Days", selectedValues)
+            setFormData((prevData) => ({
+                ...prevData,
+                workingdays: selectedValues,
+            }));
+
+        } else if (selectedOptions.some(option => option.value === "7 Days")) {
+            // If any other option is selected along with "7 Days", deselect "7 Days"
+            const days = (selectedOptions.filter(option => option.value !== "7 Days"));
+            const selectedValues = days.map((option) => option.value);
+            // console.log("Days", selectedValues)
+            setFormData((prevData) => ({
+                ...prevData,
+                workingdays: selectedValues,
+            }));
+        } else {
+            // setSelectedDays(selectedOptions);
+            const days = (selectedOptions.filter(option => option.value !== "7 Days"));
+            const selectedValues = days.map((option) => option.value);
+            // console.log("Days", selectedValues)
+            setFormData((prevData) => ({
+                ...prevData,
+                workingdays: selectedValues,
+            }));
+        }
+        setFormErrors("weekdays", false);
     };
 
     const handleTestChange = (updatedTest) => {
@@ -45,6 +74,7 @@ const InputComp_profileforMed = (props) => {
             ...formData,
             test: updatedTest
         });
+        setFormErrors("tests", false);
     };
 
     const handleSubmit = (event) => {
@@ -70,7 +100,7 @@ const InputComp_profileforMed = (props) => {
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto ">
                 <div className="bg-white dark:bg-gray-700 rounded-md shadow-md p-6">
                     <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
                         Workplace Information
@@ -90,8 +120,8 @@ const InputComp_profileforMed = (props) => {
                                     onChange={handleChange}
                                     // className="border p-2 rounded w-full"
                                     className={`form-control border rounded py-2 px-3  ${formErrors.address ? "border-red-500 text-red-500" : ""
-                            }`}
-                                    
+                                        }`}
+
                                 />
                                 {formErrors.address && <p className="text-red-500 text-xs mt-1">Address is required</p>}
                             </div>
@@ -118,7 +148,7 @@ const InputComp_profileforMed = (props) => {
                         </div>
                         {formErrors.test && <p className="text-red-500 text-center text-xs mt-1">Test Name and Cost should not be empty</p>}
                         <Addtest test={formData.test} onTestChange={handleTestChange} />
-                        
+
                         <div className="flex justify-center pt-5">
                             <button
                                 type="submit"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const Addtest = ({ test, onTestChange }) => {
-    const [testrec, settestrec] = useState(test);
+    const [testrec, settestrec] = useState([{ name: "", cost: "" }]);
     const [editIndex, setEditIndex] = useState(null); // State to track the index being edited
     const [error, setError] = useState("");
     const [flagerror, setflagerror] = useState(false);
@@ -14,7 +14,14 @@ const Addtest = ({ test, onTestChange }) => {
 
 
     const addFunction = () => {
-        if (testrec.every(item => item.name.trim() !== "" && item.cost.trim() !== "")) {
+        // console.log('testrec', testrec);
+        const duplicates = testrec.filter((item, index) => testrec.some((elem, idx) => elem.name === item.name && idx !== index));
+        // console.log('duplicates', duplicates);
+        if (duplicates.length > 0) {
+            setError("Test Name Already Exit.");
+            setflagerror(true);
+
+        } else if (testrec.every(item => item.name.trim() !== "" && item.cost.trim() !== "")) {
             const newTestIndex = testrec.length;
             settestrec((prevData) => [
                 ...prevData,
@@ -31,6 +38,8 @@ const Addtest = ({ test, onTestChange }) => {
             setflagerror(true);
         }
     }
+
+
 
 
     const deleteFunction = (index) => {
@@ -58,6 +67,7 @@ const Addtest = ({ test, onTestChange }) => {
             [name]: value,
         };
         settestrec(updatedFormData);
+        setError("")
     }
 
 
@@ -65,10 +75,14 @@ const Addtest = ({ test, onTestChange }) => {
         setEditIndex(index);
     }
 
-    const handleSubmit=()=>{
+    const handleSubmit = () => {
+        const duplicates = testrec.filter((item, index) => testrec.some((elem, idx) => elem.name === item.name && idx !== index));
+        if (duplicates.length > 0) {
+            setError("Test Name Already Exit.");
+            setflagerror(true);
 
-         if (testrec.every(item => item.name.trim() !== "" && item.cost.trim() !== "")) {
-            console.log('testrec',testrec);
+        } else if (testrec.every(item => item.name.trim() !== "" && item.cost.trim() !== "")) {
+            console.log('testrec', testrec);
         } else {
             setError("Please fill in all fields..");
             setflagerror(true);
@@ -89,7 +103,21 @@ const Addtest = ({ test, onTestChange }) => {
 
                 {flagerror && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
-            <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
+            <div class="p-4">
+                <label for="table-search" class="sr-only">Search</label>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items"/>
+                </div>
+            </div>
+            <table className="min-w-full divide-y border-b divide-gray-200 overflow-x-auto">
                 <thead class="bg-gray-50">
                     {/* Table header */}
                     <tr>
@@ -109,7 +137,9 @@ const Addtest = ({ test, onTestChange }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                     {testrec.map((item, index) => (
-                        <tr key={index} className="border-b hover:bg-orange-100 bg-gray-100">
+                        // <tr key={index} className="border-b hover:bg-orange-100 bg-white-100">
+                        <tr key={index} className={`border-b hover:bg-orange-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}`}>
+
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                             <td className="p-3 px-5">
                                 <input
@@ -117,7 +147,7 @@ const Addtest = ({ test, onTestChange }) => {
                                     name="name"
                                     placeholder="name"
                                     value={item.name}
-                                    className="bg-transparent border-b-2 border-gray-300 py-2"
+                                    className={`bg-transparent  rounded-full border-b-2 px-4  py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
                                     onChange={(e) => handleChangetest(e, index)}
                                     disabled={editIndex === index ? false : true} // Disable input if not in edit mode
                                 />
@@ -128,7 +158,7 @@ const Addtest = ({ test, onTestChange }) => {
                                     name="cost"
                                     placeholder="cost"
                                     value={item.cost}
-                                    className="bg-transparent border-b-2 border-gray-300 py-2"
+                                    className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
                                     onChange={(e) => handleChangetest(e, index)}
                                     disabled={editIndex === index ? false : true} // Disable input if not in edit mode
                                 />
@@ -159,7 +189,7 @@ const Addtest = ({ test, onTestChange }) => {
                 type="button"
                 onClick={handleSubmit}
                 class="text-white mt-2 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                Save Changes
+                Save test Changes
             </button>
         </>
     );

@@ -94,12 +94,7 @@ const Addtest = ({ test, onTestChange }) => {
 
             <div className="mt-8 mb-3 text-center">
 
-                <button
-                    type="button"
-                    onClick={addFunction}
-                    class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                    Add Test
-                </button>
+
 
                 {flagerror && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
@@ -114,7 +109,7 @@ const Addtest = ({ test, onTestChange }) => {
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items"/>
+                    <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" />
                 </div>
             </div>
             <table className="min-w-full divide-y border-b divide-gray-200 overflow-x-auto">
@@ -185,6 +180,12 @@ const Addtest = ({ test, onTestChange }) => {
                     ))}
                 </tbody>
             </table>
+            <button
+                type="button"
+                onClick={addFunction}
+                class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Add Test
+            </button>
             <button
                 type="button"
                 onClick={handleSubmit}

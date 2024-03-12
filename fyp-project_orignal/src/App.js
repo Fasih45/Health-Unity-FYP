@@ -4,7 +4,6 @@ import "./index.css";
 import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
 import Dashboard from "./components/Dashboard";
-
 import { Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import SearchDoc from "./components/SearchDoc";
@@ -18,7 +17,7 @@ import Comingsoon from "./components/Comingsoon";
 import TrustedDoc from "./components/TrustedDoc";
 import WritePriscription from "./components/WritePriscription";
 import MedicalRecord from "./components/MedicalRecordx";
-
+import MangeLabTests from "./components/MangeLabTests";
 
 function App() {
   
@@ -43,13 +42,10 @@ function App() {
           <Route exact path="trust" element={<TrustedDoc />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
-          {/* <Route exact path="comingsoon" element={<Comingsoon />} /> */}
+          <Route exact path="mange_tests" element={<MangeLabTests/>} />
           <Route exact path="comingsoon" element={<Comingsoon />} />
           <Route exact path="record" element={<MedicalRecord/>} />
           <Route exact path="noti/Patientrecord" element={<MedicalRecord/>} />
-          
-
-
         </Route>
         <Route exact path="/dic" element={<DocViewProfile />} />
       </Routes>

@@ -148,7 +148,7 @@ export default function LabViewProfile(props) {
                 </thead>
                 <tbody className="bg-white  divide-y divide-gray-200">
                   {currentRecords.map((item, index) => (
-                    <tr key={index} className={`border-b hover:bg-orange-100 bg-white`}>
+                    <tr key={index} className={`border-b hover:bg-blue-200 bg-white`}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{indexOfFirstRecord + index + 1}</td>
                       <td className="p-3 px-5">
                         <input
@@ -156,7 +156,7 @@ export default function LabViewProfile(props) {
                           name="name"
                           placeholder="name"
                           value={item.name}
-                          className={`bg-transparent  rounded-full border-b-2 px-4  py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
+                          className={`bg-transparent  rounded-full border-b-2 px-4  py-2 bg-white`}
 
                           disabled={true} // Disable input if not in edit mode
                         />
@@ -167,8 +167,7 @@ export default function LabViewProfile(props) {
                           name="cost"
                           placeholder="cost"
                           value={item.cost}
-                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
-
+                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 bg-white`}
                           disabled={true} // Disable input if not in edit mode
                         />
                       </td>

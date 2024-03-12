@@ -39,9 +39,6 @@ const Addtest = ({ test, onTestChange }) => {
         }
     }
 
-
-
-
     const deleteFunction = (index) => {
         settestrec((prevData) => {
             const newData = [...prevData];
@@ -93,9 +90,6 @@ const Addtest = ({ test, onTestChange }) => {
         <>
 
             <div className="mt-8 mb-3 text-center">
-
-
-
                 {flagerror && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
             <div class="p-4">
@@ -126,7 +120,7 @@ const Addtest = ({ test, onTestChange }) => {
                             Cost
                         </th>
                         <th scope="col" className="relative px-6 py-3">
-                            <span className="sr-only">Edit</span>
+                            <span className="sr-only">Action</span>
                         </th>
                     </tr>
                 </thead>

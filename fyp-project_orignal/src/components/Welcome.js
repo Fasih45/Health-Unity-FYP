@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Medicalrecord from "./Medicalrecord";
 import Labrecord from "./Labrecord";
 import PersonalInfoLab from "./PersonalInfoLab";
+import Medworkplaceinfo from "./Medworkplaceinfo";
 
 export default function Welcome() {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function Welcome() {
   }, [reload, dispatch, user, username]);
 
   useEffect(() => {
-    console.log(profile);
+    // console.log(profile);
     if (errorlog === 404 || errorlog === 401) {
       console.log(errorlog);
       navigate(`/`);
@@ -75,7 +76,12 @@ export default function Welcome() {
               {user === "doctor" ? (
                 <WorkInfoCard data={profile} />
               ) : (
-                console.log("here:", profile)
+                // <>
+                  
+                //   {/* console.log("data here:", profile) */}
+                // </>
+                <Medworkplaceinfo  data={profile}/>
+
               )}
             </>
           ) : (

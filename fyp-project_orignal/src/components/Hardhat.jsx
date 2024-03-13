@@ -50,9 +50,9 @@ function Hardhat(props) {
 
   return (
     <div>
-      <p style={{ marginTop: "10px", marginLeft: "5px" }}>
+      {/* <p style={{ marginTop: "10px", marginLeft: "5px" }}>
         <small>Connected Account - {account}</small>
-      </p>
+      </p> */}
       {
         <Buy
           state={state}

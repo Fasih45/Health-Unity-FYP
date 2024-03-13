@@ -50,7 +50,7 @@ export default function WritePriscription({
   }, [list, Apiwrite]);
   return (
     <>
-      <div>WritePriscription</div>
+     
       {!specificState && <Presectionpage priscriptionData={priscriptionData} id={Apiwrite} />}
       {specificState && <Loader isLoading={specificState} />}
       <Hardhat

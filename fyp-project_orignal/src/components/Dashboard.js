@@ -9,6 +9,7 @@ const MainLayout = () => {
   const [asideOpen, setAsideOpen] = useState(true);
   const [completeprofile, setcompleteprofilemain] = useState(false);
   const { user, username, fullname } = useParams();
+  const [flagasidebar, setFlagasidebar] = useState(false);
 
 
 
@@ -18,11 +19,21 @@ const MainLayout = () => {
         {/* Header */}
         <header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-blue-500 p-2">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center ">
             <button
               type="button"
               className="text-3xl"
-              onClick={() => setAsideOpen(!asideOpen)}
+              onClick={() => {
+                if (!flagasidebar) { 
+                  setFlagasidebar(true)
+                  setAsideOpen(true)
+                 }
+                else { 
+                  setFlagasidebar(false) 
+                  setAsideOpen(false)
+                }
+               
+              }}
               onBlur={() => setAsideOpen(false)}
             >
               <svg
@@ -65,10 +76,21 @@ const MainLayout = () => {
         <div className="flex">
           {/* Aside */}
           {
-            <aside
-              className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
-              onMouseEnter={() => setAsideOpen(true)}
-              onMouseLeave={() => setAsideOpen(false)}
+            (<aside
+              // className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
+              className={`flex max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 ${
+                !asideOpen && "hidden md:flex" // Hide the aside on screens larger than small
+              }`}
+              onMouseEnter={() => {
+                if (!flagasidebar) {
+                  setAsideOpen(true);
+                }
+              }}
+              onMouseLeave={() => {
+                if (!flagasidebar) {
+                  setAsideOpen(false);
+                }
+              }}
               style={{ width: asideOpen ? "12rem" : "4rem", height: "100vh" }}
             >
               <Link
@@ -241,7 +263,7 @@ const MainLayout = () => {
 
 
               {/* Repeat similar blocks for other aside links */}
-            </aside>
+            </aside>)
           }
 
           <div className="w-full bg-gray-100 p-4">

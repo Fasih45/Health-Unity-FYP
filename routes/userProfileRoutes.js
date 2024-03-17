@@ -19,4 +19,5 @@ router.get("/pharmacy/:username", authenticateTokenPMedicallab,profileController
 router.post("/doctorProfiles",authenticateTokenPatient, profileController.getDoctorProfiles);
 router.post("/medicalLabProfiles", profileController.getLabProfiles);
 router.get("/doctorProfile/:username", profileController.getDoctorProfile);
+router.get("/medicalLabProfile/:username", profileController.getDoctorProfileMedicallabs);
 module.exports = router;

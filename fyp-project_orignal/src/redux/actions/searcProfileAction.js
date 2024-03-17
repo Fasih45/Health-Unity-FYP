@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_DOCTOR_PROFILES = "GET_DOCTOR_PROFILES";
 export const DOCTOR_PROFILES_SUCCESS = "DOCTOR_PROFILES_SUCCESS";
 export const DOCTOR_PROFILE_SUCCESS = "DOCTOR_PROFILE_SUCCESS"; ///for single profile
+export const Medical_PROFILE_SUCCESS = "Medical_PROFILE_SUCCESS"; ///for single profile
 export const DOCTOR_PROFILES_FAILURE = "DOCTOR_PROFILES_FAILURE";
 export const RESET_DOCTOR_PROFILES = "RESET_DOCTOR_PROFILES";
 
@@ -31,6 +32,16 @@ export const doctorProfileSuccess = (
   type: DOCTOR_PROFILE_SUCCESS,
   statuscode: statusCode,
   singleprofile: profiles,
+});
+export const medicalLabsProfileSuccess = (
+  profiles,
+  currentPage,
+  totalItems,
+  statusCode
+) => ({
+  type: Medical_PROFILE_SUCCESS,
+  statuscode: statusCode,
+  singleprofileMedicalLab: profiles,
 });
 
 export const doctorProfilesFailure = (error, statusCode) => ({
@@ -113,3 +124,36 @@ export const getProfileDoc = (params) => {
     }
   };
 };
+export const getProfileMedicalLab = (params) => {
+  return async (dispatch) => {
+    dispatch(getDoctorProfilesRequest());
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/profile/medicalLabProfile/${params}`
+      );
+      const jsonResponse = response.data;
+
+      dispatch(medicalLabsProfileSuccess(jsonResponse, 1, 1, 200));
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        const message = error.response.data;
+
+        if (status === 404) {
+          dispatch(doctorProfilesFailure(message, status));
+        } else {
+          dispatch(
+            doctorProfilesFailure(
+              `Error: ${status} Message: ${message}`,
+              status
+            )
+          );
+        }
+      } else {
+        dispatch(doctorProfilesFailure("Network error", 500));
+      }
+    }
+  };
+};
+

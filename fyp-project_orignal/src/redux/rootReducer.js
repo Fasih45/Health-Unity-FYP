@@ -5,6 +5,7 @@ import docprofileReducer from './reducer/docprofileReducer';
 import searchProfileReducer from './reducer/searchProfileReducer';
 import appointmentReducer from './reducer/appointmentReducer';
 import patientTrustedListReducer from "./reducer/patientTrustedlistReducer";
+import patientTrustedListReducerforLab from "./reducer/patientTrustedlistforLabReducer";
 import patientPrescriptionReducer from "./reducer/prescriptionReducer";
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,7 +14,9 @@ const rootReducer = combineReducers({
   searchProfile:searchProfileReducer,
   appointment:appointmentReducer,
   patientTrustedList: patientTrustedListReducer,
-  patientPrescription:patientPrescriptionReducer
+  patientPrescription:patientPrescriptionReducer,
+  patientTrustedListforLab: patientTrustedListReducerforLab,
+
 });
 
 export default rootReducer;

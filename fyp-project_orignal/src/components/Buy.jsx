@@ -19,6 +19,8 @@ const Buy = ({
   write,
   getPatientkey,
   getKey,
+  addLabstotrust,
+  removeLab
 }) => {
   const { user, username } = useParams();
   const setDoc = async () => {
@@ -65,7 +67,50 @@ const Buy = ({
       }
     }
   };
+  
+  const addLabstotrustList= async () => {
+    const { contract } = state;
+    const amount = { value: ethers.utils.parseEther("0.2") };
 
+    try {
+      const transaction = await contract.addLabToTrustedList(addLabstotrust,username);
+      await transaction.wait();
+      alert("Transaction is successful");
+      setcall("yes");
+      // window.location.reload();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setcall("no");
+      if (error.message.includes("insufficient funds")) {
+        alert("Insufficient funds. Please make sure you have enough Ether.");
+      } else if (error.message.includes("Please pay more than 0 ether")) {
+        alert("Please pay more than 0 ether");
+      } else {
+        alert(error);
+      }
+    }
+  };
+  
+  const removeLabstotrustList= async () => {
+    const { contract } = state;
+    try {
+      const transaction = await contract.removeLabToTrustedList(removeLab);
+      await transaction.wait();
+      alert("Transaction is successful");
+      setcall("yes");
+      // window.location.reload();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setcall("no");
+      if (error.message.includes("insufficient funds")) {
+        alert("Insufficient funds. Please make sure you have enough Ether.");
+      } else if (error.message.includes("Please pay more than 0 ether")) {
+        alert("Please pay more than 0 ether");
+      } else {
+        alert("Plz select patient account");
+      }
+    }
+  };
 
   const removeDoctor = async () => {
     const { contract } = state;
@@ -289,6 +334,14 @@ const Buy = ({
     if (state.contract && getKey) {
       console.log("getKey:", getKey);
       getOwnKey();
+    }
+    if (state.contract &&addLabstotrust ) {
+      console.log("addLab:", addLabstotrust);
+      addLabstotrustList();
+    }
+    if (state.contract && removeLab) {
+      console.log("removeLab:", removeLab);
+      removeLabstotrustList();
     }
   }, [state.contract]);
 

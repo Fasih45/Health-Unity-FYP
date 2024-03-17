@@ -5,6 +5,7 @@ import {
   DOCTOR_PROFILE_SUCCESS,
   DOCTOR_PROFILES_FAILURE,
   RESET_DOCTOR_PROFILES,
+  Medical_PROFILE_SUCCESS,
 } from "../actions/searcProfileAction";
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   loading: false,
   error: null,
   statuscode: null,
-  singleprofile:null
+  singleprofile: null,
+  singleprofileMedicalLab: null,
 };
 
 const searchProfileReducer = (state = initialState, action) => {
@@ -45,8 +47,15 @@ const searchProfileReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         statuscode: action.statuscode,
-        singleprofile:action.singleprofile
-
+        singleprofile: action.singleprofile,
+      };
+    case Medical_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        statuscode: action.statuscode,
+        singleprofileMedicalLab: action.singleprofileMedicalLab,
       };
 
     case DOCTOR_PROFILES_FAILURE:

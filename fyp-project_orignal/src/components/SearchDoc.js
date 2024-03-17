@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import DocCard from "./DocCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getDoctorProfilesRequest, getProfiles } from "../redux/actions/searcProfileAction";
+import {
+  getDoctorProfilesRequest,
+  getProfiles,
+} from "../redux/actions/searcProfileAction";
 import BookAppoinment from "./BookAppoinment";
 import { useLocation, useParams } from "react-router-dom";
 import DocViewProfile from "./DocViewProfile";
 import Notfound404 from "./Notfound404";
 import LabViewProfile from "./LabViewProfile";
+import AddLabstotrust from "./AddLabstotrust";
 
 const ToolSearchForm = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [pricingType, setPricingType] = useState("");
+  const [addlabtrust, setaddlabtrust] = useState(false);
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
   const [book, setBook] = useState(null);
@@ -30,8 +35,7 @@ const ToolSearchForm = (props) => {
       setCur(1);
       setBook(null);
       setViewProfile(null);
-      setViewProfileLab(null);  
-          
+      setViewProfileLab(null);
     };
   }, [location]);
 
@@ -63,7 +67,7 @@ const ToolSearchForm = (props) => {
             "medicalLab"
           )
         );
-  }, [dispatch, pricingType, user,props.Medicallab,searchInput]);
+  }, [dispatch, pricingType, user, props.Medicallab, searchInput]);
 
   useEffect(() => {
     console.log("Profiles:", profiles);
@@ -134,7 +138,7 @@ const ToolSearchForm = (props) => {
     <>
       {user !== "patient" ? (
         <Notfound404 />
-      ) : !book && !viewProfile && !viewProfileLab  ? (
+      ) : !book && !viewProfile && !viewProfileLab ? (
         <div>
           {/* Search Bar */}
           <form
@@ -197,7 +201,7 @@ const ToolSearchForm = (props) => {
               <main className="bg-blue-500">
                 <div className="px-4 mt-10 bg-blue-500">
                   <div className="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
-                    {profiles&&
+                    {profiles &&
                       profiles.map((profile) => (
                         <DocCard
                           key={profile.id}
@@ -206,9 +210,9 @@ const ToolSearchForm = (props) => {
                           viewprofile={() => setViewProfile(profile)}
                           setViewProfileLab={() => setViewProfileLab(profile)}
                           Medicallab={props.Medicallab}
+                          setaddlabtrust={(value) => setaddlabtrust(value)}
                         />
                       ))}
-                    
                   </div>
                 </div>
               </main>
@@ -250,11 +254,23 @@ const ToolSearchForm = (props) => {
         </div>
       ) : book ? (
         <BookAppoinment docProfile={book} />
-      ) : viewProfileLab?(<LabViewProfile profile={viewProfileLab}/>):(
+      ) : viewProfileLab ? (
+        <LabViewProfile
+          profile={viewProfileLab}
+          goBack={() => setViewProfileLab(null)}
+        />
+      ) : (
         <DocViewProfile
           docProfile={viewProfile}
           book={() => setBook(viewProfile)}
           viewprofile={() => setViewProfile(viewProfile)}
+          goBack={() => setViewProfile(null)}
+        />
+      )}
+      {addlabtrust && (
+        <AddLabstotrust
+          data={addlabtrust}
+          setaddlabtrust={(value) => setaddlabtrust(value)}
         />
       )}
     </>

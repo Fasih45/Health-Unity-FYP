@@ -177,7 +177,7 @@ const MedicalRecord = () => {
       )}
 
       {viewprofile && singleprofile && (
-        <DocViewProfile docProfile={singleprofile} />
+        <DocViewProfile docProfile={singleprofile} goBack={() => setviewprofile(null)} />
       )}
       {viewdetail && <PresDetails pres={viewdetail} />}
      

@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
+import AddLabstotrust from "./AddLabstotrust";
 
 export default function LabViewProfile(props) {
   const docuser = props.profile;
-  
-  const [search, setSearch] = useState('');
+  const [addlabtrust, setaddlabtrust] = useState(false);
+
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerpage = 5;
   const indexOfLastRecord = currentPage * recordsPerpage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerpage;
   const filteredRecords = docuser.test.filter((item) => {
-    return search === '' ? true : item.name.toLowerCase().includes(search.toLowerCase());
+    return search === ""
+      ? true
+      : item.name.toLowerCase().includes(search.toLowerCase());
   });
-  const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord)
+  const currentRecords = filteredRecords.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
   const totalRecords = filteredRecords.length;
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -107,49 +114,86 @@ export default function LabViewProfile(props) {
                     Working Days
                   </span>
                   <ul>
-                    <li class="mb-2">{docuser.workingdays.map(item => item.trim()).join(", ")}</li>
+                    <li class="mb-2">
+                      {docuser.workingdays
+                        .map((item) => item.trim())
+                        .join(", ")}
+                    </li>
                   </ul>
+                  <button
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  onClick={() => {
+                    setaddlabtrust(docuser.username)
+                  }}
+                >
+                  Add to Trusted List
+                </button>
+
                 </div>
               </div>
             </div>
             <div class="col-span-4 bg-white p-4  min-h-screen rounded-lg sm:col-span-9">
               <div class="p-6">
-                <label for="table-search" class="sr-only">Search</label>
+                <label for="table-search" class="sr-only">
+                  Search
+                </label>
                 <div class="relative mt-1">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd"
+                    <svg
+                      class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"></path>
+                        clip-rule="evenodd"
+                      ></path>
                     </svg>
                   </div>
                   <input
                     type="text"
                     id="table-search"
                     onChange={(e) => setSearch(e.target.value)}
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" />
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search for items"
+                  />
                 </div>
               </div>
               <table className="min-w-full  divide-y rounded-lg dark:border-neutral-500 border-b divide-gray-200 overflow-x-auto">
                 <thead class="bg-gray-50">
                   {/* Table header */}
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       #
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Test Name
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Cost
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white  divide-y divide-gray-200">
                   {currentRecords.map((item, index) => (
-                    <tr key={index} className={`border-b hover:bg-blue-200 bg-white`}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{indexOfFirstRecord + index + 1}</td>
+                    <tr
+                      key={index}
+                      className={`border-b hover:bg-blue-200 bg-white`}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {indexOfFirstRecord + index + 1}
+                      </td>
                       <td className="p-3 px-5">
                         <input
                           type="text"
@@ -157,7 +201,6 @@ export default function LabViewProfile(props) {
                           placeholder="name"
                           value={item.name}
                           className={`bg-transparent  rounded-full border-b-2 px-4  py-2 bg-white`}
-
                           disabled={true} // Disable input if not in edit mode
                         />
                       </td>
@@ -171,18 +214,18 @@ export default function LabViewProfile(props) {
                           disabled={true} // Disable input if not in edit mode
                         />
                       </td>
-
                     </tr>
                   ))}
                 </tbody>
               </table>
-              {/* Pagination code */}              
-              { 
-              // show the pagination only if filter records is greater than 5
+              {/* Pagination code */}
+              {
+                // show the pagination only if filter records is greater than 5
                 filteredRecords.length >= 5 ? (
                   <div className="px-5 py-5  bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-xs text-gray-900">
-                      Page {currentPage} of {Math.ceil(totalRecords / recordsPerpage)}
+                      Page {currentPage} of{" "}
+                      {Math.ceil(totalRecords / recordsPerpage)}
                     </span>
                     <div className="inline-flex mt-2 xs:mt-0">
                       <button
@@ -207,6 +250,20 @@ export default function LabViewProfile(props) {
           </div>
         </div>
       </div>
+      <button
+        onClick={() => {
+          props.goBack();
+        }}
+        className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+      >
+        Go Back
+      </button>
+      {addlabtrust && (
+        <AddLabstotrust
+          data={addlabtrust}
+          setaddlabtrust={(value) => setaddlabtrust(value)}
+        />
+      )}
     </>
   );
 }

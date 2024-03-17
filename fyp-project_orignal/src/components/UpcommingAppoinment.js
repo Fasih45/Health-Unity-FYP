@@ -231,7 +231,9 @@ const UpcomingAppointment = () => {
       )}
 
       {viewprofile && singleprofile && (
-        <DocViewProfile docProfile={singleprofile} />
+        <DocViewProfile docProfile={singleprofile}
+        goBack={() => setviewprofile(null)}
+         />
       )}
       {writePriscription && (
         <WritePriscription

@@ -1,31 +1,41 @@
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTrustedDoctorsList,
-  getTrustedDoctorsListRequest,
-  removeDoctorFromList,
-} from "../redux/actions/patientTrustedlistAction";
-import { getProfileDoc } from "../redux/actions/searcProfileAction";
-import DocViewProfile from "./DocViewProfile";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "./Loader";
+import {
+  getTrustedMedicalLab,
+  getTrustedMedicalLabRequest,
+  removeLabFromPatientTrustedList,
+} from "../redux/actions/patientTrustedlistforLabAction";
 import Hardhat from "./Hardhat";
-const TrustedDoc = () => {
-  const list = useSelector((state) => state.patientTrustedList.trustedDoctors);
+import Loader from "./Loader";
+import Swal from "sweetalert2";
+import LabViewProfile from "./LabViewProfile";
+import { getProfileMedicalLab } from "../redux/actions/searcProfileAction";
+
+export default function TrustedLab() {
   const [specificState, setSpecificState] = useState(false);
-  const [docName, setdocName] = useState("");
+  const [labName, setlabName] = useState("");
   const [Apiwrite, setcall] = useState(false);
+
   const dispatch = useDispatch();
-  const statusCode = useSelector(
-    (state) => state.patientTrustedList.statusCode
-  );
   const navigate = useNavigate();
-  const { singleprofile, statuscode } = useSelector(
+  const { user, username } = useParams();
+  const { singleprofileMedicalLab, statuscode } = useSelector(
     (state) => state.searchProfile
   );
-  const { user, username } = useParams();
+  const list = useSelector(
+    (state) => state.patientTrustedListforLab.trustedMedicalLabs
+  );
+  const statusCode = useSelector(
+    (state) => state.patientTrustedListforLab.statusCode
+  );
   const [viewprofile, setviewprofile] = useState(null);
+  useEffect(() => {
+    dispatch(getTrustedMedicalLab(username));
+  }, [dispatch, username]);
+  useEffect(() => {
+    console.log("data:", list);
+  }, [list]);
   const handleSave = () => {
     Swal.fire({
       title: "Success!",
@@ -42,11 +52,19 @@ const TrustedDoc = () => {
       icon: "error",
     }).then(() => {});
   };
-
+  useEffect(() => {
+    if (statusCode === 401) {
+      dispatch(getTrustedMedicalLabRequest());
+      navigate(`/`);
+    }
+    if (statusCode === 201) {
+      dispatch(getTrustedMedicalLab(username));
+    }
+  }, [navigate, statusCode, dispatch]);
   useEffect(() => {
     if (Apiwrite === "yes") {
       setSpecificState(false);
-      dispatch(removeDoctorFromList(username, docName));
+      dispatch(removeLabFromPatientTrustedList(username, labName));
       handleSave();
       setcall(false);
     } else if (Apiwrite === "no") {
@@ -55,27 +73,12 @@ const TrustedDoc = () => {
       setcall(false);
     }
   }, [Apiwrite, dispatch, setSpecificState]);
-  useEffect(() => {
-    dispatch(getTrustedDoctorsList(username));
-  }, [dispatch, username]);
-  useEffect(() => {
-    if (viewprofile) {
-      dispatch(getProfileDoc(viewprofile));
-    }
-  }, [viewprofile, dispatch]);
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
 
   useEffect(() => {
-    if (statusCode === 401) {
-      navigate(`/`);
-      dispatch(getTrustedDoctorsListRequest());
+    if (viewprofile) {
+      dispatch(getProfileMedicalLab(viewprofile));
     }
-    if (statusCode === 201) {
-      dispatch(getTrustedDoctorsList(username));
-    }
-  }, [navigate, statusCode, dispatch]);
+  }, [viewprofile, dispatch]);
   return (
     <>
       {list && !viewprofile && (
@@ -83,7 +86,9 @@ const TrustedDoc = () => {
           <div className="flex flex-col justify-center ">
             <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
               <header className="px-5 py-4 border-b border-gray-100">
-                <h2 className="font-semibold text-gray-800">Trusted Doctors</h2>
+                <h2 className="font-semibold text-gray-800">
+                  Trusted Medical Labs
+                </h2>
               </header>
               <div className="p-3">
                 <div className="overflow-x-auto">
@@ -109,18 +114,18 @@ const TrustedDoc = () => {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
-                      {list.map((doctor, index) => (
+                      {list?.trustedLabList?.map((lab, index) => (
                         <tr key={index}>
                           <td className="p-2 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
                                 {" "}
                                 <div className="w-9 h-9 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
-                                  {doctor.charAt(0)}
+                                  {lab.charAt(0)}
                                 </div>
                               </div>
                               <div className="font-medium text-gray-800">
-                                {doctor}
+                                {lab}
                               </div>
                             </div>
                           </td>
@@ -134,7 +139,7 @@ const TrustedDoc = () => {
                               <button
                                 className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
                                 onClick={() => {
-                                  setviewprofile(doctor);
+                                  setviewprofile(lab);
                                 }}
                               >
                                 View Profile
@@ -146,9 +151,8 @@ const TrustedDoc = () => {
                               {" "}
                               <button
                                 onClick={() => {
-                                  setdocName(doctor);
+                                  setlabName(lab);
                                   setSpecificState(true);
-                                  console.log(index);
                                 }}
                                 className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-red-500 text-white transition-colors duration-200 hover:text-red-100 focus:outline-none"
                               >
@@ -166,27 +170,21 @@ const TrustedDoc = () => {
           </div>
         </section>
       )}
-
       {specificState && (
         <Hardhat
           setcall={(message) => {
             setcall(message);
           }}
-          removeDoc={{
-            value: true,
-            name: docName,
-          }}
+          removeLab={labName}
         />
       )}
-      {viewprofile && singleprofile && (
-        <DocViewProfile
-          docProfile={singleprofile}
+      {viewprofile && singleprofileMedicalLab && (
+        <LabViewProfile
+          profile={singleprofileMedicalLab}
           goBack={() => setviewprofile(null)}
         />
       )}
       {specificState && <Loader isLoading={specificState} />}
     </>
   );
-};
-
-export default TrustedDoc;
+}

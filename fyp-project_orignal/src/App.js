@@ -18,6 +18,7 @@ import TrustedDoc from "./components/TrustedDoc";
 import WritePriscription from "./components/WritePriscription";
 import MedicalRecord from "./components/MedicalRecordx";
 import MangeLabTests from "./components/MangeLabTests";
+import TrustedLab from "./components/TrustedLab";
 
 function App() {
   
@@ -40,6 +41,7 @@ function App() {
           <Route exact path="search" element={<SearchDoc Medicallab={false} />} />
           <Route exact path="searchLab" element={<SearchDoc Medicallab={true} />} />
           <Route exact path="trust" element={<TrustedDoc />} />
+          <Route exact path="trustLab" element={<TrustedLab />} />
           <Route exact path="book" element={<BookAppoinment />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
           <Route exact path="mange_tests" element={<MangeLabTests/>} />

@@ -1,44 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Define the schema
 const prescriptionSchema = new mongoose.Schema({
-    id: {
+  id: {
+    type: String,
+    required: true,
+  },
+  writtenBydoctor: {
+    type: String,
+  },
+  des: {
+    type: String,
+  },
+  testbydoc: {
+    type: [String],
+  },
+  date: {
+    type: String,
+  },
+  pdf: {
+    type: String, // Store the PDF data as a buffer
+  },
+  title: {
+    type: String, // Store the PDF data as a buffer
+  },
+  predata: [
+    {
+      medcinename: {
         type: String,
-        required: true
-    },
-    writtenBydoctor: {
+      },
+      doz: {
         type: String,
-        required:true
-    },
-    des: {
-        type: String,
-    },
-    testbydoc: {
+      },
+      timing: {
         type: [String],
+      },
     },
-    date: {
-        type: String,
-    },
-    
-    predata: [
-        {
-            medcinename: {
-                type: String,
-                required: true
-            },
-            doz: {
-                type: String,
-                required: true
-            },
-            timing: {
-                type: [String],
-                required: true
-            }
-        }
-    ]
+  ],
 });
 
 // Create a model using the schema
-const Prescription = mongoose.model('Prescription', prescriptionSchema);
+const Prescription = mongoose.model("Prescription", prescriptionSchema);
 
 module.exports = Prescription;

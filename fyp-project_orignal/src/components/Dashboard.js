@@ -250,9 +250,9 @@ const MainLayout = () => {
                   {asideOpen && <span>Trusted Medical labs</span>}
                 </Link>
               )}
-              {user !== "patient" && (
+              {user === "medical_labs" && (
                 <Link
-                  to="comingsoon"
+                  to="uploadtest"
                   class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
                 >
                   <svg

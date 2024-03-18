@@ -105,11 +105,11 @@ const MedicalRecord = () => {
                               <div className=" h-10 flex-shrink-0 mr-2 sm:mr-3">
                                 {" "}
                                 <div className="w-9 h-9 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
-                                  {pres.writtenBydoctor.charAt(0)}
+                                  {pres?.writtenBydoctor?.charAt(0)}
                                 </div>
                               </div>
                               <div className="font-medium text-gray-800">
-                                {pres.writtenBydoctor}
+                                {pres?.writtenBydoctor}
                               </div>
                             </div>
                           </td>
@@ -119,7 +119,7 @@ const MedicalRecord = () => {
                               <button
                                 className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
                                 onClick={() => {
-                                  setviewprofile(pres.writtenBydoctor);
+                                  setviewprofile(pres?.writtenBydoctor);
                                 }}
                               >
                                 View Profile

@@ -19,6 +19,8 @@ import WritePriscription from "./components/WritePriscription";
 import MedicalRecord from "./components/MedicalRecordx";
 import MangeLabTests from "./components/MangeLabTests";
 import TrustedLab from "./components/TrustedLab";
+import Pdfviewer from "./components/Pdfviewer";
+import UploadTestrecord from "./components/UploadTestrecord";
 
 function App() {
   
@@ -43,6 +45,7 @@ function App() {
           <Route exact path="trust" element={<TrustedDoc />} />
           <Route exact path="trustLab" element={<TrustedLab />} />
           <Route exact path="book" element={<BookAppoinment />} />
+          <Route exact path="uploadtest" element={<UploadTestrecord />} />
           <Route exact path="noti" element={<UpcommingAppoinment />} />
           <Route exact path="mange_tests" element={<MangeLabTests/>} />
           <Route exact path="comingsoon" element={<Comingsoon />} />

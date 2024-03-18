@@ -20,7 +20,8 @@ const Buy = ({
   getPatientkey,
   getKey,
   addLabstotrust,
-  removeLab
+  removeLab,
+  getPatientkeybyLab
 }) => {
   const { user, username } = useParams();
   const setDoc = async () => {
@@ -195,6 +196,25 @@ const Buy = ({
       }
     }
   };
+  const getpatientkeybylab = async () => {
+    const { contract } = state;
+    try {
+      const test = await contract.getHashedKeybyLabs(getPatientkeybyLab, username);
+      setcall(test);
+      // window.location.reload();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setcall("no");
+      if (error.message.includes("insufficient funds")) {
+        alert("Insufficient funds. Please make sure you have enough Ether.");
+      } else if (error.message.includes("Please pay more than 0 ether")) {
+        alert("Please pay more than 0 ether");
+      } else {
+        alert(error);
+      }
+    }
+  };
+  
   const getOwnKey = async () => {
     const { contract } = state;
     try {
@@ -343,6 +363,11 @@ const Buy = ({
       console.log("removeLab:", removeLab);
       removeLabstotrustList();
     }
+    if (state.contract && getPatientkeybyLab) {
+      console.log("getpatientkeybylab:", getPatientkeybyLab);
+      getpatientkeybylab();
+    }
+    
   }, [state.contract]);
 
   return <></>;

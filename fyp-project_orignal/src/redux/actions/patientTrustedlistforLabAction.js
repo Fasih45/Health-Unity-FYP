@@ -159,8 +159,18 @@ export const getTrustedPatientsFailure = (error, statusCode) => ({
 export const getTrustedPatients = (username) => {
   return async (dispatch) => {
     dispatch(getTrustedPatientsRequest());
+    let token = localStorage.getItem("medical_labs");
+    const parsedtoken = token ? JSON.parse(token) : [];
+
     try {
-      const response = await axios.get(`/api/get-trusted-patients/${username}`);
+      const response = await axios.get(
+        `http://localhost:5000/list/get-trusted-patients/${username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${parsedtoken}`,
+          },
+        }
+      );
       dispatch(getTrustedPatientsSuccess(response.data));
     } catch (error) {
       dispatch(getTrustedPatientsFailure(error.message, error.response.status));

@@ -4,6 +4,7 @@ const listController = require("../controllers/PatientTrustedListController");
 const listControllerLab = require("../controllers/PatientMedicalLabTrustedlist");
 const authenticateTokenPatient = require("../middleware/authMiddlewarepatient");
 const authenticateTokenDocter = require("../middleware/authMiddlewareDocter");
+const authenticateTokenMedicallab=require('../middleware/authMiddlewareMedicallab');
 
 // Route to add a doctor to the trusted list for a patient
 router.post("/add-doctor/:username", listController.addDoctorToList);
@@ -32,7 +33,7 @@ router.get(
 );
 router.get(
   "/get-trusted-patients/:username",
-  
+  authenticateTokenMedicallab,
   listControllerLab.getMedicalLabByUsername
 );
 

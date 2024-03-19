@@ -11,6 +11,7 @@ const authMiddleware = (req, res, next) => {
     const decoded = jwt.verify(token, key);
     const { username } = decoded;
     req.username = username;
+
     
     if (req.params.username)
       if (req.params.username !== username) {

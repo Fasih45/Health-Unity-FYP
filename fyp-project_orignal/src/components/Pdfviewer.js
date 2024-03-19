@@ -8,13 +8,22 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createPrescription } from "../redux/actions/prescriptionAction";
 
-export const Pdfviewer = ({id}) => {
+export const Pdfviewer = ({ id ,setPatientId }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const dispatch = useDispatch();
   const [file, setFile] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfFileError, setPdfFileError] = useState("");
   const [viewPdf, setViewPdf] = useState(null);
+  const [title, settitle] = useState('');
+  const [titleerror, settitleerror] = useState('');
+  const [MenuFlag, setMenuFlag] = useState(true);
+  // Change handler for the input
+  const handleChangetitle = (e) => {
+    settitle(e.target.value);
+    settitleerror('');
+  };
+
 
   const fileType = ["application/pdf"];
   useEffect(() => {
@@ -50,10 +59,21 @@ export const Pdfviewer = ({id}) => {
     }
   };
 
-  const handleSavePdf =async (event) => {
+  const handleSavePdf = async (event) => {
     event.preventDefault();
+
+    if (title.trim() === '') {
+      settitleerror('Title should not be empty!');
+      return;
+    } else if (pdfFile === null) {
+      setPdfFileError("Please select  PDF file");
+      return;
+
+    }
+
+
     const formData = new FormData();
-    formData.append("title", "abc");
+    formData.append("title", title);
     formData.append("id", id);
     formData.append("file", file);
     console.log("formdata", formData);
@@ -68,53 +88,98 @@ export const Pdfviewer = ({id}) => {
     console.log(result);
     if (result.data.status === "ok") {
       alert("Uploaded Successfully!!!");
-     
+
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <br />
-      <form className="form-group" onSubmit={handlePdfFileSubmit}>
-        <input
-          type="file"
-          className="form-control"
-          required
-          onChange={handlePdfFileChange}
-        />
-        {pdfFileError && (
-          <div className="error-msg text-red-600">{pdfFileError}</div>
-        )}
-        <br />
-        <button
-          type="submit"
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        >
-          UPLOAD
-        </button>
-      </form>
-      <button
-        onClick={handleSavePdf}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        SAVE
-      </button>
-      <br />
-      <h4>View PDF</h4>
-      <div className="pdf-container">
-        {viewPdf && (
-          <>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
-              <Viewer
-                fileUrl={viewPdf}
-                plugins={[defaultLayoutPluginInstance]}
-              />
-            </Worker>
-          </>
-        )}
-        {!viewPdf && <>No PDF file selected</>}
+    <>
+    
+      <div class="fixed  z-50 w-full inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 ">
+        <div class="relative top-40  mx-auto shadow-xl rounded-md bg-white max-w-xl">
+          <div class="flex justify-end p-2">
+            <button
+              onClick={() => setPatientId()}
+              type="button"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="p-6 pt-1  ">
+            <form className="form-group" onSubmit={handlePdfFileSubmit}>
+              <div className="pb-4">
+                <label className="mb-4 ml-4">Enter title of Test:</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Title"
+                  value={title}
+                  onChange={handleChangetitle}
+                  className={`bg-gray-100 rounded-full w-full border-b-2 px-4 py-2 `}
+
+                />
+                {titleerror && (
+                  <div className="error-msg text-red-600">{titleerror}</div>
+                )}
+              </div>
+              <div>
+                <input
+                  type="file"
+                  className="form-control"
+                  required
+                  onChange={handlePdfFileChange}
+                />
+                {pdfFileError && (
+                  <div className="error-msg text-red-600">{pdfFileError}</div>
+                )}
+
+              </div>
+              <div className="pt-5 ">
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  View PDF
+                </button>
+              </div>
+            </form>
+            <div className="pt-4">
+              <button
+                onClick={handleSavePdf}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                SAVE
+              </button>
+            </div>
+
+
+            <div className="pdf-container">
+              {viewPdf && (
+                <>
+                  <h4>View PDF</h4>
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
+                    <Viewer
+                      fileUrl={viewPdf}
+                      plugins={[defaultLayoutPluginInstance]}
+                    />
+                  </Worker>
+                </>
+              )}
+
+            </div>
+
+          </div>
+
+        </div>
       </div>
-    </div>
+    
+    </>
+    
   );
 };
 

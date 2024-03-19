@@ -173,7 +173,9 @@ export const getTrustedPatients = (username) => {
       );
       dispatch(getTrustedPatientsSuccess(response.data));
     } catch (error) {
+      console.log(error);
       dispatch(getTrustedPatientsFailure(error.message, error.response.status));
+      
     }
   };
 };

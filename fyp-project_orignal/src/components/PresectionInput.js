@@ -30,7 +30,7 @@ export default function PresectionInput({
                             }`}
                         id="medcinename"
                         name="medcinename"
-                        placeholder="User Name"
+                        placeholder="Medicine Name"
                         value={dataform.medcinename}
                         onChange={handle}
                     />

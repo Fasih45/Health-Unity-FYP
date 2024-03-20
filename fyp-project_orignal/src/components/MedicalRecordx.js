@@ -13,11 +13,15 @@ import Loader from "./Loader";
 import Hardhat from "./Hardhat";
 import { getPrescription } from "../redux/actions/prescriptionAction";
 import PresDetails from "./PresDetails";
+import axios from "axios";
 const MedicalRecord = () => {
   const list = useSelector((state) => state.patientPrescription.prescription);
   const [docName, setdocName] = useState("");
   const [Apiwrite, setcall] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredListPres, setfilteredListPres] = useState(null);
+  const [filteredListtest, setfilteredListtest] = useState(null);
+
   const dispatch = useDispatch();
   const statusCode = useSelector(
     (state) => state.patientPrescription.statusCode
@@ -32,6 +36,31 @@ const MedicalRecord = () => {
   const [viewdetail, setviewdetail] = useState(null);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+  const handleButtonClick = async (id,pdf) => {
+    try {
+      const formData = {};
+      formData.id = id;
+      formData.pdf = pdf;
+
+      console.log("FormData:", formData); // Log FormData before sending the request
+
+      const response = await axios.post(
+        "http://localhost:5000/get-files",
+        formData,
+        {
+          responseType: "blob", // Tell axios to expect a blob response
+        }
+      );
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      // Open the PDF in a new tab
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
   useEffect(() => {
     if (keypair) {
@@ -48,6 +77,13 @@ const MedicalRecord = () => {
   }, [viewprofile, dispatch]);
   useEffect(() => {
     console.log("list:", list);
+    if (list?.length > 0) {
+      setfilteredListPres(list?.filter((item) => !item.title));
+      setfilteredListtest(list?.filter((item) => item.title));
+    } else {
+      setfilteredListPres(null);
+      setfilteredListtest(null);
+    }
   }, [list]);
 
   useEffect(() => {
@@ -57,8 +93,8 @@ const MedicalRecord = () => {
     }
   }, [navigate, statusCode, dispatch]);
 
-  const filteredListPres = list?.filter(item => !item.title);
-  const filteredListtest = list?.filter(item => item.title);
+  // const filteredListPres = list?.filter(item => !item.title);
+  // const filteredListtest = list?.filter(item => item.title);
   return (
     <>
       {list && !viewprofile && !viewdetail && (
@@ -86,7 +122,9 @@ const MedicalRecord = () => {
                           </th>
 
                           <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-left">Profile</div>
+                            <div className="font-semibold text-left">
+                              Profile
+                            </div>
                           </th>
                           <th className="p-2 whitespace-nowrap">
                             <div className="font-semibold text-center">
@@ -144,12 +182,10 @@ const MedicalRecord = () => {
                             </td>
                           </tr>
                         ))}
-                       
                       </tbody>
                     </table>
-
-                  </div>)}
-
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -171,9 +207,7 @@ const MedicalRecord = () => {
                             <div className="font-semibold text-left">N0.</div>
                           </th>
                           <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-left">
-                              title
-                            </div>
+                            <div className="font-semibold text-left">title</div>
                           </th>
 
                           <th className="p-2 whitespace-nowrap">
@@ -198,7 +232,6 @@ const MedicalRecord = () => {
                               <div className="flex items-center">
                                 <div className=" h-10 flex-shrink-0 mr-2 sm:mr-3">
                                   {" "}
-
                                 </div>
                                 <div className="font-medium text-gray-800">
                                   {pres?.title}
@@ -213,76 +246,89 @@ const MedicalRecord = () => {
                                   onClick={() => {
                                     setviewprofile(pres?.writtenBydoctor);
                                   }}
-                                >
-
-                                </button>
+                                ></button>
                               </div>
                             </td>
                             <td className="p-2 whitespace-nowrap">
-                              <div className="text-center">
-                                {" "}
-                                <button
-                                  onClick={() => {
-                                    setviewdetail(pres);
-                                  }}
-                                  className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
-                                >
-                                  Details
-                                </button>
-                              </div>
+                              
+                                <div className="text-center">
+                                  {
+                                  pres.pdf?(
+                                  <button
+                                    onClick={() => {
+                                      handleButtonClick(pres.id,pres.pdf);
+                                    }}
+                                    className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
+                                  >
+                                    Get pdf
+                                  </button>
+                                  ):
+                                  <button
+                                    onClick={() => {
+                                      setviewdetail(pres);
+                                    }}
+                                    className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
+                                  >
+                                    Details
+                                  </button>}
+                                </div>
+                              
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                )}
 
-
-                    <div className="px-5 pt-8 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                      <span className="text-xs text-gray-900">
-                        Page {currentPage}{" "}
-                      </span>
-                      <div className="inline-flex mt-2 xs:mt-0">
-                        <button
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                          className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
-                        >
-                          Prev
-                        </button>
-                        <button
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
-                        >
-                          Next
-                        </button>
-                      </div>
-                    </div>
-                    <div className=" flex justify-between items-end">
-                      <button
-                        onClick={() => { navigate(-1); }}
-                        className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
-                      >
-                        Go Back
-                      </button>
-                    </div>
-                  </div>)}
-
+                <div className="px-5 pt-8 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
+                  <span className="text-xs text-gray-900">
+                    Page {currentPage}{" "}
+                  </span>
+                  <div className="inline-flex mt-2 xs:mt-0">
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+                <div className=" flex justify-between items-end">
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+                  >
+                    Go Back
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-
         </section>
       )}
 
       {viewprofile && singleprofile && (
-        <DocViewProfile docProfile={singleprofile} goBack={() => setviewprofile(null)} />
+        <DocViewProfile
+          docProfile={singleprofile}
+          goBack={() => setviewprofile(null)}
+        />
       )}
-      {viewdetail && <PresDetails pres={viewdetail} />}
-
-
-
-
-
+      {viewdetail && (
+        <PresDetails
+          pres={viewdetail}
+          setviewdetail={() => setviewdetail(null)}
+        />
+      )}
     </>
   );
 };

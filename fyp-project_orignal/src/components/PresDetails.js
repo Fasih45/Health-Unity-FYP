@@ -1,45 +1,17 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 
-export default function PresDetails({ pres }) {
+export default function PresDetails({ pres ,setviewdetail}) {
   useEffect(() => {
     console.log("Details:", pres);
   }, [pres]);
 
-  const handleButtonClick = async () => {
-    try {
-      const formData = {}
-      formData.id=pres.id;
-      formData.pdf=pres.pdf;
-  
-      console.log('FormData:', formData); // Log FormData before sending the request
-  
-      const response = await axios.post("http://localhost:5000/get-files", formData, {
-        responseType: 'blob' // Tell axios to expect a blob response
-      });
-  
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-  
-      // Open the PDF in a new tab
-      window.open(url, '_blank');
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
+
+
   const { date, des, predata, testbydoc, writtenBydoctor } = pres;
 
   return (
     <>
-      {pres.pdf && (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleButtonClick}
-        >
-          get pdf
-        </button>
-      )}
       <div className="bg-white p-6  h-full rounded-md shadow-md">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Persection Details
@@ -125,6 +97,14 @@ export default function PresDetails({ pres }) {
                     ))}
                   </tbody>
                 </table>
+                <button
+                  onClick={() => {
+                    setviewdetail();
+                  }}
+                  className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+                >
+                  Go Back
+                </button>
               </div>
             </div>
           </div>

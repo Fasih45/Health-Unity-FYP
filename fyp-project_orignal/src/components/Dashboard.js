@@ -294,7 +294,7 @@ const MainLayout = () => {
             </aside>
           }
 
-          <div className="w-full bg-gray-100 p-4">
+          <div className="w-full overflow-auto max-h-screen bg-gray-100 p-4">
             <Outlet />
           </div>
         </div>

@@ -22,7 +22,7 @@ export default function PresectionInput({
 
     return (
         <>
-            <div className="flex justify-between flex-wrap -mx-6 mx-6">
+            <div className="px-4 sm:px-6 text-gray-800  md:grid-cols-3 sm:grid-cols-3 ">
                 <div className="col-auto mb-6">
                     <input
                         type="text"

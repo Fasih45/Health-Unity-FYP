@@ -7,7 +7,7 @@ const DocCard = (props) => {
   return (
     <>
       <div>
-        <div className="mb-6 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 duration-500">
+        <div className="mb-6 min-h-40 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 duration-500">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">

@@ -124,7 +124,7 @@ const MangeLabTests = () => {
 
     return (
         <>
-            <div className="bg-white p-6  h-full rounded-md shadow-md">
+            <div className="bg-white p-6  min-h-full rounded-md shadow-md">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">
                     Lab Details
                 </h2>

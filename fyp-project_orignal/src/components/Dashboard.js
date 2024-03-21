@@ -190,6 +190,7 @@ const MainLayout = () => {
                   to="search"
                   className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
                 >
+                  
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

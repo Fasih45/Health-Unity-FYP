@@ -1,7 +1,7 @@
 import React from "react";
 
-const Medworkplaceinfo = ( props ) => {
-    const datamed= props.data;
+const Medworkplaceinfo = (props) => {
+    const datamed = props.data;
     // console.log("data address:", datamed.address)
 
     return (
@@ -17,25 +17,26 @@ const Medworkplaceinfo = ( props ) => {
                 <div>
                     <p className="text-sm text-gray-600">Address:</p>
                     <p className="text-lg font-semibold text-gray-800">
-                    {datamed.address}
+                        {datamed.address}
                     </p>
                 </div>
                 <div>
                     <p className="text-sm text-gray-600">Clinic Name:</p>
                     <p className="text-lg font-semibold text-gray-800">
-                    <ul>
-                        {datamed.workingdays?.map((day, index) => (
-                            <li key={index} className="text-lg font-semibold text-gray-800">
-                                {day}
+                        <ul>
+                            <li class="mb-2">
+                                {datamed.workingdays
+                                    .map((item) => item.trim())
+                                    .join(", ")}
                             </li>
-                        ))}
-                    </ul>
+                        </ul>
+
                     </p>
-                </div>  
+                </div>
             </div>
         </div>
-       
-        
+
+
     )
 }
 

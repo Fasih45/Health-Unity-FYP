@@ -107,18 +107,29 @@ const DocViewProfile = (props) => {
                     <span class="text-gray-700 font-bold">Working Days:</span>
                   </div>
                   <ul>
-                    {docuser.workingdays.map((day, index) => (
-                      <li key={index} className="text-lg  text-gray-800">
-                        {day}
-                      </li>
-                    ))}
+                    <li class="mb-2">
+                      {docuser.workingdays
+                        .map((item) => item.trim())
+                        .join(", ")}
+                    </li>
                   </ul>
+                  
                 </div>
                 <div class="mb-6">
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Appoinment Fee</span>
                   </div>
-                  <p class="mt-2">RS. Not dicussed</p>
+                  <p class="mt-2">RS. 1000</p>
+                </div>
+                <div className="flex justify-start ">
+                  <button
+                    onClick={() => {
+                      props.goBack();
+                    }}
+                    className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+                  >
+                    Go Back
+                  </button>
                 </div>
                 <div className="flex justify-center ">
                   {props.book ? (
@@ -138,14 +149,7 @@ const DocViewProfile = (props) => {
           </div>
         </div>
       </div>
-      <button
-        onClick={() => {
-          props.goBack();
-        }}
-        className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
-      >
-        Go Back
-      </button>
+
     </>
   );
 };

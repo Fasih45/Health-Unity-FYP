@@ -79,7 +79,7 @@ const UpcomingAppointment = () => {
     }
   }, [navigate, statusCode, dispatch]);
 
-  useEffect(() => {}, [navigate, statusCode, dispatch]);
+  useEffect(() => { }, [navigate, statusCode, dispatch]);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -128,12 +128,6 @@ const UpcomingAppointment = () => {
                     </svg>
                   </div>
                 </div>
-                <button
-                  className="bg-sky-500 text-white rounded-r px-2 md:px-3 py-0 md:py-1"
-                  onClick={handleclick}
-                >
-                  Search
-                </button>
               </div>
               <div className="block relative">
                 <input
@@ -143,6 +137,12 @@ const UpcomingAppointment = () => {
                   className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                 />
               </div>
+              <button
+                className="bg-sky-500 text-white rounded-r px-2 md:px-3 py-0 md:py-1"
+                onClick={handleclick}
+              >
+                Search
+              </button>
             </div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
               <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -232,8 +232,8 @@ const UpcomingAppointment = () => {
 
       {viewprofile && singleprofile && (
         <DocViewProfile docProfile={singleprofile}
-        goBack={() => setviewprofile(null)}
-         />
+          goBack={() => setviewprofile(null)}
+        />
       )}
       {writePriscription && (
         <WritePriscription
@@ -244,7 +244,7 @@ const UpcomingAppointment = () => {
           forview={viewPrescriptiondata}
         />
       )}
-      
+
     </>
   );
 };

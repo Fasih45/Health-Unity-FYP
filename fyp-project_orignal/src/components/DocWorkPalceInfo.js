@@ -36,6 +36,12 @@ const WorkInfoCard = ({ data }) => {
           </ul>
         </div>
         <div>
+          <p className="text-sm text-gray-600">Specialty:</p>
+          <p className="text-lg font-semibold text-gray-800">
+            {specialty}
+          </p>
+        </div>
+        <div>
           <p className="text-sm text-gray-600">Bio:</p>
           <p className="text-lg font-semibold text-gray-800 text-justify ">
             {bio}
@@ -48,12 +54,7 @@ const WorkInfoCard = ({ data }) => {
           </p>
         </div>
 
-        <div>
-          <p className="text-sm text-gray-600">Specialty:</p>
-          <p className="text-lg font-semibold text-gray-800">
-            {specialty}
-          </p>
-        </div>
+
       </div>
     </div>
   );

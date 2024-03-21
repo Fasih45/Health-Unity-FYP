@@ -118,7 +118,7 @@ const Buy = ({
     const amount = { value: ethers.utils.parseEther("0") };
 
     try {
-      const test = await contract.getHashedKeybyPatient();
+      const test = await contract.getHashedKeybyPatient(username);
       if (
         test.includes(
           "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -218,7 +218,7 @@ const Buy = ({
   const getOwnKey = async () => {
     const { contract } = state;
     try {
-      const test = await contract.getHashedKeybyPatient();
+      const test = await contract.getHashedKeybyPatient(username);
       if (
         test.includes(
           "0x0000000000000000000000000000000000000000000000000000000000000000"

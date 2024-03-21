@@ -12,7 +12,7 @@ function Hardhat(props) {
   });
   const [account, setAccount] = useState("Not connected");
   const template = async () => {
-    const contractAddres = "0xF12Df35B2B2a8b1d0B698891ad150510dF289359";
+    const contractAddres = "0x33CFCcD1Dc68367FfEa7eF2564775DAC08D01561";
     const contractABI = abi.abi;
     //Metamask part
     //1. In order do transactions on goerli testnet

@@ -21,9 +21,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Increase sales</div>
+                                    <div className="ml-4 text-xl">Unified Health Records</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Consectetur pariatur irure exercitation sit amet id consectetur consecteturmagna et Lorem labore qui velit.</p>
+                                <p className="leading-loose text-gray-500">Comprehensive patient dashboards providing a holistic view of health journeys, including medical history, prescriptions, and treatment plans.</p>
                             </div>
 
                             {/* Feature 2 */}
@@ -32,9 +32,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Enterprise-ready</div>
+                                    <div className="ml-4 text-xl">Transparent Collaboration</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Labore duis pariatur est exercitation laboris cupidatat amet cillum. Amet nisi ullamco.</p>
+                                <p className="leading-loose text-gray-500">Secure communication channels fostering transparent relationships between patients and healthcare providers, enabling seamless interaction and informed decision-making.</p>
                             </div>
 
                             {/* Feature 3 */}
@@ -43,9 +43,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Unlimited growth</div>
+                                    <div className="ml-4 text-xl">Efficient Prescription Management</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Elit deserunt nisi esse duis cupidatat proident sit minim mollit officia pariatur incididunt in tempor.</p>
+                                <p className="leading-loose text-gray-500">Streamlined processes for prescription management, ensuring availability of medications and optimizing fulfillment.</p>
                             </div>
 
                             {/* Feature 4 */}
@@ -54,9 +54,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Recommended by experts</div>
+                                    <div className="ml-4 text-xl">Holistic Care Decision Support</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Velit sit tempor pariatur quis pariatur incididunt culpa dolor voluptate officia incididunt velit dolore.</p>
+                                <p className="leading-loose text-gray-500">Unified repository empowering healthcare professionals with data-driven insights for enhanced patient care decisions and personalized treatment plans.</p>
                             </div>
 
                             {/* Feature 5 */}
@@ -65,9 +65,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Modern platform</div>
+                                    <div className="ml-4 text-xl">Blockchain Security and Privacy</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Laboris elit consectetur sint nisi eu mollit proident sit magna velit adipisicing consequat amet reprehenderit.</p>
+                                <p className="leading-loose text-gray-500">Integration of blockchain technology ensuring robust data security, encryption, and patient data control, thereby enhancing privacy and confidentiality.</p>
                             </div>
 
                             {/* Feature 6 */}
@@ -76,9 +76,9 @@ const Features = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="currentColor" className="h-6 w-6 text-indigo-500">
                                         <path d="M16 3C8.8 3 3 8.8 3 16s5.8 13 13 13 13-5.8 13-13c0-1.398-.188-2.793-.688-4.094L26.688 13.5c.2.8.313 1.602.313 2.5 0 6.102-4.898 11-11 11S5 22.102 5 16 9.898 5 16 5c3 0 5.695 1.195 7.594 3.094L25 6.688C22.7 4.386 19.5 3 16 3zm11.281 4.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"></path>
                                     </svg>
-                                    <div className="ml-4 text-xl">Integrations</div>
+                                    <div className="ml-4 text-xl">Instant Medication Insights</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Nostrud excepteur incididunt proident sit nulla ipsum sunt nostrud est esse adipisicing irure officia consectetur.</p>
+                                <p className="leading-loose text-gray-500">Rapid access to real-time medication availability information at nearby pharmacies, facilitating quicker prescription fulfillment and improving patient convenience.</p>
                             </div>
 
                         </div>

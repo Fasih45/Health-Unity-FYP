@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProfileMedicalLab } from "../redux/actions/searcProfileAction";
+import Swal from "sweetalert2";
 const MangeLabTests = () => {
-  const [testrec, settestrec] = useState([
-    { name: "Blood", cost: "300" },
-    { name: "X-rays", cost: "300" },
-  ]);
   const [editIndex, setEditIndex] = useState(null); // State to track the index being edited
   const [error, setError] = useState("");
   const [flagerror, setflagerror] = useState(false);
@@ -14,10 +11,49 @@ const MangeLabTests = () => {
   const [Addtestrec, setAddtestrec] = useState([]);
   const [Shownewtable, setShownewtable] = useState(false);
   const { user, username } = useParams();
+  const [labeinfo, setlabinfo] = useState();
   const dispatch = useDispatch();
   const { singleprofileMedicalLab, statuscode } = useSelector(
     (state) => state.searchProfile
   );
+  const [testrec, settestrec] = useState([]);
+  useEffect(() => {
+    if (singleprofileMedicalLab) {
+      settestrec(singleprofileMedicalLab.test);
+      setlabinfo(singleprofileMedicalLab)
+      // console.log('testrex', testrec)
+    }
+  }, [singleprofileMedicalLab]);
+
+  // Paginaion code
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerpage = 5;
+  const indexOfLastRecord = currentPage * recordsPerpage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerpage;
+  const filteredRecords = testrec?.filter((item) => {
+    return search === ""
+      ? true
+      : item.name.toLowerCase().includes(search.toLowerCase());
+  });
+  const currentRecords = filteredRecords?.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+  const totalRecords = filteredRecords?.length;
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, testrec.test]);
+
+
+
   useEffect(() => {
     setError("");
   }, [testrec, Addtestrec]);
@@ -25,25 +61,33 @@ const MangeLabTests = () => {
   useEffect(() => {
     dispatch(getProfileMedicalLab(username));
   }, []);
-  useEffect(() => {
-    console.log("list", singleprofileMedicalLab);
-  }, [singleprofileMedicalLab]);
+
+
   const addFunction = () => {
-    // console.log('testrec', testrec);
     setallowaddtest(true);
     setShownewtable(true);
-    const allTests = [...testrec, ...Addtestrec];
-    const duplicates = allTests.filter((item, index) =>
-      allTests.some((elem, idx) => elem.name === item.name && idx !== index)
+    const duplicates = Addtestrec?.filter(addTest => {
+      return testrec?.some(test => test.name === addTest.name);
+    });
+    const repeatedname = Addtestrec.filter((item, index) =>
+      Addtestrec.some((elem, idx) => elem.name === item.name && idx !== index)
     );
-    if (duplicates.length > 0) {
+
+    // console.log("Duplicates in add test:", duplicates)
+    if (duplicates.length > 0 || repeatedname.length > 0) {
       setError("Test Name Already Exit.");
       setflagerror(true);
+      Swal.fire("Error! Test Name Already Exit.", "", "warning");
     } else if (
+      testrec.every((item) => item.name.trim() === "" && item.cost.trim() === "")
+    ) {
+      Swal.fire("Error!", "", "warning");
+      setShownewtable(false);
+    }
+    else if (
       Addtestrec.every(
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
-      )
-    ) {
+      )) {
       const newTestIndex = testrec.length;
       setAddtestrec((prevData) => [
         ...prevData,
@@ -55,25 +99,41 @@ const MangeLabTests = () => {
       setEditIndex(newTestIndex);
       setError("");
       setflagerror(false);
-    } else {
+    }
+    else {
       setError("Please fill in all fields before adding a new test.");
       setflagerror(true);
+      Swal.fire("Error!", "", "warning");
     }
   };
 
   const deleteFunction = (index, flageArray) => {
-    setallowaddtest(true);
+
     flageArray
-      ? settestrec((prevData) => {
-          const newData = [...prevData];
-          newData.splice(index, 1);
-          return newData;
-        })
+      ? Swal.fire({
+        title: "Do you want to delete the test?",
+        showDenyButton: true,
+        // showCancelButton: true,
+        confirmButtonText: "Yes delete",
+        denyButtonText: `Cancel`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          settestrec((prevData) => {
+            const newData = [...prevData];
+            newData.splice(index, 1);
+            return newData;
+          })
+          Swal.fire("Saved!", "", "success");
+          handleSubmit();
+        }
+      })
       : setAddtestrec((prevData) => {
-          const newData = [...prevData];
-          newData.splice(index, 1);
-          return newData;
-        });
+        const newData = [...prevData];
+        newData.splice(index, 1);
+        return newData;
+      });
+
   };
 
   const handleChangetest = (e, index) => {
@@ -117,33 +177,43 @@ const MangeLabTests = () => {
     setError("");
   };
 
-  const handleEdit = (index) => {
-    setEditIndex(index);
-  };
+
 
   const handleSubmit = () => {
     const duplicates = testrec.filter((item, index) =>
       testrec.some((elem, idx) => elem.name === item.name && idx !== index)
     );
-    if (duplicates.length > 0) {
+    const duplicatesinAddtest = Addtestrec?.filter(addTest => {
+      return testrec?.some(test => test.name === addTest.name);
+    });
+    const repeatednameinAddtest = Addtestrec.filter((item, index) =>
+      Addtestrec.some((elem, idx) => elem.name === item.name && idx !== index)
+    );
+    if (duplicates.length > 0 || duplicatesinAddtest.length > 0 || repeatednameinAddtest.length > 0) {
       setError("Test Name Already Exit.");
       setflagerror(true);
     } else if (
       testrec.every(
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
       ) &&
-      Addtestrec.every(
+      (Addtestrec.every(
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
-      )
+      ))
     ) {
-      console.log("testrec", testrec);
-      console.log("NewAdded Test", Addtestrec);
+      settestrec(prevTestrec => [...Addtestrec, ...prevTestrec]);
       setShownewtable(false);
-
       setallowaddtest(false);
+      setAddtestrec([])
+      Swal.fire("Test Records Updated Successfully!", "", "success");
+
+      console.log("Labusername: ",labeinfo?.username)
+      console.log("testrec", testrec);
+     
     } else {
       setError("Please fill in all fields..");
       setflagerror(true);
+      Swal.fire("Error!Please fill in all fields..", "", "warning");
+
     }
   };
 
@@ -159,20 +229,13 @@ const MangeLabTests = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
           <div>
             <p className="text-lg font-semibold text-gray-800">Lab Name:</p>
-            <p className="text-sm text-gray-600">Labname</p>
+            <p className="text-sm text-gray-600 pl-5">{labeinfo?.labName} </p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-gray-800">Lab Lis:</p>
-            <p className="text-sm text-gray-600">Labname</p>
+            <p className="text-lg font-semibold text-gray-800">Address:</p>
+            <p className="text-sm text-gray-600 pl-5">{labeinfo?.address}</p>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-gray-800">Lab Name:</p>
-            <p className="text-sm text-gray-600">Labname</p>
-          </div>
-          <div>
-            <p className="text-lg font-semibold text-gray-800">Lab Name:</p>
-            <p className="text-sm text-gray-600">Labname</p>
-          </div>
+
         </div>
         <h2 className="text-xl font-semibold mt-10 text-gray-800 mb-4">
           Tests Details
@@ -182,11 +245,16 @@ const MangeLabTests = () => {
 
         {/* Table  */}
 
-        <div class="p-4">
+        
+
+
+        {/* Search Br */}
+        
+
+        <div class="p-6">
           <label for="table-search" class="sr-only">
             Search
           </label>
-          {/* Serach Bar  */}
           <div class="relative mt-1">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -205,7 +273,8 @@ const MangeLabTests = () => {
             <input
               type="text"
               id="table-search"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={(e) => setSearch(e.target.value)}
+              class="px-6 py-2 pl-12 min-w-10  rounded-md flex-1 outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm"
               placeholder="Search for items"
             />
           </div>
@@ -245,112 +314,127 @@ const MangeLabTests = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {!Shownewtable
-                  ? testrec.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={`border-b hover:bg-orange-100 ${
-                          index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                  ? currentRecords.map((item, index) => (
+                    <tr
+                      key={index}
+                      className={`border-b hover:bg-orange-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-100"
                         }`}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="p-3 px-5">
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="name"
-                            value={item.name}
-                            className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {indexOfFirstRecord + index + 1}
+                      </td>
+                      <td className="p-3 px-5">
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="name"
+                          value={item.name}
+                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                            onChange={(e) => handleChangetest(e, index)}
-                            disabled={editIndex !== index} // Disable input if not in edit mode
-                          />
-                        </td>
-                        <td className="p-3 px-5">
-                          <input
-                            type="text"
-                            name="cost"
-                            placeholder="cost"
-                            value={item.cost}
-                            className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                          onChange={(e) => handleChangetest(e, index)}
+                        // disabled={editIndex !== index}
+                        />
+                      </td>
+                      <td className="p-3 px-5">
+                        <input
+                          type="text"
+                          name="cost"
+                          placeholder="cost"
+                          value={item.cost}
+                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                            onChange={(e) => handleChangetest(e, index)}
-                            disabled={editIndex !== index} // Disable input if not in edit mode
-                          />
-                        </td>
-                        <td className="p-3 px-5 flex justify-end">
+                          onChange={(e) => handleChangetest(e, index)}
+                        // disabled={editIndex !== index} 
+                        />
+                      </td>
+                      <td className="p-3 px-5 flex justify-end">
+                        {testrec.length > 1 && (
                           <button
-                            onClick={() => handleEdit(index)} // Set edit mode for this index
+                            onClick={() => deleteFunction(index, true)}
                             type="button"
-                            className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                           >
-                            Edit
+                            Delete
                           </button>
-                          {testrec.length > 1 && (
-                            <button
-                              onClick={() => deleteFunction(index, true)}
-                              type="button"
-                              className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                              Delete
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))
+                        )}
+                      </td>
+                    </tr>
+                  ))
                   : Addtestrec.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={`border-b hover:bg-orange-100 ${
-                          index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                    <tr
+                      key={index}
+                      className={`border-b hover:bg-orange-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-100"
                         }`}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="p-3 px-5">
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="name"
-                            value={item.name}
-                            className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {index + 1}
+                      </td>
+                      <td className="p-3 px-5">
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="name"
+                          value={item.name}
+                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                            onChange={(e) => handleChangeNewtest(e, index)}
-                          />
-                        </td>
-                        <td className="p-3 px-5">
-                          <input
-                            type="text"
-                            name="cost"
-                            placeholder="cost"
-                            value={item.cost}
-                            className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                          onChange={(e) => handleChangeNewtest(e, index)}
+                        />
+                      </td>
+                      <td className="p-3 px-5">
+                        <input
+                          type="text"
+                          name="cost"
+                          placeholder="cost"
+                          value={item.cost}
+                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                            onChange={(e) => handleChangeNewtest(e, index)}
-                          />
-                        </td>
-                        <td className="p-3 px-5 flex justify-end">
-                          {Addtestrec.length > 1 && (
-                            <button
-                              onClick={() => deleteFunction(index, false)}
-                              type="button"
-                              className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                              Delete
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                          onChange={(e) => handleChangeNewtest(e, index)}
+                        />
+                      </td>
+                      <td className="p-3 px-5 flex justify-end">
+                        {Addtestrec.length > 1 && (
+                          <button
+                            onClick={() => deleteFunction(index, false)}
+                            type="button"
+                            className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
+          {/* Pagination code */}
+          {
+            // show the pagination only if filter records is greater than 5
+            (filteredRecords.length >= 5 && !Shownewtable) ? (
+              <div className="px-5 py-5  bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
+                <span className="text-xs text-gray-900">
+                  Page {currentPage} of{" "}
+                  {Math.ceil(totalRecords / recordsPerpage)}
+                </span>
+                <div className="inline-flex mt-2 xs:mt-0">
+                  <button
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                    className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                  >
+                    Prev
+                  </button>
+                  <button
+                    onClick={nextPage}
+                    disabled={indexOfLastRecord >= totalRecords}
+                    className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            ) : null
+          }
         </div>
         <div className="p-5">
           <button

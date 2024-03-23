@@ -23,7 +23,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Unified Health Records</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Comprehensive patient dashboards providing a holistic view of health journeys, including medical history, prescriptions, and treatment plans.</p>
+                                <p className="leading-loose text-justify text-gray-500">Comprehensive patient dashboards providing a holistic view of health journeys, including medical history, prescriptions, and treatment plans.</p>
                             </div>
 
                             {/* Feature 2 */}
@@ -34,7 +34,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Transparent Collaboration</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Secure communication channels fostering transparent relationships between patients and healthcare providers, enabling seamless interaction and informed decision-making.</p>
+                                <p className="leading-loose text-justify text-gray-500">Secure communication channels fostering transparent relationships between patients and healthcare providers, enabling seamless interaction and informed decision-making.</p>
                             </div>
 
                             {/* Feature 3 */}
@@ -45,7 +45,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Efficient Prescription Management</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Streamlined processes for prescription management, ensuring availability of medications and optimizing fulfillment.</p>
+                                <p className="leading-loose text-justify text-gray-500">Streamlined processes for prescription management, ensuring availability of medications and optimizing fulfillment.</p>
                             </div>
 
                             {/* Feature 4 */}
@@ -56,7 +56,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Holistic Care Decision Support</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Unified repository empowering healthcare professionals with data-driven insights for enhanced patient care decisions and personalized treatment plans.</p>
+                                <p className="leading-loose text-justify text-gray-500">Unified repository empowering healthcare professionals with data-driven insights for enhanced patient care decisions and personalized treatment plans.</p>
                             </div>
 
                             {/* Feature 5 */}
@@ -67,7 +67,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Blockchain Security and Privacy</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Integration of blockchain technology ensuring robust data security, encryption, and patient data control, thereby enhancing privacy and confidentiality.</p>
+                                <p className="leading-loose text-justify text-gray-500">Integration of blockchain technology ensuring robust data security, encryption, and patient data control, thereby enhancing privacy and confidentiality.</p>
                             </div>
 
                             {/* Feature 6 */}
@@ -78,7 +78,7 @@ const Features = () => {
                                     </svg>
                                     <div className="ml-4 text-xl">Instant Medication Insights</div>
                                 </div>
-                                <p className="leading-loose text-gray-500">Rapid access to real-time medication availability information at nearby pharmacies, facilitating quicker prescription fulfillment and improving patient convenience.</p>
+                                <p className="leading-loose text-justify text-gray-500">Rapid access to real-time medication availability information at nearby pharmacies, facilitating quicker prescription fulfillment and improving patient convenience.</p>
                             </div>
 
                         </div>

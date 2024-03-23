@@ -74,8 +74,7 @@ const MainLayout = () => {
           {
             <aside
               // className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
-              className={`flex max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 ${!asideOpen && "hidden md:flex" // Hide the aside on screens larger than small
-                }`}
+              className={`flex max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 ${asideOpen && "hidden md:flex"  }`}
               onMouseEnter={() => {
                 if (!flagasidebar) {
                   setAsideOpen(true);

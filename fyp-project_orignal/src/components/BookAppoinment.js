@@ -98,6 +98,7 @@ const BookAppointment = (props) => {
     e.preventDefault();
     if (selectedDay.length === 0) {
       setdayerror(true);
+      Swal.fire("Error!Please Select the Appoinmnet Day..", "", "warning");
       return
     }
     setSpecificState(true);
@@ -125,122 +126,127 @@ const BookAppointment = (props) => {
             </div>
           </div>
         )}
-        <div className="flex justify-center p-5 font-bold">
-          Book Appointment
-        </div>
 
-        <div className="pt-5 grid  gap-7 md:grid-cols-2 sm:grid-cols-2">
-          {/* Doctor Name */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Doctor Name:
-            </label>
-            <p className="text-lg font-sm  pl-5 text-gray-800">{formFields.doctorName} </p>
-          </div>
-
-          {/* Doctor Speciality */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Doctor Speciality:
-            </label>
-            <p className="text-lg font-sm  pl-5 text-gray-800">{formFields.doctorSpeciality}</p>
-
-          </div>
-
-          {/* Bio */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Doctor Bio:
-            </label>
-            <p className="text-lg font-sm text-justify pl-5 text-gray-800">{formFields.bio}</p>
-
-          </div>
-
-          {/* Hospital */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Hospital:
-            </label>
-            <p className="text-lg font-sm  pl-5 text-gray-800">{formFields.hospital}</p>
-
-          </div>
-
-          {/* Patient Name */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Patient Name:
-            </label>
-            <p className="text-lg font-sm  pl-5 text-gray-800">{formFields.patientName}</p>
-
-          </div>
-
-          {/* Checkup Fee */}
-          <div className="mb-5 pl-5">
-            <label
-              htmlFor="doctorName"
-              className="mb-3 block text-base font-semibold text-[#07074D]"
-            >
-              Checkup Fee:
-            </label>
-            <p className="text-lg font-sm  pl-5 text-gray-800">{`Rs. ${formFields.checkupFee}`}</p>
-
-          </div>
-
-
-
-        </div>
-        {/* Select a Day */}
-        <div className="mb-5 pl-5 max-w-sm">
-
-          <label class="block mb-3 text-base font-semibold text-[#07074D]">
-            Select a Appoinment Day:
-          </label>
-          <select
-            id="day"
-            name="day"
-            value={selectedDay}
-            onChange={handleDayChange}
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-
-            <option value='' disabled>Select a Day</option>
-            {formFields.workingdays?.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-          {dayerror && <p className="text-red-500 ml-5 text-xs italic">Please Select a Day</p>}
-        </div>
-
-        {/* Book Appointment Button */}
-        <div className="flex justify-center ">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          >
+        <div className="p-5 border border-slate-300">
+          <div className="flex justify-center p-5 font-bold">
             Book Appointment
-          </button>
+          </div>
+
+          <div className="pt-5 pl-4 grid  gap-7  md:grid-cols-2 sm:grid-cols-2">
+            {/* Doctor Name */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Doctor Name:
+              </label>
+              <p className="text-lg font-sm border border-inherit pl-5 text-gray-800">{formFields.doctorName} </p>
+            </div>
+
+            {/* Doctor Speciality */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Doctor Speciality:
+              </label>
+              <p className="text-lg font-sm border border-inherit pl-5 text-gray-800">{formFields.doctorSpeciality}</p>
+
+            </div>
+
+            {/* Bio */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Doctor Bio:
+              </label>
+              <p className="text-lg font-sm text-justify border border-inherit  p-2 text-gray-800">{formFields.bio}</p>
+
+            </div>
+
+            {/* Hospital */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Hospital:
+              </label>
+              <p className="text-lg font-sm  pl-5 border border-inherit  text-gray-800">{formFields.hospital}</p>
+
+            </div>
+
+            {/* Patient Name */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Patient Name:
+              </label>
+              <p className="text-lg font-sm  pl-5 border border-inherit  text-gray-800">{formFields.patientName}</p>
+
+            </div>
+
+            {/* Checkup Fee */}
+            <div className="mb-5 pl-5">
+              <label
+                htmlFor="doctorName"
+                className="mb-3 block text-base font-semibold text-[#07074D]"
+              >
+                Checkup Fee:
+              </label>
+              <p className="text-lg font-sm border border-inherit  pl-5 text-gray-800">{`Rs. ${formFields.checkupFee}`}</p>
+
+            </div>
+
+
+
+          </div>
+          {/* Select a Day */}
+          <div className="mb-5 pl-7 max-w-sm">
+
+            <label class="block mb-3 text-base font-semibold text-[#07074D]">
+              Select a Appoinment Day:
+            </label>
+            <select
+              id="day"
+              name="day"
+              value={selectedDay}
+              onChange={handleDayChange}
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+
+              <option value='' disabled>Select a Day</option>
+              {formFields.workingdays?.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
+            {dayerror && <p className="text-red-500 ml-5 text-xs italic">Please Select a Day</p>}
+          </div>
+
+          {/* Book Appointment Button */}
+          <div className="flex justify-center ">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            >
+              Book Appointment
+            </button>
+          </div>
+
         </div>
 
 
-       
+
+
       </div>
       {specificState && (
         <Hardhat

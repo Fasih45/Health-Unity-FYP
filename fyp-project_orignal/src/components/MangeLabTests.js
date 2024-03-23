@@ -21,36 +21,51 @@ const MangeLabTests = () => {
     if (singleprofileMedicalLab) {
       settestrec(singleprofileMedicalLab.test);
       setlabinfo(singleprofileMedicalLab)
-      // console.log('testrex', testrec)
+      console.log('testrec', testrec);
+      // Log id, name, and cost of each record in testrec
+      // testrec.forEach(record => {
+      //   console.log('ID:', record._id);
+      //   console.log('Name:', record.name);
+      //   console.log('Cost:', record.cost);
+      // });
     }
   }, [singleprofileMedicalLab]);
 
   // Paginaion code
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerpage = 5;
-  const indexOfLastRecord = currentPage * recordsPerpage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerpage;
-  const filteredRecords = testrec?.filter((item) => {
-    return search === ""
-      ? true
-      : item.name.toLowerCase().includes(search.toLowerCase());
-  });
-  const currentRecords = filteredRecords?.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
-  );
-  const totalRecords = filteredRecords?.length;
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const recordsPerPage = 5;
+  const [currentRecords, setCurrentRecords] = useState([]);
+  const [addtestflag, setAddtestflag] = useState(false);
+
+  useEffect(() => {
+    // Filtered records based on search
+    const filteredRecords = testrec?.filter((item) => {
+      return search === "" ? true : item.name.toLowerCase().includes(search.toLowerCase());
+    });
+
+    // Calculate total pages
+    const totalRecords = filteredRecords?.length;
+    const totalPagesCount = Math.ceil(totalRecords / recordsPerPage);
+    setTotalPages(totalPagesCount);
+
+    // Set current records for the current page
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecordsSlice = filteredRecords?.slice(indexOfFirstRecord, indexOfLastRecord);
+    setCurrentRecords(currentRecordsSlice);
+  }, [testrec, search, currentPage, recordsPerPage]);
+
+  // Pagination handlers
   const nextPage = () => {
-    setCurrentPage(currentPage + 1);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
   const prevPage = () => {
-    setCurrentPage(currentPage - 1);
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, testrec.test]);
 
 
 
@@ -67,10 +82,10 @@ const MangeLabTests = () => {
     setallowaddtest(true);
     setShownewtable(true);
     const duplicates = Addtestrec?.filter(addTest => {
-      return testrec?.some(test => test.name === addTest.name);
+      return testrec?.some(test => test.name.toLowerCase() === addTest.name.toLowerCase());
     });
     const repeatedname = Addtestrec.filter((item, index) =>
-      Addtestrec.some((elem, idx) => elem.name === item.name && idx !== index)
+      Addtestrec.some((elem, idx) => elem.name.toLowerCase() === item.name.toLowerCase() && idx !== index)
     );
 
     // console.log("Duplicates in add test:", duplicates)
@@ -79,11 +94,13 @@ const MangeLabTests = () => {
       setflagerror(true);
       Swal.fire("Error! Test Name Already Exit.", "", "warning");
     } else if (
-      testrec.every((item) => item.name.trim() === "" && item.cost.trim() === "")
+      testrec.every((item) => item.name.trim().toLowerCase() === "" && item.cost.trim().toLowerCase() === "")
     ) {
       Swal.fire("Error!", "", "warning");
       setShownewtable(false);
     }
+
+
     else if (
       Addtestrec.every(
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
@@ -107,7 +124,7 @@ const MangeLabTests = () => {
     }
   };
 
-  const deleteFunction = (index, flageArray) => {
+  const deleteFunction = (index, id, flageArray) => {
 
     flageArray
       ? Swal.fire({
@@ -119,13 +136,11 @@ const MangeLabTests = () => {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          settestrec((prevData) => {
-            const newData = [...prevData];
-            newData.splice(index, 1);
-            return newData;
-          })
+          settestrec(prevData => {
+            return prevData.filter(test => test._id !== id);
+          });
           Swal.fire("Saved!", "", "success");
-          handleSubmit();
+          handleSubmit(); // Assuming handleSubmit function is defined elsewhere
         }
       })
       : setAddtestrec((prevData) => {
@@ -136,25 +151,29 @@ const MangeLabTests = () => {
 
   };
 
-  const handleChangetest = (e, index) => {
+  const handleChangetest = (e, index, id) => {
     setallowaddtest(true);
+    setAddtestflag(true);
     const { name, value } = e.target;
-    const updatedFormData = [...testrec];
-
-    // Ensure that "cost" is a number
+    console.log("ID:", id);
+    const recordIndex = testrec.findIndex(item => item._id === id);
+    console.log("Data:", testrec[recordIndex]);
     if (name === "cost" && isNaN(Number(value))) {
       setError("Cost must be a number.");
       return;
     } else {
       setError("");
     }
+    if (recordIndex !== -1) {
+      const updatedTestRec = [...testrec];
+      updatedTestRec[recordIndex] = {
+        ...updatedTestRec[recordIndex],
+        [name]: value,
+      };
+      settestrec(updatedTestRec);
+    }
 
-    updatedFormData[index] = {
-      ...updatedFormData[index],
-      [name]: value,
-    };
-    settestrec(updatedFormData);
-    setError("");
+
   };
 
   const handleChangeNewtest = (e, index) => {
@@ -177,21 +196,27 @@ const MangeLabTests = () => {
     setError("");
   };
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1); // Set current page to 1 whenever search changes
+  };
+
 
 
   const handleSubmit = () => {
     const duplicates = testrec.filter((item, index) =>
-      testrec.some((elem, idx) => elem.name === item.name && idx !== index)
+      testrec.some((elem, idx) => elem.name.toLowerCase() === item.name.toLowerCase() && idx !== index)
     );
     const duplicatesinAddtest = Addtestrec?.filter(addTest => {
-      return testrec?.some(test => test.name === addTest.name);
+      return testrec?.some(test => test.name.toLowerCase() === addTest.name.toLowerCase());
     });
     const repeatednameinAddtest = Addtestrec.filter((item, index) =>
-      Addtestrec.some((elem, idx) => elem.name === item.name && idx !== index)
+      Addtestrec.some((elem, idx) => elem.name.toLowerCase() === item.name.toLowerCase() && idx !== index)
     );
     if (duplicates.length > 0 || duplicatesinAddtest.length > 0 || repeatednameinAddtest.length > 0) {
       setError("Test Name Already Exit.");
       setflagerror(true);
+      Swal.fire("Error! Test Name Already Exit.", "", "warning");
     } else if (
       testrec.every(
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
@@ -200,15 +225,21 @@ const MangeLabTests = () => {
         (item) => item.name.trim() !== "" && item.cost.trim() !== ""
       ))
     ) {
-      settestrec(prevTestrec => [...Addtestrec, ...prevTestrec]);
+
+      settestrec(prevTestrec => {
+        const updatedTestRec = [...Addtestrec, ...prevTestrec];
+        console.log("Updated testrec:", updatedTestRec); // Log the updated value here
+        return updatedTestRec; // Return the updated value to update the state
+      });
       setShownewtable(false);
       setallowaddtest(false);
+      setAddtestflag(false);
       setAddtestrec([])
       Swal.fire("Test Records Updated Successfully!", "", "success");
 
-      console.log("Labusername: ",labeinfo?.username)
-      console.log("testrec", testrec);
-     
+      // console.log("Labusername: ", labeinfo?.username)
+      // console.log("testrec", testrec);
+
     } else {
       setError("Please fill in all fields..");
       setflagerror(true);
@@ -245,40 +276,39 @@ const MangeLabTests = () => {
 
         {/* Table  */}
 
-        
-
-
         {/* Search Br */}
-        
 
-        <div class="p-6">
-          <label for="table-search" class="sr-only">
-            Search
-          </label>
-          <div class="relative mt-1">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg
-                class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+
+        {!Shownewtable && (
+          <div class="p-6">
+            <label for="table-search" class="sr-only">
+              Search
+            </label>
+            <div class="relative mt-1">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg
+                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="table-search"
+                onChange={handleSearchChange}
+                class="px-6 py-2 pl-12 min-w-10  rounded-md flex-1 outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm"
+                placeholder="Search for items"
+              />
             </div>
-            <input
-              type="text"
-              id="table-search"
-              onChange={(e) => setSearch(e.target.value)}
-              class="px-6 py-2 pl-12 min-w-10  rounded-md flex-1 outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm"
-              placeholder="Search for items"
-            />
           </div>
-        </div>
+        )}
         {/* Show error if Exist  */}
         <div className="mt-8 mb-3 text-center">
           {flagerror && <p className="text-red-500 text-sm mt-1">{error}</p>}
@@ -321,7 +351,7 @@ const MangeLabTests = () => {
                         }`}
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {indexOfFirstRecord + index + 1}
+                        {index + 1}
                       </td>
                       <td className="p-3 px-5">
                         <input
@@ -331,7 +361,7 @@ const MangeLabTests = () => {
                           value={item.name}
                           className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                          onChange={(e) => handleChangetest(e, index)}
+                          onChange={(e) => handleChangetest(e, index, item._id)}
                         // disabled={editIndex !== index}
                         />
                       </td>
@@ -343,14 +373,14 @@ const MangeLabTests = () => {
                           value={item.cost}
                           className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             }`}
-                          onChange={(e) => handleChangetest(e, index)}
+                          onChange={(e) => handleChangetest(e, index, item._id)}
                         // disabled={editIndex !== index} 
                         />
                       </td>
                       <td className="p-3 px-5 flex justify-end">
                         {testrec.length > 1 && (
                           <button
-                            onClick={() => deleteFunction(index, true)}
+                            onClick={() => deleteFunction(index, item._id, true)}
                             type="button"
                             className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                           >
@@ -410,11 +440,11 @@ const MangeLabTests = () => {
           {/* Pagination code */}
           {
             // show the pagination only if filter records is greater than 5
-            (filteredRecords.length >= 5 && !Shownewtable) ? (
+            (!Shownewtable) ? (
               <div className="px-5 py-5  bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                 <span className="text-xs text-gray-900">
                   Page {currentPage} of{" "}
-                  {Math.ceil(totalRecords / recordsPerpage)}
+                  {totalPages}
                 </span>
                 <div className="inline-flex mt-2 xs:mt-0">
                   <button
@@ -426,7 +456,7 @@ const MangeLabTests = () => {
                   </button>
                   <button
                     onClick={nextPage}
-                    disabled={indexOfLastRecord >= totalRecords}
+                    disabled={currentPage * pageSize >= totalPages}
                     className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
                   >
                     Next
@@ -437,13 +467,13 @@ const MangeLabTests = () => {
           }
         </div>
         <div className="p-5">
-          <button
+          {!addtestflag && <button
             type="button"
             onClick={addFunction}
             class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             Add Test
-          </button>
+          </button>}
           {allowaddtest ? (
             <button
               type="button"
@@ -453,6 +483,21 @@ const MangeLabTests = () => {
               Save test Changes
             </button>
           ) : null}
+          {Shownewtable && (
+            <button
+              onClick={() => {
+                setAddtestrec([]);
+                setShownewtable(false);
+                setallowaddtest(false);
+                setAddtestflag(false);
+              }}
+              type="cancel"
+              className="btn btn-danger bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Cancel
+            </button>
+          )}
+
         </div>
       </div>
     </>

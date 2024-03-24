@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getProfileMedicalLab } from "../redux/actions/searcProfileAction";
+import { useNavigate, useParams } from "react-router-dom";
+import { editProfileMedicalLab, getDoctorProfilesRequest, getProfileMedicalLab, getProfileMedicalLabforLabs } from "../redux/actions/searcProfileAction";
 import Swal from "sweetalert2";
 const MangeLabTests = () => {
   const [editIndex, setEditIndex] = useState(null); // State to track the index being edited
@@ -16,6 +16,15 @@ const MangeLabTests = () => {
   const { singleprofileMedicalLab, statuscode } = useSelector(
     (state) => state.searchProfile
   );
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log("statuscode:",statuscode)
+    if (statuscode === 401) {
+      dispatch(getDoctorProfilesRequest());
+      navigate(`/`);
+    }
+    
+  }, [navigate, statuscode, dispatch]);
   const [testrec, settestrec] = useState([]);
   useEffect(() => {
     if (singleprofileMedicalLab) {
@@ -88,7 +97,7 @@ const MangeLabTests = () => {
   }, [testrec, Addtestrec]);
 
   useEffect(() => {
-    dispatch(getProfileMedicalLab(username));
+    dispatch(getProfileMedicalLabforLabs(username));
   }, []);
 
   const addFunction = () => {
@@ -247,7 +256,10 @@ const MangeLabTests = () => {
 
       settestrec(prevTestrec => {
         const updatedTestRec = [...Addtestrec, ...prevTestrec];
-        console.log("Updated testrec:", updatedTestRec); // Log the updated value here
+        console.log("formsumbited:", updatedTestRec); 
+        dispatch(editProfileMedicalLab(singleprofileMedicalLab.username,updatedTestRec));
+        
+        
         return updatedTestRec; // Return the updated value to update the state
       });
       setShownewtable(false);

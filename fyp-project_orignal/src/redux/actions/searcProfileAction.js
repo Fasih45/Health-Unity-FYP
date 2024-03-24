@@ -55,7 +55,7 @@ export const resetDoctorProfiles = () => ({
 });
 
 // Thunk to get doctor profiles
-export const getProfiles = (user,params,typeOf) => {
+export const getProfiles = (user, params, typeOf) => {
   return async (dispatch) => {
     dispatch(getDoctorProfilesRequest());
     let token = localStorage.getItem(user);
@@ -156,4 +156,75 @@ export const getProfileMedicalLab = (params) => {
     }
   };
 };
+export const getProfileMedicalLabforLabs = (params) => {
+  return async (dispatch) => {
+    dispatch(getDoctorProfilesRequest());
+    let token = localStorage.getItem("medical_labs");
+    const parsedtoken = token ? JSON.parse(token) : [];
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/profile/medicalLabProfileforlabs/${params}`,
+        {
+          headers: {
+            Authorization: `Bearer ${parsedtoken}`,
+          },
+        }
+      );
+      const jsonResponse = response.data;
 
+      dispatch(medicalLabsProfileSuccess(jsonResponse, 1, 1, 200));
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        const message = error.response.data;
+
+        if (status === 404) {
+          dispatch(doctorProfilesFailure(message, status));
+        } else {
+          dispatch(
+            doctorProfilesFailure(
+              `Error: ${status} Message: ${message}`,
+              status
+            )
+          );
+        }
+      } else {
+        dispatch(doctorProfilesFailure("Network error", 500));
+      }
+    }
+  };
+};
+
+export const editProfileMedicalLab = (params, test) => {
+  return async (dispatch) => {
+    dispatch(getDoctorProfilesRequest());
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/profile/editMedicalLabProfile/${params}`,
+        { test: test }
+      );
+      const jsonResponse = response.data;
+
+      dispatch(medicalLabsProfileSuccess(jsonResponse, 1, 1, 200));
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        const message = error.response.data;
+
+        if (status === 404) {
+          dispatch(doctorProfilesFailure(message, status));
+        } else {
+          dispatch(
+            doctorProfilesFailure(
+              `Error: ${status} Message: ${message}`,
+              status
+            )
+          );
+        }
+      } else {
+        dispatch(doctorProfilesFailure("Network error", 500));
+      }
+    }
+  };
+};

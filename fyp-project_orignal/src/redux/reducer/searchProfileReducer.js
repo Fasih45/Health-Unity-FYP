@@ -63,6 +63,8 @@ const searchProfileReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        statuscode: action.statuscode,
+
       };
 
     case RESET_DOCTOR_PROFILES:

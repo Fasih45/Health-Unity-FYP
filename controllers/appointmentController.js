@@ -1,5 +1,7 @@
 const Appointment = require("../model/Appointment");
 const Patient = require("../model/patientModal");
+const User = require("../model/userModel");
+const emailService = require("../services/emailservice");
 // Function to get the next occurrence of a specific day of the week
 const getNextDateForDay = (day) => {
   const today = new Date();
@@ -64,6 +66,7 @@ exports.registerAppointment = async (req, res) => {
       dayOfWeek,
     } = req.body;
     const patientProfile = await Patient.findOne({ username: patientUsername });
+    const emailname= await User.findOne({ username: doctorUsername });
 
     if (!patientProfile) {
       return res.status(404).json({ error: "Patient profile not found" });
@@ -101,6 +104,8 @@ exports.registerAppointment = async (req, res) => {
 
     // Save the appointment to the database
     await newAppointment.save();
+    console.log(emailname.email)
+    emailService.sendNotificationEmailtodoc(emailname.email);
 
     res.status(201).json({
       message: "Appointment registered successfully.",
@@ -192,6 +197,7 @@ exports.registerAppointmentTime = async (req, res) => {
     const { _id, timing, status } = req.body;
 
     const existingAppointment = await Appointment.findById(_id);
+    const emailname= await User.findOne({ username: existingAppointment.patientUsername });
 
     if (!existingAppointment) {
       return res.status(404).json({
@@ -201,6 +207,8 @@ exports.registerAppointmentTime = async (req, res) => {
     existingAppointment.timing = timing;
     existingAppointment.status = status;
     await existingAppointment.save();
+    emailService.sendNotificationEmailtopatient(emailname.email)
+
     res.status(201).json({
       message: "Appointment timing set successfully.",
       Appointment: existingAppointment,

@@ -243,7 +243,7 @@ exports.getLabProfiles = async (req, res, next) => {
     // Check if the user sent a specialty
     if (specialty) {
       const fullNameRegex = new RegExp(specialty, "i");
-      query['test.name'] = fullNameRegex;
+      query["test.name"] = fullNameRegex;
     }
 
     const doctorProfiles = await MedicalLabProfile.find(query)
@@ -281,5 +281,33 @@ exports.getDoctorProfile = async (req, res, next) => {
     // Handle errors, for example, send a 500 Internal Server Error response
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+exports.updateTestList = async (req, res) => {
+  const { username } = req.params;
+  const { test } = req.body;
+
+  try {
+    // Find the medical lab profile by username
+    let labProfile = await MedicalLabProfile.findOne({ username }).populate(
+      "personalInfo"
+    );
+
+    if (!labProfile) {
+      return res.status(404).json({ message: "Medical lab profile not found" });
+    }
+
+    // Update the test list with the new data
+    labProfile.test = test;
+
+    // Save the updated medical lab profile
+    await labProfile.save();
+
+    res
+      .status(200)
+      .json(labProfile);
+  } catch (error) {
+    console.error("Error updating test list:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

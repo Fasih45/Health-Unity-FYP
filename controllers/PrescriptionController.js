@@ -1,5 +1,4 @@
 const Prescription = require("../model/Prescription");
-
 const createPrescription = async (req, res) => {
   try {
     const prescription = new Prescription(req.body);
@@ -12,7 +11,7 @@ const createPrescription = async (req, res) => {
 
 const getAllPrescriptions = async (req, res) => {
   try {
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 5;
     const parsedPage = +req.params.page || 1;
 
     const prescriptions = await Prescription.find({ id: req.params.id })

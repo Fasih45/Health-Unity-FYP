@@ -150,7 +150,7 @@ const PersonalInfoLab = (props) => {
 
   return (
     <>
-      <div className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
+      <div className="bg-gray-100 dark:bg-gray-800 mt-5 transition-colors duration-300">
         <div className="container mx-auto ">
           <div className="bg-white dark:bg-gray-700 rounded-md shadow-md p-6">
             <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">

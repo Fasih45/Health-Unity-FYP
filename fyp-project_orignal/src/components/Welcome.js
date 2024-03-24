@@ -47,12 +47,15 @@ export default function Welcome() {
                 <UserInfoCard data={profile.doctor} />
               )}
               {!completeprofile && (
-                <button
-                  onClick={() => setcompleteprofile(!completeprofile)}
-                  className="px-4 py-2 mt-5 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
-                >
-                  Complete Your profile
-                </button>
+                <div className="mt-5 bg-white  p-6 rounded-md shadow-md flex  justify-center items-center">
+                  <button
+                    onClick={() => setcompleteprofile(!completeprofile)}
+                    className="px-4 py-2 mt-5 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
+                  >
+                    Complete Your profile
+                  </button>
+                </div>
+
               )}
               {completeprofile &&
                 (user === "doctor" ? (
@@ -77,10 +80,10 @@ export default function Welcome() {
                 <WorkInfoCard data={profile} />
               ) : (
                 // <>
-                  
+
                 //   {/* console.log("data here:", profile) */}
                 // </>
-                <Medworkplaceinfo  data={profile}/>
+                <Medworkplaceinfo data={profile} />
 
               )}
             </>
@@ -103,7 +106,7 @@ export default function Welcome() {
           </>
         ) : null
       ) : null}
-      
+
     </>
   );
 }

@@ -20,16 +20,15 @@ const MangeLabTests = () => {
   useEffect(() => {
     if (singleprofileMedicalLab) {
       settestrec(singleprofileMedicalLab.test);
-      setlabinfo(singleprofileMedicalLab)
-      console.log('testrec', testrec);
-      // Log id, name, and cost of each record in testrec
-      // testrec.forEach(record => {
-      //   console.log('ID:', record._id);
-      //   console.log('Name:', record.name);
-      //   console.log('Cost:', record.cost);
-      // });
+      setlabinfo(singleprofileMedicalLab)     
     }
   }, [singleprofileMedicalLab]);
+
+  useEffect(() => {
+    console.log('testrec in useEffect :', testrec);
+  }, [testrec]);
+
+ 
 
   // Paginaion code
   const [search, setSearch] = useState("");
@@ -41,22 +40,39 @@ const MangeLabTests = () => {
   const [addtestflag, setAddtestflag] = useState(false);
 
   useEffect(() => {
+    if (currentRecords)
+      console.log("Current Records:", currentRecords);
+  }, [currentRecords]);
+
+  useEffect(() => {
     // Filtered records based on search
-    const filteredRecords = testrec?.filter((item) => {
-      return search === "" ? true : item.name.toLowerCase().includes(search.toLowerCase());
-    });
+    // console.log("Allow useEffect outer :", allowaddtest);
+    if (!allowaddtest) {
+      // console.log("Allow Add Test inner:", allowaddtest);
+      // console.log("Testrec useEffect:", testrec);
+      const filteredRecords = testrec?.filter((item) => {
+        return search === "" ? true : item.name.toLowerCase().includes(search.toLowerCase());
+      });
 
-    // Calculate total pages
-    const totalRecords = filteredRecords?.length;
-    const totalPagesCount = Math.ceil(totalRecords / recordsPerPage);
-    setTotalPages(totalPagesCount);
+      // Calculate total pages
+      const totalRecords = filteredRecords?.length;
+      // console.log("Total Records:", totalRecords);
+      const totalPagesCount = Math.ceil(totalRecords / recordsPerPage);
+      // console.log("Total Pages:", totalPagesCount);
+      setTotalPages(totalPagesCount);
 
-    // Set current records for the current page
-    const indexOfLastRecord = currentPage * recordsPerPage;
-    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecordsSlice = filteredRecords?.slice(indexOfFirstRecord, indexOfLastRecord);
-    setCurrentRecords(currentRecordsSlice);
-  }, [testrec, search, currentPage, recordsPerPage]);
+      // Set current records for the current page
+      const indexOfLastRecord = currentPage * recordsPerPage;
+      // console.log("Index of Last Record:", indexOfLastRecord);
+
+      const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+      // console.log("Index of First Record:", indexOfFirstRecord);
+      const currentRecordsSlice = filteredRecords?.slice(indexOfFirstRecord, indexOfLastRecord);
+      // console.log("Current Records Slice:", currentRecordsSlice);
+      setCurrentRecords(currentRecordsSlice);
+      
+    }
+  }, [testrec, allowaddtest, search, currentPage, recordsPerPage]);
 
   // Pagination handlers
   const nextPage = () => {
@@ -67,8 +83,6 @@ const MangeLabTests = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-
-
   useEffect(() => {
     setError("");
   }, [testrec, Addtestrec]);
@@ -76,7 +90,6 @@ const MangeLabTests = () => {
   useEffect(() => {
     dispatch(getProfileMedicalLab(username));
   }, []);
-
 
   const addFunction = () => {
     setallowaddtest(true);
@@ -123,7 +136,6 @@ const MangeLabTests = () => {
       Swal.fire("Error!", "", "warning");
     }
   };
-
   const deleteFunction = (index, id, flageArray) => {
 
     flageArray
@@ -140,6 +152,8 @@ const MangeLabTests = () => {
             return prevData.filter(test => test._id !== id);
           });
           Swal.fire("Saved!", "", "success");
+          setSearch("");
+          setCurrentPage(1);
           handleSubmit(); // Assuming handleSubmit function is defined elsewhere
         }
       })
@@ -150,14 +164,13 @@ const MangeLabTests = () => {
       });
 
   };
-
   const handleChangetest = (e, index, id) => {
     setallowaddtest(true);
     setAddtestflag(true);
     const { name, value } = e.target;
-    console.log("ID:", id);
+    // console.log("ID:", id);
     const recordIndex = testrec.findIndex(item => item._id === id);
-    console.log("Data:", testrec[recordIndex]);
+    // console.log("Data:", testrec[recordIndex]);
     if (name === "cost" && isNaN(Number(value))) {
       setError("Cost must be a number.");
       return;
@@ -170,10 +183,16 @@ const MangeLabTests = () => {
         ...updatedTestRec[recordIndex],
         [name]: value,
       };
+      let Currrecordindex = currentRecords.findIndex(item => item._id === id);
+      let currentupdatedTestRec = [...currentRecords];
+
+      currentupdatedTestRec[Currrecordindex] = {
+        ...currentupdatedTestRec[Currrecordindex],
+        [name]: value,
+      };
+      setCurrentRecords(currentupdatedTestRec);
       settestrec(updatedTestRec);
     }
-
-
   };
 
   const handleChangeNewtest = (e, index) => {
@@ -235,6 +254,8 @@ const MangeLabTests = () => {
       setallowaddtest(false);
       setAddtestflag(false);
       setAddtestrec([])
+      setSearch("");
+      setCurrentPage(1);
       Swal.fire("Test Records Updated Successfully!", "", "success");
 
       // console.log("Labusername: ", labeinfo?.username)
@@ -279,7 +300,7 @@ const MangeLabTests = () => {
         {/* Search Br */}
 
 
-        {!Shownewtable && (
+        {!Shownewtable &&  !allowaddtest && (
           <div class="p-6">
             <label for="table-search" class="sr-only">
               Search
@@ -440,7 +461,7 @@ const MangeLabTests = () => {
           {/* Pagination code */}
           {
             // show the pagination only if filter records is greater than 5
-            (!Shownewtable) ? (
+            (!Shownewtable && !allowaddtest) ? (
               <div className="px-5 py-5  bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                 <span className="text-xs text-gray-900">
                   Page {currentPage} of{" "}
@@ -476,7 +497,7 @@ const MangeLabTests = () => {
           </button>}
           {allowaddtest ? (
             <button
-              type="button " 
+              type="button "
               onClick={handleSubmit}
               class="text-white mt-2 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >

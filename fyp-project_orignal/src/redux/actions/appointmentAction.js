@@ -72,7 +72,9 @@ export const getAppointments = (user, username, page, status, name) => {
 export const registerAppointment = (appointmentDetails) => {
   return async (dispatch) => {
     dispatch(getAppointmentsRequest());
-
+    let account = localStorage.getItem(`patientAddress`);
+    const parsedaccount = account ? JSON.parse(account) : [];
+    appointmentDetails.account=parsedaccount;
     try {
       const response = await axios.post(
         "http://localhost:5000/appointments/register",

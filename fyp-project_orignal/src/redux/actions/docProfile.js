@@ -59,6 +59,9 @@ export const registerDoctorProfile = (user,credentials) => {
   return async (dispatch) => {
     // Dispatch an action indicating the start of the registration process
     dispatch(getDoctorProfileRequest());
+    let token = localStorage.getItem(`${user}Address`);
+    const parsedtoken = token ? JSON.parse(token) : [];
+    credentials.account=parsedtoken;
 
     try {
       // Make a POST request to register the doctor profile

@@ -49,6 +49,7 @@ const UserInfoCard = ({ data }) => {
         )}
         {data?.cnic && <InfoItem label="Cnic" value={data.cnic} />}
         {data?.nationality && <InfoItem label="Nationality" value={data.nationality} />}
+        {<InfoItem label="Registered Meta Account" value={data?.account?data.account:"Not registered"} />}
       </div>
     </div>
   );

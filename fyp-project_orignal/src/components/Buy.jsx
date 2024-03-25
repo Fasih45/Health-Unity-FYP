@@ -21,7 +21,7 @@ const Buy = ({
   getKey,
   addLabstotrust,
   removeLab,
-  getPatientkeybyLab
+  getPatientkeybyLab,
 }) => {
   const { user, username } = useParams();
   const setDoc = async () => {
@@ -29,6 +29,9 @@ const Buy = ({
     const amount = { value: ethers.utils.parseEther("0") };
 
     try {
+      const docaddress = await contract.getAddress();
+      alert(`you will be registered with this  ${docaddress} account`);
+      localStorage.setItem(`${user}Address`, JSON.stringify(docaddress));
       const transaction = await contract.addDoctor(username);
       await transaction.wait();
       alert("Transaction is successful");
@@ -51,7 +54,12 @@ const Buy = ({
     const amount = { value: ethers.utils.parseEther("0.2") };
 
     try {
-      const transaction = await contract.addLab(username,amount);
+      const docaddress = await contract.getAddress();
+      alert(
+        `you will be registered with this  ${docaddress} account along some charges`
+      );
+      localStorage.setItem(`${user}Address`, JSON.stringify(docaddress));
+      const transaction = await contract.addLab(username, amount);
       await transaction.wait();
       alert("Transaction is successful");
       setcall("yes");
@@ -68,13 +76,16 @@ const Buy = ({
       }
     }
   };
-  
-  const addLabstotrustList= async () => {
+
+  const addLabstotrustList = async () => {
     const { contract } = state;
     const amount = { value: ethers.utils.parseEther("0.2") };
 
     try {
-      const transaction = await contract.addLabToTrustedList(addLabstotrust,username);
+      const transaction = await contract.addLabToTrustedList(
+        addLabstotrust,
+        username
+      );
       await transaction.wait();
       alert("Transaction is successful");
       setcall("yes");
@@ -91,8 +102,8 @@ const Buy = ({
       }
     }
   };
-  
-  const removeLabstotrustList= async () => {
+
+  const removeLabstotrustList = async () => {
     const { contract } = state;
     try {
       const transaction = await contract.removeLabToTrustedList(removeLab);
@@ -156,6 +167,16 @@ const Buy = ({
     const amount = { value: ethers.utils.parseEther("0.05") };
 
     try {
+      const docaddress = await contract.getAddress();
+      const test = await contract.getHashedKeybyPatient(username);
+      if (
+        test.includes(
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        )
+      ) {
+        alert(`You user will be registered with ${docaddress} account`);
+      }
+      localStorage.setItem(`${user}Address`, JSON.stringify(docaddress));
       const transaction = await contract.bookAppointment(
         username,
         setappointment.doctorName,
@@ -199,7 +220,10 @@ const Buy = ({
   const getpatientkeybylab = async () => {
     const { contract } = state;
     try {
-      const test = await contract.getHashedKeybyLabs(getPatientkeybyLab, username);
+      const test = await contract.getHashedKeybyLabs(
+        getPatientkeybyLab,
+        username
+      );
       setcall(test);
       // window.location.reload();
     } catch (error) {
@@ -214,7 +238,7 @@ const Buy = ({
       }
     }
   };
-  
+
   const getOwnKey = async () => {
     const { contract } = state;
     try {
@@ -355,7 +379,7 @@ const Buy = ({
       console.log("getKey:", getKey);
       getOwnKey();
     }
-    if (state.contract &&addLabstotrust ) {
+    if (state.contract && addLabstotrust) {
       console.log("addLab:", addLabstotrust);
       addLabstotrustList();
     }
@@ -367,7 +391,6 @@ const Buy = ({
       console.log("getpatientkeybylab:", getPatientkeybyLab);
       getpatientkeybylab();
     }
-    
   }, [state.contract]);
 
   return <></>;

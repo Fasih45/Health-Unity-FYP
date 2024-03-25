@@ -40,6 +40,9 @@ const patientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  account: {
+    type: String,
+  },
 });
 
 const Patient = mongoose.model('Patient', patientSchema);

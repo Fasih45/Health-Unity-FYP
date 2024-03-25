@@ -18,14 +18,16 @@ exports.registerDoctorProfile = async (req, res) => {
       currentClinic,
       description,
       workingdays,
+      account
     } = req.body;
 
     // Check if the doctor with the provided username exists
-    const existingDoctor = await Doctor.findOne({ username });
+    let existingDoctor = await Doctor.findOne({ username });
     if (!existingDoctor) {
       return res.status(400).json({ error: "Doctor not found" });
     }
-
+    existingDoctor.account=account
+    await existingDoctor.save();
     // Create a new doctor profile instance
     const newDoctorProfile = new DoctorProfile({
       fullName: existingDoctor.fullName,
@@ -52,13 +54,16 @@ exports.registerDoctorProfile = async (req, res) => {
 exports.registerMedicalProfile = async (req, res) => {
   try {
     // Extract necessary information from the request body
-    const { username, test, address, workingdays } = req.body;
+    const { username, test, address, workingdays,account } = req.body;
 
     // Check if the doctor with the provided username exists
     const existinglab = await Medicallabs.findOne({ username });
+
     if (!existinglab) {
       return res.status(400).json({ error: "Lab not found" });
     }
+    existinglab.account=account
+    await existinglab.save();
     // Create a new doctor profile instance
     const newlabProfile = new MedicalLabProfile({
       username,

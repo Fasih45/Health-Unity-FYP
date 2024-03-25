@@ -13,6 +13,9 @@ const medicalLabSchema = new mongoose.Schema({
     unique: true,
     minlength: 4,
   },
+  account: {
+    type: String,
+  },
   labLicense: {
     type: String,
     required: true,

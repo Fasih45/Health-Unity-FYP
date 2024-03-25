@@ -64,8 +64,13 @@ exports.registerAppointment = async (req, res) => {
       patientName,
       patientUsername,
       dayOfWeek,
+      account
     } = req.body;
     const patientProfile = await Patient.findOne({ username: patientUsername });
+    if(!patientProfile.account){
+      patientProfile.account=account
+      await patientProfile.save();
+    }
     const emailname= await User.findOne({ username: doctorUsername });
 
     if (!patientProfile) {

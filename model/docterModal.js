@@ -26,6 +26,9 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  account: {
+    type: String,
+  },
   dateOfBirth: {
     type: Date,
     required: true,

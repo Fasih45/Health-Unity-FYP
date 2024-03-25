@@ -130,6 +130,16 @@ export default function LabViewProfile(props) {
                       Add to Trusted List
                     </button>
                   </div>
+                  <div className="sticky mt-8 pt-8 place-items-end">
+                    <button
+                      onClick={() => {
+                        props.goBack();
+                      }}
+                      className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+                    >
+                      Go Back
+                    </button>
+                  </div>
 
 
                 </div>
@@ -164,63 +174,70 @@ export default function LabViewProfile(props) {
                   />
                 </div>
               </div>
-              <table className="min-w-full  divide-y rounded-lg dark:border-neutral-500 border-b divide-gray-200 overflow-x-auto">
-                <thead class="bg-gray-50">
-                  {/* Table header */}
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      #
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Test Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Cost
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white  divide-y divide-gray-200">
-                  {currentRecords.map((item, index) => (
-                    <tr
-                      key={index}
-                      className={`border-b hover:bg-blue-200 bg-white`}
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {indexOfFirstRecord + index + 1}
-                      </td>
-                      <td className="p-3 px-5">
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="name"
-                          value={item.name}
-                          className={`bg-transparent  rounded-full border-b-2 px-4  py-2 bg-white`}
-                          disabled={true} // Disable input if not in edit mode
-                        />
-                      </td>
-                      <td className="p-3 px-5">
-                        <input
-                          type="text"
-                          name="cost"
-                          placeholder="cost"
-                          value={item.cost}
-                          className={`bg-transparent rounded-full border-b-2 px-4 py-2 bg-white`}
-                          disabled={true} // Disable input if not in edit mode
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+              <div className="-mx-4  px-4 sm:px-8 py-4 overflow-x-auto">
+                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+
+                    {/* <table className="min-w-full  divide-y rounded-lg dark:border-neutral-500 border-b divide-gray-200 overflow-x-auto"> */}
+                    <thead class="bg-gray-50">
+                      {/* Table header */}
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          #
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Test Name
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Cost
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white  divide-y divide-gray-200">
+                      {currentRecords.map((item, index) => (
+                        <tr
+                          key={index}
+                          className={`border-b hover:bg-blue-200 bg-white`}
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {indexOfFirstRecord + index + 1}
+                          </td>
+                          <td className="p-3 px-5">
+                            <input
+                              type="text"
+                              name="name"
+                              placeholder="name"
+                              value={item.name}
+                              className={`bg-transparent  rounded-full border-b-2 px-4  py-2 bg-white`}
+                              disabled={true} // Disable input if not in edit mode
+                            />
+                          </td>
+                          <td className="p-3 px-5">
+                            <input
+                              type="text"
+                              name="cost"
+                              placeholder="cost"
+                              value={item.cost}
+                              className={`bg-transparent rounded-full border-b-2 px-4 py-2 bg-white`}
+                              disabled={true} // Disable input if not in edit mode
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
               {/* Pagination code */}
               {
                 // show the pagination only if filter records is greater than 5
@@ -249,16 +266,7 @@ export default function LabViewProfile(props) {
                   </div>
                 ) : null
               }
-              <div className="sticky  place-items-end">
-                <button
-                  onClick={() => {
-                    props.goBack();
-                  }}
-                  className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
-                >
-                  Go Back
-                </button>
-              </div>
+
             </div>
           </div>
         </div>

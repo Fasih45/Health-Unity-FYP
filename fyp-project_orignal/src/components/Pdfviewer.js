@@ -7,6 +7,7 @@ import { Worker } from "@react-pdf-viewer/core";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createPrescription } from "../redux/actions/prescriptionAction";
+import Swal from "sweetalert2";
 
 export const Pdfviewer = ({ id ,setPatientId }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -18,13 +19,14 @@ export const Pdfviewer = ({ id ,setPatientId }) => {
   const [title, settitle] = useState('');
   const [titleerror, settitleerror] = useState('');
   const [MenuFlag, setMenuFlag] = useState(true);
+  const [testdate, settestdate] = useState(new Date().toISOString().split('T')[0]);
   // Change handler for the input
   const handleChangetitle = (e) => {
     settitle(e.target.value);
     settitleerror('');
   };
 
-
+ 
   const fileType = ["application/pdf"];
   useEffect(() => {
     // dispatch(getPrescription("23876876381683"));
@@ -71,25 +73,33 @@ export const Pdfviewer = ({ id ,setPatientId }) => {
 
     }
 
+    // settestdata(new Date());
+   
+
 
     const formData = new FormData();
     formData.append("title", title);
+    console.log('title', title);
     formData.append("id", id);
+    console.log('id', id);
+    formData.append("date", testdate);
+    console.log('testdate', testdate);
     formData.append("file", file);
-    console.log("formdata", formData);
+    
 
-    const result = await axios.post(
-      "http://localhost:5000/upload-files",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-    console.log(result);
-    if (result.data.status === "ok") {
-      alert("Uploaded Successfully!!!");
+    // const result = await axios.post(
+    //   "http://localhost:5000/upload-files",
+    //   formData,
+    //   {
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   }
+    // );
+    // // console.log(result);
+    // if (result.data.status === "ok") {
+    //   alert("Uploaded Successfully!!!");
+    //   Swal.fire("Test Records Updloaded Successfully!", "", "success");
 
-    }
+    // }
   };
 
   return (

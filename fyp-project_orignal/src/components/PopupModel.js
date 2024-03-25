@@ -229,7 +229,7 @@ export default function PopupModel({ visible, onclose, data }) {
               onClick={handlesumbitForRejection}
               className="px-5 py-2 bg-[#d33] text-white rounded"
             >
-              Deleted
+              Reject Appoinment
             </button>
             <button
               onClick={onclose}

@@ -85,29 +85,29 @@ const DocViewProfile = (props) => {
             <div class="col-span-4 sm:col-span-9">
               <div class="bg-white shadow rounded-lg p-6">
                 <h2 class="text-xl font-bold mb-4">About Me</h2>
-                <p class="text-gray-700 text-justify ">{docuser.bio}</p>
+                <p class="text-gray-700 border p-2 border-current text-justify ">{docuser.bio}</p>
                 <h2 class="text-xl font-bold mb-4 mt-4">Description</h2>
-                <p class="text-gray-700 text-justify ">{docuser.description}</p>
+                <p class="text-gray-700 border p-2 border-current text-justify ">{docuser.description}</p>
 
                 <h2 class="text-xl font-bold mt-6 mb-4">Workplace Info</h2>
                 <div class="mb-6">
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Hospital</span>
                   </div>
-                  <p class="mt-2">{docuser.currentHospital}</p>
+                  <p class="mt-2 border p-2 border-current">{docuser.currentHospital}</p>
                 </div>
                 <div class="mb-6">
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Clinic</span>
                   </div>
-                  <p class="mt-2">{docuser.currentClinic}</p>
+                  <p class="mt-2 border p-2 border-current">{docuser.currentClinic}</p>
                 </div>
                 <div class="mb-6">
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Working Days:</span>
                   </div>
                   <ul>
-                    <li class="mb-2">
+                    <li class="mb-2 border p-2 border-current ">
                       {docuser.workingdays
                         .map((item) => item.trim())
                         .join(", ")}
@@ -119,7 +119,7 @@ const DocViewProfile = (props) => {
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Appoinment Fee</span>
                   </div>
-                  <p class="mt-2">RS. 1000</p>
+                  <p class="mt-2 border p-2 border-current">RS. 1000</p>
                 </div>
                 <div className="flex justify-start ">
                   <button

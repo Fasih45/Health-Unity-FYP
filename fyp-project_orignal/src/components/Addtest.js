@@ -92,7 +92,8 @@ const Addtest = ({ test, onTestChange }) => {
             <div className="mt-8 mb-3 text-center">
                 {flagerror && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
-            <div class="p-4">
+            {/* Search Bar */}
+            {/* <div class="p-4">
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -105,7 +106,7 @@ const Addtest = ({ test, onTestChange }) => {
                     </div>
                     <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" />
                 </div>
-            </div>
+            </div> */}
             <table className="min-w-full divide-y border-b divide-gray-200 overflow-x-auto">
                 <thead class="bg-gray-50">
                     {/* Table header */}
@@ -138,7 +139,7 @@ const Addtest = ({ test, onTestChange }) => {
                                     value={item.name}
                                     className={`bg-transparent  rounded-full border-b-2 px-4  py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
                                     onChange={(e) => handleChangetest(e, index)}
-                                    disabled={editIndex === index ? false : true} // Disable input if not in edit mode
+                                    // disabled={editIndex === index ? false : true} // Disable input if not in edit mode
                                 />
                             </td>
                             <td className="p-3 px-5">
@@ -149,17 +150,18 @@ const Addtest = ({ test, onTestChange }) => {
                                     value={item.cost}
                                     className={`bg-transparent rounded-full border-b-2 px-4 py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
                                     onChange={(e) => handleChangetest(e, index)}
-                                    disabled={editIndex === index ? false : true} // Disable input if not in edit mode
+                                    // disabled={editIndex === index ? false : true} // Disable input if not in edit mode
                                 />
                             </td>
                             <td className="p-3 px-5 flex justify-end">
-                                <button
+                                {/* Edit Button */}
+                                {/* <button
                                     onClick={() => handleEdit(index)} // Set edit mode for this index
                                     type="button"
                                     className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 >
                                     Edit
-                                </button>
+                                </button> */}
                                 {testrec.length > 1 ? (
                                     <button
                                         onClick={() => deleteFunction(index)}

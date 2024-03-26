@@ -67,7 +67,8 @@ const RegistrationForm = () => {
       onChange: function (selectedDates) {
         setFormData((prevData) => ({
           ...prevData,
-          dateOfBirth: selectedDates[0],
+          // dateOfBirth: selectedDates[0],
+          dateOfBirth: selectedDates[0].toISOString().split("T")[0],
         }));
       },
     });
@@ -183,8 +184,41 @@ const RegistrationForm = () => {
               ? "Nationality is required"
               : "";
         break;
+      // case "dateOfBirth":
+      //   error = !formData.dateOfBirth ? "Date of birth is required" : "";
+      //   break;
+
       case "dateOfBirth":
         error = !formData.dateOfBirth ? "Date of birth is required" : "";
+
+        // Check if age is less than 18
+        if (!error) {
+          const birthDate = new Date(formData.dateOfBirth);
+          const currentDate = new Date();
+          
+          // Calculate the age
+          let age = currentDate.getFullYear() - birthDate.getFullYear();
+          
+          // Adjust age if the birthday hasn't occurred yet this year
+          if (
+            currentDate.getMonth() < birthDate.getMonth() ||
+            (currentDate.getMonth() === birthDate.getMonth() &&
+              currentDate.getDate() < birthDate.getDate())
+          ) {
+            age--;
+          }
+          
+          // console.log("Current user age:", age);
+          
+          
+          if ( user === "patient" && age < 1) {
+            error = "For Patient Age must be greater than or equal to 1";
+          }else if (user != "patient" && age < 18) {
+            error = `For ${user} Age must be greater than or equal to 18`;
+          }
+          
+          
+        }
         break;
       case "medicalLicenseNumber":
         error = !formData.medicalLicenseNumber
@@ -198,7 +232,7 @@ const RegistrationForm = () => {
         if (formData.labName.length < 4) {
           error = "Lab Name must be at least 4 characters long.";
         }
-        
+
         break;
       case "labLicense":
         if (!formData.labLicense || !/^FPHRA\d+$/i.test(formData.labLicense)) {
@@ -232,6 +266,8 @@ const RegistrationForm = () => {
 
   const handleSubmit = () => {
     let isValid = true;
+
+    console.log("formData", formData);
 
     // Validate each field
     Object.keys(formData).forEach((field) => {
@@ -532,7 +568,7 @@ const RegistrationForm = () => {
                     )}
                   </div>
                 )}
-                
+
                 <div className="mb-4 md:flex md:justify-between">
                   <div className="mb-4 md:mr-2 md:mb-0 relative">
                     <label

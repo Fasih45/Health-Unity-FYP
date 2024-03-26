@@ -202,7 +202,7 @@ const LoginForm = () => {
             <div className="flex items-center h-full px-20  bg-opacity-40">
               <div>
                 <h2 className="text-4xl font-bold text-white">{flexchange.username}</h2>
-                <p className="max-w-xl mt-3 text-black">{flexchange.userdes}</p>
+                <p className={`max-w-xl mt-3 ${user === 'patient' || user === 'medical_labs' || user === 'pharmacy' ? 'text-white' : 'text-black'}`}>{flexchange.userdes}</p>
               </div>
             </div>
           </div>

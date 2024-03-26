@@ -78,7 +78,7 @@ const TableBody = ({
             </td>
             {user === "patient" ? (
               <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                1000
+                {appointment.fee}
               </td>
             ) : (
               <td className="px-8 py-4 text-sm whitespace-nowrap">

@@ -119,7 +119,7 @@ const DocViewProfile = (props) => {
                   <div class="flex justify-between flex-wrap gap-2 w-full">
                     <span class="text-gray-700 font-bold">Appoinment Fee</span>
                   </div>
-                  <p class="mt-2 border p-2 border-current">RS. 1000</p>
+                  <p class="mt-2 border p-2 border-current">Rs. {docuser.fee}</p>
                 </div>
                 <div className="flex justify-start ">
                   <button

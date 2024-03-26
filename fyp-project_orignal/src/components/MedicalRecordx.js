@@ -102,7 +102,6 @@ const MedicalRecord = () => {
           <div className="flex flex-col justify-center ">
             <div className="w-full  mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
               <div className="p-3">
-
                 <div className="overflow-x-auto">
                   <header className="px-5 py-4 border-b border-gray-100">
                     <h2 className="font-semibold text-gray-800">
@@ -122,9 +121,7 @@ const MedicalRecord = () => {
                         </th>
 
                         <th className="p-2 whitespace-nowrap">
-                          <div className="font-semibold text-left">
-                            Profile
-                          </div>
+                          <div className="font-semibold text-left">Profile</div>
                         </th>
                         <th className="p-2 whitespace-nowrap">
                           <div className="font-semibold text-center">
@@ -134,7 +131,6 @@ const MedicalRecord = () => {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
-
                       {filteredListPres?.length > 0 && (
                         <>
                           {filteredListPres.map((pres, index) => (
@@ -185,19 +181,11 @@ const MedicalRecord = () => {
                               </td>
                             </tr>
                           ))}
-
-
                         </>
-
                       )}
-
-
                     </tbody>
                   </table>
                 </div>
-
-
-
               </div>
             </div>
           </div>
@@ -205,7 +193,6 @@ const MedicalRecord = () => {
           <div className="flex flex-col justify-center mt-4 ">
             <div className="w-full  mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
               <div className="p-3">
-
                 <div className="overflow-x-auto">
                   <header className="px-5 py-4 border-b border-gray-100">
                     <h2 className="font-semibold text-gray-800">
@@ -233,17 +220,16 @@ const MedicalRecord = () => {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
-
                       {filteredListtest?.length > 0 && (
                         <>
                           {filteredListtest.map((pres, index) => (
                             <tr key={index}>
-                              <td className="p-2 whitespace-nowrap">
+                              <td className=" whitespace-nowrap">
                                 <div className=" w-10 text-left font-medium text-black-500">
                                   {filteredListPres?.length + index + 1}
                                 </div>
                               </td>
-                              <td className="p-2 whitespace-nowrap">
+                              <td className="whitespace-nowrap">
                                 <div className="flex items-center">
                                   <div className=" h-10 flex-shrink-0 mr-2 sm:mr-3">
                                     {" "}
@@ -253,51 +239,46 @@ const MedicalRecord = () => {
                                   </div>
                                 </div>
                               </td>
-
-                              <td className="p-2 whitespace-nowrap">
-                                <div className="text-left font-medium ">
-                                  <button
-                                    className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
-                                    onClick={() => {
-                                      setviewprofile(pres?.writtenBydoctor);
-                                    }}
-                                  ></button>
+                              <td className="whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className=" h-10 flex-shrink-0 mr-2 sm:mr-3">
+                                    {" "}
+                                  </div>
+                                  <div className="font-medium text-gray-800">
+                                    {pres?.date}
+                                  </div>
                                 </div>
                               </td>
-                              <td className="p-2 whitespace-nowrap">
-
+                              <td className=" whitespace-nowrap">
                                 <div className="text-center">
-                                  {
-                                    pres.pdf ? (
-                                      <button
-                                        onClick={() => {
-                                          handleButtonClick(pres.id, pres.pdf);
-                                        }}
-                                        className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
-                                      >
-                                        Get pdf
-                                      </button>
-                                    ) :
-                                      <button
-                                        onClick={() => {
-                                          setviewdetail(pres);
-                                        }}
-                                        className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
-                                      >
-                                        Details
-                                      </button>}
+                                  {pres.pdf ? (
+                                    <button
+                                      onClick={() => {
+                                        handleButtonClick(pres.id, pres.pdf);
+                                      }}
+                                      className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
+                                    >
+                                      Get pdf
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => {
+                                        setviewdetail(pres);
+                                      }}
+                                      className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-blue-500 text-white transition-colors duration-200 hover:text-blue-100 focus:outline-none"
+                                    >
+                                      Details
+                                    </button>
+                                  )}
                                 </div>
-
                               </td>
                             </tr>
                           ))}
-
                         </>
                       )}
                     </tbody>
                   </table>
                 </div>
-
 
                 <div className="px-5 pt-8 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                   <span className="text-xs text-gray-900">

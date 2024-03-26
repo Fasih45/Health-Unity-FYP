@@ -87,19 +87,18 @@ export const Pdfviewer = ({ id ,setPatientId }) => {
     formData.append("file", file);
     
 
-    // const result = await axios.post(
-    //   "http://localhost:5000/upload-files",
-    //   formData,
-    //   {
-    //     headers: { "Content-Type": "multipart/form-data" },
-    //   }
-    // );
-    // // console.log(result);
-    // if (result.data.status === "ok") {
-    //   alert("Uploaded Successfully!!!");
-    //   Swal.fire("Test Records Updloaded Successfully!", "", "success");
-
-    // }
+    const result = await axios.post(
+      "http://localhost:5000/upload-files",
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    // console.log(result);
+    if (result.data.status === "ok") {
+      Swal.fire("Test Records Updloaded Successfully!", "", "success");
+      setPatientId();
+    }
   };
 
   return (

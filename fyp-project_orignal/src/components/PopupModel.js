@@ -183,12 +183,12 @@ export default function PopupModel({ visible, onclose, data }) {
             <p className="text-right pl-20 text-gray-700 mb-5">{data.age}</p>
 
             <h6 className="ftext-left text-xl text-gray-700">Date:</h6>
-            <h6 className="text-right text-xl text-gray-700">Fee:</h6>
+            <h6 className="text-right text-xl text-gray-700">Status:</h6>
             <p className="text-left pl-10 text-gray-700 mb-5">
               {data.date.split("T")[0]}
             </p>
 
-            <p className="text-right pl-20 text-gray-700 mb-5">600</p>
+            <p className="text-right pl-20 text-gray-700 mb-5">{data.status}</p>
           </div>
 
           <div className="flex flex-col gap-8 bg-white p-5 sm:p-10 w-full rounded-md">
@@ -223,13 +223,13 @@ export default function PopupModel({ visible, onclose, data }) {
               onClick={handlesumbit}
               className="px-5 py-2 bg-[#3085d6]  text-white rounded"
             >
-              Save
+              Approve
             </button>
             <button
               onClick={handlesumbitForRejection}
               className="px-5 py-2 bg-[#d33] text-white rounded"
             >
-              Reject Appoinment
+              Reject
             </button>
             <button
               onClick={onclose}

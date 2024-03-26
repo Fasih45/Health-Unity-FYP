@@ -117,6 +117,7 @@ const UpcomingAppointment = () => {
                     <option value="Approved">Approved</option>
                     <option value="Rejected">Rejected</option>
                     <option value="Pending">Pending</option>
+                    <option value="Settled">Settled</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -133,7 +134,7 @@ const UpcomingAppointment = () => {
                 <input
                   value={searchQuery}
                   onChange={handleSearch}
-                  placeholder="Search"
+                  placeholder={`Search by ${user==="patient"?'doctor name':"patient name"}`}
                   className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                 />
               </div>

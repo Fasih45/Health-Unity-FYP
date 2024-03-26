@@ -10,7 +10,7 @@ const TableBody = ({
   setWritePriscription,
   writePriscription,
   setPriscriptionData,
-  setviewpatientPrescriptiondata
+  setviewpatientPrescriptiondata,
 }) => {
   const { user, username } = useParams();
   const [showmymodel, setshowmymodel] = useState(false);
@@ -31,7 +31,9 @@ const TableBody = ({
               <span
                 class={`relative inline-block px-3 py-1 font-semibold
               ${
-                appointment.status === "Approved"
+                appointment.status === "Settled"
+                  ? "text-blue-900"
+                  : appointment.status === "Approved"
                   ? "text-green-900"
                   : appointment.status === "Pending"
                   ? "text-orange-900"
@@ -43,6 +45,8 @@ const TableBody = ({
                 <span
                   aria-hidden
                   className={`absolute inset-0 ${
+                    appointment.status === "Settled"
+                    ? "bg-blue-300":
                     appointment.status === "Approved"
                       ? "bg-green-300"
                       : appointment.status === "Pending"
@@ -94,7 +98,7 @@ const TableBody = ({
             )}
 
             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-              {appointment.status === "Approved"
+              {appointment.status === "Approved"||appointment.status === "Settled"
                 ? appointment.timing
                 : "Not Assigned"}
             </td>

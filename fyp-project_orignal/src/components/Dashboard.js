@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import imagelogo from "./images/healthunitylogo.jpg";
-import { Doctoricon, Labicon,TrustedDoctoricon,TrustedLabicon } from "./IconList";
+import {
+  Doctoricon,
+  Labicon,
+  TrustedDoctoricon,
+  TrustedLabicon,
+} from "./IconList";
 import { Routes, Route, Outlet, useParams, Link } from "react-router-dom";
 import Footer from "./Footer";
 
@@ -74,7 +79,9 @@ const MainLayout = () => {
           {
             <aside
               // className="flex  max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 "
-              className={`flex max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 ${asideOpen && "hidden md:flex"  }`}
+              className={`flex max-h-full flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2 ${
+                asideOpen && "hidden md:flex"
+              }`}
               onMouseEnter={() => {
                 if (!flagasidebar) {
                   setAsideOpen(true);
@@ -85,7 +92,7 @@ const MainLayout = () => {
                   setAsideOpen(false);
                 }
               }}
-            style={{ height: "100vh" }}
+              style={{ height: "100vh" }}
             >
               <Link
                 to={`/welcome/${user}/${username}/${fullname}`}
@@ -150,7 +157,7 @@ const MainLayout = () => {
                       d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
                     />
                   </svg>
-                  {asideOpen && <span className="truncate" >Mange Tests</span>}
+                  {asideOpen && <span className="truncate">Mange Tests</span>}
                 </Link>
               )}
 
@@ -159,8 +166,10 @@ const MainLayout = () => {
                   to="trust"
                   className="flex items-center  hover:bg-gray-100 hover:text-blue-600"
                 >
-                 <TrustedDoctoricon/>
-                  {asideOpen && <span className="truncate">Trusted Doctor</span>}
+                  <TrustedDoctoricon />
+                  {asideOpen && (
+                    <span className="truncate">Trusted Doctor</span>
+                  )}
                 </Link>
               )}
               {user === "patient" && (
@@ -168,15 +177,18 @@ const MainLayout = () => {
                   to="trustLab"
                   className="flex items-center  hover:bg-gray-100 hover:text-blue-600"
                 >
-                  <TrustedLabicon/>
+                  <TrustedLabicon />
                   {asideOpen && <span className="truncate">Trusted labs</span>}
                 </Link>
               )}
 
+              {(user === "patient" || user === "medical_labs") && (
+                <>
+                  <hr className="my-4 border-t border-gray-300" />
 
-              <hr className="my-4 border-t border-gray-300" />
-
-              <h6>Search</h6>
+                  <h6>Search</h6>
+                </>
+              )}
 
               {/* Link to Search Doctor */}
 
@@ -196,7 +208,7 @@ const MainLayout = () => {
                   className="flex items-center   hover:text-blue-600"
                 >
                   <Labicon />
-                  {asideOpen && <span >Labs</span>}
+                  {asideOpen && <span>Labs</span>}
                 </Link>
               )}
 

@@ -57,6 +57,9 @@ const Presectionpage = ({ priscriptionData, id }) => {
 
     }
   }, [statusCode]);
+  useEffect(() => {
+    console.log("Data:",priscriptionData)
+  }, [priscriptionData]);
 
   const handleDeleteTest = (index) => {
     const updatedTests = [...selectedTests];
@@ -174,6 +177,7 @@ const Presectionpage = ({ priscriptionData, id }) => {
       data1.predata = formData;
       data1.testbydoc = selectedTests;
       data1.id = id;
+      data1.appointmentid=priscriptionData._id
       data1.date = priscriptionData.date.split("T")[0];
       console.log("Submitted", data1);
       dispatch(createPrescription(data1));

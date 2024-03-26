@@ -201,7 +201,7 @@ const BookAppointment = (props) => {
                 Checkup Fee:
               </label>
               {/* <p className="text-lg font-sm border border-inherit  pl-5 text-gray-800">{`Rs. ${formFields.checkupFee}`}</p> */}
-              <p className="text-lg font-sm border border-inherit  pl-5 text-gray-800">{`Rs.1000`}</p>
+              <p className="text-lg font-sm border border-inherit  pl-5 text-gray-800">{props.docProfile.fee}</p>
 
             </div>
 

@@ -16,8 +16,7 @@ const PersonalInfo = (props) => {
       width: "20em",
       text: "Appoinment  has been Confirmed.",
       icon: "success",
-    }).then(() => {
-    });
+    }).then(() => {});
   };
   const handledelet = () => {
     Swal.fire({
@@ -25,8 +24,7 @@ const PersonalInfo = (props) => {
       width: "20em",
       text: "Profile is not saved.",
       icon: "error",
-    }).then(() => {
-    });
+    }).then(() => {});
   };
 
   const weekdays = [
@@ -39,10 +37,10 @@ const PersonalInfo = (props) => {
     { value: "Sunday", label: "Sunday" },
   ];
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (Apiwrite === "yes") {
-      let response = dispatch(registerDoctorProfile("doctor",formData));
+      let response = dispatch(registerDoctorProfile("doctor", formData));
       response.then((result) => {
         if (result === 201) {
           setSpecificState(false);
@@ -56,8 +54,7 @@ const PersonalInfo = (props) => {
       handledelet();
       setcall(false);
     }
-  }, [Apiwrite, dispatch,setSpecificState]);
-
+  }, [Apiwrite, dispatch, setSpecificState]);
 
   const [formData, setFormData] = useState({
     username: props.user,
@@ -67,10 +64,19 @@ const PersonalInfo = (props) => {
     workingdays: [],
     bio: "",
     description: "",
+    fee: "",
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    if ((name === "fee" && isNaN(Number(value))) || Number(value) <= 0) {
+      Swal.fire("Plz enter  number or non zero value .", "", "warning");
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: "",
+      }));
+      return;
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -92,7 +98,7 @@ const PersonalInfo = (props) => {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
-      <div className="container mx-auto p-4">
+      <div className=" mx-auto pt-4">
         <div className="bg-white dark:bg-gray-700 rounded-md shadow-md p-6">
           <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
             Workplace Information
@@ -161,6 +167,19 @@ const PersonalInfo = (props) => {
               />
             </div>
             <div className="mb-4">
+              <input
+                type="text"
+                name="fee"
+                placeholder="fee"
+                value={formData.fee}
+                onChange={handleChange}
+                className="border p-2 rounded w-full"
+                required
+                // disabled={editIndex === index ? false : true} // Disable input if not in edit mode
+              />
+            </div>
+
+            <div className="mb-4">
               <textarea
                 name="bio"
                 value={formData.bio}
@@ -180,13 +199,15 @@ const PersonalInfo = (props) => {
                 required
               />
             </div>
-            <button
-              type="submit"
-              id="theme-toggle"
-              className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
-            >
-              Save
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                id="theme-toggle"
+                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none transition-colors"
+              >
+                Save
+              </button>
+            </div>
           </form>
         </div>
       </div>

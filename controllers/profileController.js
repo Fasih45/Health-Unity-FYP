@@ -18,7 +18,8 @@ exports.registerDoctorProfile = async (req, res) => {
       currentClinic,
       description,
       workingdays,
-      account
+      account,
+      fee,
     } = req.body;
 
     // Check if the doctor with the provided username exists
@@ -26,7 +27,7 @@ exports.registerDoctorProfile = async (req, res) => {
     if (!existingDoctor) {
       return res.status(400).json({ error: "Doctor not found" });
     }
-    existingDoctor.account=account
+    existingDoctor.account = account;
     await existingDoctor.save();
     // Create a new doctor profile instance
     const newDoctorProfile = new DoctorProfile({
@@ -38,6 +39,7 @@ exports.registerDoctorProfile = async (req, res) => {
       currentClinic,
       description,
       workingdays,
+      fee,
       personalInfo: existingDoctor._id, // Associate the doctor profile with the existing doctor
     });
 
@@ -54,7 +56,7 @@ exports.registerDoctorProfile = async (req, res) => {
 exports.registerMedicalProfile = async (req, res) => {
   try {
     // Extract necessary information from the request body
-    const { username, test, address, workingdays,account } = req.body;
+    const { username, test, address, workingdays, account } = req.body;
 
     // Check if the doctor with the provided username exists
     const existinglab = await Medicallabs.findOne({ username });
@@ -62,7 +64,7 @@ exports.registerMedicalProfile = async (req, res) => {
     if (!existinglab) {
       return res.status(400).json({ error: "Lab not found" });
     }
-    existinglab.account=account
+    existinglab.account = account;
     await existinglab.save();
     // Create a new doctor profile instance
     const newlabProfile = new MedicalLabProfile({
@@ -308,9 +310,7 @@ exports.updateTestList = async (req, res) => {
     // Save the updated medical lab profile
     await labProfile.save();
 
-    res
-      .status(200)
-      .json(labProfile);
+    res.status(200).json(labProfile);
   } catch (error) {
     console.error("Error updating test list:", error);
     res.status(500).json({ message: "Server error" });

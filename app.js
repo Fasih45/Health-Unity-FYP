@@ -43,11 +43,13 @@ app.post("/upload-files", upload.single("file"), async (req, res) => {
   const id = req.body.id;
   const title = req.body.title;
   const fileName = req.file.filename;
+  const date=req.body.date;
   try {
     const data = await Prescription.create({
       id: id,
       title: title,
       pdf: fileName,
+      date:date
     });
     res.status(201).send({ status: "ok" });
   } catch (error) {

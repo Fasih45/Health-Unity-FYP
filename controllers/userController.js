@@ -10,7 +10,7 @@ const Patientkey = process.env.JWT_SECRET_patient;
 const Docterkey = process.env.JWT_SECRET_docter;
 const Medicalkey = process.env.JWT_SECRET_lab;
 const Phamacykey = process.env.JWT_SECRET_Plab;
-
+const emailValidator = require("deep-email-validator");
 const emailService = require("../services/emailservice");
 const registerUserasPatient = async (req, res) => {
   try {
@@ -29,12 +29,15 @@ const registerUserasPatient = async (req, res) => {
     const existingUsername = await User.findOne({ username });
     const existingUseremail = await User.findOne({ email });
     const existingUsercnic = await Patient.findOne({ cnic });
+    const { valid, reason, validators } = await emailValidator.validate(email);
+
+    if (!valid) {
+      return res.status(400).json({ error: "Not a valid email" });
+    }
     if (existingUsername) {
       return res.status(400).json({ error: "Username is already taken" });
     }
     if (existingUseremail) {
-      
-
       return res.status(400).json({ error: "email is already taken" });
     }
 
@@ -195,6 +198,11 @@ const registerUserasDoctor = async (req, res) => {
     const existingMedicallisence = await Doctor.findOne({
       medicalLicenseNumber,
     });
+    const { valid, reason, validators } = await emailValidator.validate(email);
+
+    if (!valid) {
+      return res.status(400).json({ error: "Not a valid email" });
+    }
 
     if (existingUsername) {
       return res.status(400).json({ error: "Username is already taken" });
@@ -360,6 +368,11 @@ const registerMedicalLab = async (req, res) => {
       req.body;
     const existingUsername = await User.findOne({ username });
     const existingUseremail = await User.findOne({ email });
+    const { valid, reason, validators } = await emailValidator.validate(email);
+
+    if (!valid) {
+      return res.status(400).json({ error: "Not a valid email" });
+    }
 
     if (existingUsername) {
       return res.status(400).json({ error: "Username is already taken" });
@@ -525,6 +538,11 @@ const registerPharmacy = async (req, res) => {
       req.body;
     const existingUsername = await User.findOne({ username });
     const existingUseremail = await User.findOne({ email });
+    const { valid, reason, validators } = await emailValidator.validate(email);
+
+    if (!valid) {
+      return res.status(400).json({ error: "Not a valid email" });
+    } 
 
     if (existingUsername) {
       return res.status(400).json({ error: "Username is already taken" });

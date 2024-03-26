@@ -1,7 +1,14 @@
 const Prescription = require("../model/Prescription");
+const Appointment = require("../model/Appointment");
 const createPrescription = async (req, res) => {
   try {
     const prescription = new Prescription(req.body);
+    const appointmentid=req.body.appointmentid;
+    const appointment = await Appointment.findById(appointmentid);
+    if(appointment){
+      appointment.status="Settled"
+    }
+    await appointment.save();
     await prescription.save();
     res.status(201).send(prescription);
   } catch (error) {

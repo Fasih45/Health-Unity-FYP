@@ -6,6 +6,9 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fee: {
+    type: String,
+  },
   fullName: {
     type: String,
     required: true,

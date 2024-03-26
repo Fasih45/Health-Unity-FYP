@@ -17,6 +17,9 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fee: {
+    type: String,
+  },
   date: {
     type: Date,
     required: true,

@@ -10,7 +10,7 @@ const MangeLabTests = () => {
   const [allowaddtest, setallowaddtest] = useState(false);
   const [Addtestrec, setAddtestrec] = useState([]);
   const [Shownewtable, setShownewtable] = useState(false);
-  const { user, username } = useParams();
+  const { user, username,fullname } = useParams();
   const [labeinfo, setlabinfo] = useState();
   const dispatch = useDispatch();
   const { singleprofileMedicalLab, statuscode } = useSelector(
@@ -22,6 +22,11 @@ const MangeLabTests = () => {
     if (statuscode === 401) {
       dispatch(getDoctorProfilesRequest());
       navigate(`/`);
+    }
+    if (statuscode === 422) {
+      dispatch(getDoctorProfilesRequest());
+      Swal.fire("Plz complete you profile first..", "", "warning");
+      navigate(`/welcome/${user}/${username}/${fullname}`);
     }
     
   }, [navigate, statuscode, dispatch]);

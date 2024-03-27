@@ -226,10 +226,10 @@ const LoginForm = () => {
                   </div>
                 )}
 
-                <h1 className="text-1.5xl font-bold text-center text-gray-700 dark:text-white">
+                <h1 className="text-2xl font-bold text-center text-gray-700 dark:text-white">
                   Welcome to Health Unity
                 </h1>
-                <h2 className="text-0xl font-bold text-center text-gray-700 dark:text-white">
+                <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white">
                   {user ? user.charAt(0).toUpperCase() + user.slice(1) : null}
                 </h2>
                 <p className="mt-3 text-gray-500 dark:text-gray-300">

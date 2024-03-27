@@ -146,9 +146,15 @@ const TrustedDoc = () => {
                               {" "}
                               <button
                                 onClick={() => {
-                                  setdocName(doctor);
-                                  setSpecificState(true);
-                                  console.log(index);
+                                  Swal.fire(
+                                    "If you have a Approved appointment that could be wasted .",
+                                    "",
+                                    "warning"
+                                  ).then(() => {
+                                    setdocName(doctor);
+                                    setSpecificState(true);
+                                    console.log(index);
+                                  });
                                 }}
                                 className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-red-500 text-white transition-colors duration-200 hover:text-red-100 focus:outline-none"
                               >

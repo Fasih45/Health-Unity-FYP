@@ -81,7 +81,7 @@ export default function TrustedLab() {
   }, [viewprofile, dispatch]);
   return (
     <>
-      {list && !viewprofile && (
+      { !viewprofile && (
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
           <div className="flex flex-col justify-center rounded-full">
             <div className="w-full mx-auto bg-white shadow-lg rounded-lg border border-gray-200">

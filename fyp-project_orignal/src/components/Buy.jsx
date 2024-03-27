@@ -184,6 +184,12 @@ const Buy = ({
       );
       await transaction.wait();
       alert("Transaction is successful");
+      dispatch(
+        addDoctorToList(
+          username,
+          setappointment.doctorName
+        )
+      );
       setcall("yes");
       // window.location.reload();
     } catch (error) {
@@ -287,13 +293,6 @@ const Buy = ({
             );
       await transaction.wait();
       alert("Transaction is successful");
-      if (acceptAppointment.value === true)
-        dispatch(
-          addDoctorToList(
-            acceptAppointment.patientName,
-            acceptAppointment.doctorName
-          )
-        );
       setcall("yes");
       // window.location.reload();
     } catch (error) {
@@ -355,7 +354,6 @@ const Buy = ({
             acceptsAppointment();
           } else {
             console.log("no", result);
-            alert("Slot is already booked!")
             setcall("no");
           }
         });

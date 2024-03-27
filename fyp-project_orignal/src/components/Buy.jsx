@@ -355,6 +355,7 @@ const Buy = ({
             acceptsAppointment();
           } else {
             console.log("no", result);
+            alert("Slot is already booked!")
             setcall("no");
           }
         });

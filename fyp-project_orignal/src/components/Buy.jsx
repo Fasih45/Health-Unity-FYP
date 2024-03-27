@@ -24,6 +24,78 @@ const Buy = ({
   getPatientkeybyLab,
 }) => {
   const { user, username } = useParams();
+  const checkBlockchainErrors = (error) => {
+    if (
+      error.message.includes(
+        "The account with different user name is already taken!"
+      )
+    ) {
+      alert("The account with different user name is already taken!");
+    } else if (
+      error.message.includes(
+        "Patient name already registered with a different address"
+      )
+    ) {
+      alert("Patient name already registered with a different address");
+    } else if (
+      error.message.includes("Please pay 0.2 ether for registration")
+    ) {
+      alert("Please pay 0.2 ether for registration");
+    } else if (
+      error.message.includes(
+        "Lab name already registered with a different address"
+      )
+    ) {
+      alert("Lab name already registered with a different address");
+    } else if (
+      error.message.includes(
+        "Doctor name already registered with a different address"
+      )
+    ) {
+      alert("Doctor name already registered with a different address");
+    } else if (error.message.includes("No lab with this name exits")) {
+      alert("No lab with this name exits");
+    } else if (error.message.includes("Already added to trust list")) {
+      alert("Already added to trust list");
+    } else if (
+      error.message.includes("User registered with diferent account")
+    ) {
+      alert("User registered with diferent account");
+    } else if (error.message.includes("No Doctor with this name exits")) {
+      alert("No Doctor with this name exits");
+    } else if (error.message.includes("Please pay more than 0 ether")) {
+      alert("Please pay more than 0 ether");
+    } else if (
+      error.message.includes(
+        "You had already  booked appoinment  with this doctor and it is pending "
+      )
+    ) {
+      alert(
+        "You had already  booked appoinment  with this doctor and it is pending "
+      );
+    } else if (error.message.includes("No pending payment exits")) {
+      alert("No pending payment exits");
+    } else if (error.message.includes("You are not the registered docter")) {
+      alert("You are not the registered docter");
+    } else if (error.message.includes("Insufficient pending payment")) {
+      alert("Insufficient pending payment");
+    } else if (
+      error.message.includes(
+        "User is already registered with a different address"
+      )
+    ) {
+      alert("User is already registered with a different address");
+    } else if (error.message.includes("Doctor account doesnot match")) {
+      alert("Doctor account doesnot match");
+    } else if (error.message.includes("Sorry you are not in trusted list")) {
+      alert("Sorry you are not in trusted list");
+    } else if (error.message.includes("Lab account doesnot match")) {
+      alert("Lab account doesnot match");
+    } else {
+      alert(error);
+    }
+  };
+
   const setDoc = async () => {
     const { contract } = state;
     const amount = { value: ethers.utils.parseEther("0") };
@@ -40,13 +112,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
   const setMed = async () => {
@@ -67,13 +133,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -93,13 +153,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -114,13 +168,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert("Plz select patient account");
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -152,13 +200,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -184,24 +226,13 @@ const Buy = ({
       );
       await transaction.wait();
       alert("Transaction is successful");
-      dispatch(
-        addDoctorToList(
-          username,
-          setappointment.doctorName
-        )
-      );
+      dispatch(addDoctorToList(username, setappointment.doctorName));
       setcall("yes");
       // window.location.reload();
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -214,13 +245,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
   const getpatientkeybylab = async () => {
@@ -235,13 +260,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
 
@@ -267,13 +286,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
   const acceptsAppointment = async () => {
@@ -298,13 +311,7 @@ const Buy = ({
     } catch (error) {
       console.error("Transaction failed:", error);
       setcall("no");
-      if (error.message.includes("insufficient funds")) {
-        alert("Insufficient funds. Please make sure you have enough Ether.");
-      } else if (error.message.includes("Please pay more than 0 ether")) {
-        alert("Please pay more than 0 ether");
-      } else {
-        alert(error);
-      }
+      checkBlockchainErrors(error);
     }
   };
   const dispatch = useDispatch();

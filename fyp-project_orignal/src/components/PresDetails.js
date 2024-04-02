@@ -1,10 +1,29 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-
-export default function PresDetails({ pres ,setviewdetail}) {
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { useState } from "react";
+export default function PresDetails({ pres, setviewdetail }) {
   useEffect(() => {
     console.log("Details:", pres);
   }, [pres]);
+
+
+  const [loader, setLoader] = useState(false);
+
+  const downloadPDF = () => {
+    const capture = document.querySelector('.actual-receipt');
+    setLoader(true);
+    html2canvas(capture).then((canvas) => {
+      const imgData = canvas.toDataURL('img/png');
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const componentWidth = doc.internal.pageSize.getWidth();
+      const componentHeight = doc.internal.pageSize.getHeight();
+      doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+      setLoader(false);
+      doc.save('receipt.pdf');
+    })
+  }
 
 
 
@@ -12,7 +31,7 @@ export default function PresDetails({ pres ,setviewdetail}) {
 
   return (
     <>
-      <div className="bg-white p-6  h-full rounded-md shadow-md">
+      <div className="actual-receipt bg-white p-6  h-full rounded-md shadow-md">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Persection Details
         </h2>
@@ -97,19 +116,36 @@ export default function PresDetails({ pres ,setviewdetail}) {
                     ))}
                   </tbody>
                 </table>
-                <button
-                  onClick={() => {
-                    setviewdetail();
-                  }}
-                  className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
-                >
-                  Go Back
-                </button>
+
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div className="flex justify-between mt-4">
+        <div>
+          <button
+            className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out"
+            onClick={downloadPDF}
+            disabled={!(loader === false)}
+          >
+            {loader ? (
+              <span>Saving </span>
+            ) : (
+              <span> Save as PDF</span>
+            )}
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => setviewdetail(false)}
+            className="bg-gray-500 text-white px-4 py-2 rounded-md"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+
     </>
   );
 }

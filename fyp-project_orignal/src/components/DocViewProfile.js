@@ -1,4 +1,5 @@
 import React from "react";
+import StarsRating from "./StarsRating";
 
 const DocViewProfile = (props) => {
   const docuser = props.docProfile;
@@ -14,7 +15,8 @@ const DocViewProfile = (props) => {
                     {docuser.fullName.charAt(0)}
                   </div>
                   <h1 class="text-xl font-bold">{docuser.fullName}</h1>
-                  <div class="flex flex-row items-center">
+                 {/* Start Rating */}
+                  {/* <div class="flex flex-row items-center">
                     <svg
                       class="w-4 h-4 text-yellow-300 me-1"
                       aria-hidden="true"
@@ -69,7 +71,8 @@ const DocViewProfile = (props) => {
                     <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
                       5
                     </p>
-                  </div>
+                  </div> */}
+                  <StarsRating stars={1.5} />
                 </div>
                 <hr class="my-6 border-t border-gray-300" />
                 <div class="flex flex-col">

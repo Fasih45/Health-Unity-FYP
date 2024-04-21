@@ -21,6 +21,7 @@ import MangeLabTests from "./components/MangeLabTests";
 import TrustedLab from "./components/TrustedLab";
 import Pdfviewer from "./components/Pdfviewer";
 import UploadTestrecord from "./components/UploadTestrecord";
+import ForgetPass from "./components/ForgetPass";
 
 function App() {
   
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/:user/signin" element={<LoginForm />} />
           <Route exact path="/:user/signup" element={<RegistrationForm />} />
+          <Route exact path="/:user/forgot-password" element={<ForgetPass />} />
         </Route>
 
         <Route

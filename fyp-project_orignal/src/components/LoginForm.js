@@ -129,7 +129,7 @@ const LoginForm = () => {
     return hasError;
   };
 
- 
+
 
   const validateField = (fieldName, value) => {
     let error = "";
@@ -248,7 +248,7 @@ const LoginForm = () => {
                         {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}{" "}
                         {/* Capitalize the first letter of the field name */}
                       </label>
-                      
+
                       <div className="relative">
                         <input
                           type={fieldName === "password" ? showPassword ? "text" : "password" : "text"}
@@ -313,12 +313,22 @@ const LoginForm = () => {
 
 
                   <div className="mt-6">
+
                     <button
                       type="submit"
                       className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                     >
                       Sign in
                     </button>
+                    <div>
+                      <Link
+                        to={`/${user}/forgot-password`}
+                        className="text-sm text-blue-500 hover:underline focus:outline-none"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
+
                   </div>
                 </form>
 

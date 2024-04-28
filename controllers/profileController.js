@@ -5,6 +5,7 @@ const Patient = require("../model/patientModal");
 const Medicallabs = require("../model/medicallabModal");
 const MedicalLabProfile = require("../model/medicalLabProfile");
 const Pharmacy = require("../model/pharmacyModal");
+const Appointment = require("../model/Appointment");
 
 // Handle doctor profile registration
 exports.registerDoctorProfile = async (req, res) => {
@@ -313,6 +314,46 @@ exports.updateTestList = async (req, res) => {
     res.status(200).json(labProfile);
   } catch (error) {
     console.error("Error updating test list:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+exports.ratingset = async (req, res) => {
+  const { _id, value } = req.body;
+
+  try {
+    const appointment = await Appointment.findById(_id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: "No appointment found" });
+    }
+
+    if (appointment.rate) {
+      return res.status(400).json({ message: "Appointment already rated" });
+    }
+
+    // Update the appointment rate to true
+    appointment.rate = true;
+    await appointment.save();
+
+    const doctorProfile = await DoctorProfile.findOne({
+      username: appointment.doctorUsername
+    });
+
+    if (!doctorProfile) {
+      return res.status(404).json({ message: "Doctor profile not found" });
+    }
+
+    // Update doctor's rating
+    doctorProfile.rating.outof++;
+    doctorProfile.rating.value =
+      (doctorProfile.rating.value * (doctorProfile.rating.outof - 1) +
+        parseFloat(value)) /
+      doctorProfile.rating.outof;
+    await doctorProfile.save();
+
+    res.status(200).json({ message: "Rating updated successfully" ,d:doctorProfile});
+  } catch (error) {
+    console.error("Error updating rating:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

@@ -27,6 +27,10 @@ const appointmentSchema = new mongoose.Schema({
   timing: {
     type: String,
   },
+  rate: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     default: "Pending",

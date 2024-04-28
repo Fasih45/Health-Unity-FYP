@@ -18,6 +18,16 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  rating: {
+    value: {
+      type: Number, // Assuming rating value is a number
+      default: 0, // Default rating value
+    },
+    outof: {
+      type: Number, // Assuming rating outof is a number
+      default: 0, // Default outof value
+    },
+  },
   bio: {
     type: String,
   },

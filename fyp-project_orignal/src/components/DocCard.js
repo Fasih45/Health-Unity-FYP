@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import StarsRating from "./StarsRating";
+
 
 const DocCard = (props) => {
- 
+
   const profile = props.profile;
+  console.log("DocCard: ", profile);
+
   return (
     <>
       <div>
         <div className="mb-6 min-h-40 rounded-lg bg-white p-6 mt-5 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 duration-500">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
+          {/* <div className="flex items-center justify-between"> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 ">
+            <div className="flex">
               <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
                 {!props.Medicallab
                   ? profile?.fullName?.charAt(0)
                   : profile?.labName?.charAt(0)}
               </div>
-
               <div>
                 <h3 className="text-base  ml-2 font-semibold text-gray-900">
                   {!props.Medicallab
@@ -27,7 +31,10 @@ const DocCard = (props) => {
                 </span>
               </div>
             </div>
-            
+            <div className="flex justify-end">
+              {!props.Medicallab? profile?.rating?.value >0? <StarsRating stars={profile?.rating?.value} />:<StarsRating stars={0} />: null}
+            </div>
+
           </div>
           <p className="my-6  truncate text-sm font-normal text-justify text-gray-500">
             {!props.Medicallab

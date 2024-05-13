@@ -148,7 +148,7 @@ const ToolSearchForm = (props) => {
             <div className="flex">
               <input
                 type="text"
-                placeholder="Search for the tool you like"
+                placeholder="Search by Name"
                 className="md:w-80 px-3 h-10 rounded-l border-2 border-sky-500 focus:outline-none focus:border-sky-500"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}

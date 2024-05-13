@@ -3,6 +3,8 @@ import StarsRating from "./StarsRating";
 
 const DocViewProfile = (props) => {
   const docuser = props.docProfile;
+  const ratingvalue=docuser.rating.value;
+  console.log("Rating value: ", docuser.rating.value);
   return (
     <>
       <div class="bg-gray-100">
@@ -13,6 +15,7 @@ const DocViewProfile = (props) => {
                 <div class="flex flex-col items-center">
                   <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
                     {docuser.fullName.charAt(0)}
+                  
                   </div>
                   <h1 class="text-xl font-bold">{docuser.fullName}</h1>
                  {/* Start Rating */}
@@ -72,7 +75,7 @@ const DocViewProfile = (props) => {
                       5
                     </p>
                   </div> */}
-                  <StarsRating stars={1.5} />
+                  <StarsRating stars={ratingvalue} />
                 </div>
                 <hr class="my-6 border-t border-gray-300" />
                 <div class="flex flex-col">

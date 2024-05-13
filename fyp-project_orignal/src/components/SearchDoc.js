@@ -6,7 +6,7 @@ import {
   getProfiles,
 } from "../redux/actions/searcProfileAction";
 import BookAppoinment from "./BookAppoinment";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import DocViewProfile from "./DocViewProfile";
 import Notfound404 from "./Notfound404";
 import LabViewProfile from "./LabViewProfile";
@@ -24,6 +24,7 @@ const ToolSearchForm = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { user } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Cleanup function
@@ -75,6 +76,9 @@ const ToolSearchForm = (props) => {
     console.log("Total Items:", totalItems);
     console.log("Loading:", loading);
     console.log("Error:", error);
+    ////temporary session management
+    let token = localStorage.getItem("patient");
+    let parsedtoken = token ? JSON.parse(token) : navigate(`/`);
   }, [profiles, currentPage, totalItems, loading, error]);
 
   const handlePageChange = (newPage) => {

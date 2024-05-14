@@ -32,7 +32,7 @@ const DocCard = (props) => {
               </div>
             </div>
             <div className="flex justify-end">
-              {!props.Medicallab? profile?.rating?.value >0? <StarsRating stars={profile?.rating?.value} />:<StarsRating stars={0} />: null}
+              {!props.Medicallab? profile?.rating?.value >0? <StarsRating stars={profile?.rating} />:<StarsRating stars={0} />: null}
             </div>
 
           </div>

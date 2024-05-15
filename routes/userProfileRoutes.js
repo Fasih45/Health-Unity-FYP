@@ -23,5 +23,7 @@ router.get("/medicalLabProfile/:username", profileController.getDoctorProfileMed
 router.get("/medicalLabProfileforlabs/:username", authenticateTokenMedicallab,profileController.getDoctorProfileMedicallabs);
 router.post("/editMedicalLabProfile/:username", profileController.updateTestList);
 router.post("/rate", profileController.ratingset);
+router.post("/editdoc", profileController.editDoctorProfile);
+
 
 module.exports = router;

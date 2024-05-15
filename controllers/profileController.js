@@ -54,6 +54,46 @@ exports.registerDoctorProfile = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+exports.editDoctorProfile = async (req, res) => {
+  try {
+    // Extract necessary information from the request body
+    const {
+      username,
+      specialty,
+      bio,
+      currentHospital,
+      currentClinic,
+      description,
+      workingdays,
+      fee,
+    } = req.body;
+
+    // Check if the doctor with the provided username exists
+    let existingDoctor = await Doctor.findOne({ username });
+    let existingDoctorProfile = await DoctorProfile.findOne({ username });
+    if (!existingDoctor) {
+      return res.status(400).json({ error: "Doctor not found" });
+    }
+    if (!existingDoctorProfile) {
+      return res.status(400).json({ error: "Doctor not found" });
+    }
+    existingDoctorProfile.specialty=specialty;
+    existingDoctorProfile.bio=bio;
+    existingDoctorProfile.currentClinic=currentClinic;
+    existingDoctorProfile.currentHospital=currentHospital;
+    existingDoctorProfile.description=description;
+    existingDoctorProfile.workingdays=workingdays
+    existingDoctorProfile.fee=fee
+
+     await existingDoctorProfile.save();
+
+    res.status(201).json({message:"successfull"});
+  } catch (error) {
+    // Handle errors, for example, send a 500 Internal Server Error response
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 exports.registerMedicalProfile = async (req, res) => {
   try {
     // Extract necessary information from the request body

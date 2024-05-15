@@ -290,7 +290,7 @@ function ForgetPass() {
                       <div className="relative">
                         <input
                           type={
-                            fieldName === "password"
+                            (fieldName === "password" ||fieldName === "confirmPassword")
                               ? showPassword
                                 ? "text"
                                 : "password"
@@ -307,7 +307,7 @@ function ForgetPass() {
                             handleInputChange(fieldName, e.target.value)
                           }
                         />
-                        {fieldName === "password" && showPassword && (
+                        {(fieldName === "password" || fieldName === "confirmPassword") && showPassword && (
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
@@ -334,7 +334,7 @@ function ForgetPass() {
                             </svg>
                           </button>
                         )}
-                        {fieldName === "password" && !showPassword && (
+                        {(fieldName === "password" ||fieldName === "confirmPassword") && !showPassword && (
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}

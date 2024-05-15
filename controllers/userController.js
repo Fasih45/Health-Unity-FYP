@@ -542,7 +542,7 @@ const registerPharmacy = async (req, res) => {
 
     if (!valid) {
       return res.status(400).json({ error: "Not a valid email" });
-    } 
+    }
 
     if (existingUsername) {
       return res.status(400).json({ error: "Username is already taken" });
@@ -695,6 +695,61 @@ const verifyCodeAndLoginasPhamacy = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+const verifyemailforpasscode = async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    // Find the user by email and verification code
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "Invalid username" });
+    }
+    const verificationNumber = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    // Send verification email
+    user.verificationNumber = verificationNumber;
+    await user.save();
+    emailService.sendVerificationEmail(user.email, verificationNumber);
+    res
+      .status(200)
+      .json({ message: "Check your email for the verification code" });
+  } catch (error) {
+    console.error("Verification error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const changepass = async (req, res) => {
+  try {
+    const { username, verificationNumber, password } = req.body;
+
+    // Find the user by email and verification code
+    const user = await User.findOne({ username, verificationNumber });
+
+    if (!user) {
+      return res.status(404).json({ error: "Invalid username and code" });
+    }
+
+    if (password.length < 4 || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return res.status(400).json({
+        error:
+          "Password must be at least 4 characters long and contain at least one special character",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+    res
+      .status(200)
+      .json({ message: "Password changed! successfully :)" });
+  } catch (error) {
+    console.error("Verification error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   registerUserasPatient,
   loginUserasPatient,
@@ -708,4 +763,6 @@ module.exports = {
   registerPharmacy,
   loginUserasPharmacy,
   verifyCodeAndLoginasPhamacy,
+  verifyemailforpasscode,
+  changepass
 };
